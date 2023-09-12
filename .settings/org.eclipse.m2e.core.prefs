@@ -1,0 +1,12 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+activeProfiles=ums-authentication
+=======
+activeProfiles=
+>>>>>>> authentication
+=======
+activeProfiles=
+>>>>>>> authentication
+eclipse.preferences.version=1
+resolveWorkspaceProjects=true
+version=1
