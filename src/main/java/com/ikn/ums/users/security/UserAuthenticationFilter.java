@@ -1,4 +1,4 @@
-package com.ikn.ums.authentication.security;
+package com.ikn.ums.users.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,20 +20,20 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ikn.ums.authentication.VO.UserVO;
-import com.ikn.ums.authentication.model.UserLoginRequestModel;
-import com.ikn.ums.authentication.service.IUsersService;
+import com.ikn.ums.users.VO.UserVO;
+import com.ikn.ums.users.model.UserLoginRequestModel;
+import com.ikn.ums.users.service.UsersService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-	private IUsersService service;
+	private UsersService service;
 
 	private Environment environment;
 
-	public UserAuthenticationFilter(IUsersService service, Environment environment, AuthenticationManager authManager) {
+	public UserAuthenticationFilter(UsersService service, Environment environment, AuthenticationManager authManager) {
 		this.service = service;
 		this.environment = environment;
 		super.setAuthenticationManager(authManager);

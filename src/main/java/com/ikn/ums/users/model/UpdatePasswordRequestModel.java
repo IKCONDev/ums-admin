@@ -1,4 +1,4 @@
-package com.ikn.ums.authentication.model;
+package com.ikn.ums.users.model;
 
 public class UpdatePasswordRequestModel {
 	

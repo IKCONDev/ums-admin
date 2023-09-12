@@ -1,11 +1,11 @@
-package com.ikn.ums.authentication.service;
+package com.ikn.ums.users.service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.ikn.ums.authentication.VO.EmployeeVO;
-import com.ikn.ums.authentication.VO.UserVO;
-import com.ikn.ums.authentication.entity.UserDetailsEntity;
+import com.ikn.ums.users.VO.EmployeeVO;
+import com.ikn.ums.users.VO.UserVO;
+import com.ikn.ums.users.entity.UserDetailsEntity;
 
-public interface IUsersService extends UserDetailsService {
+public interface UsersService extends UserDetailsService {
 	
 	UserDetailsEntity getUserDetailsByUsername(String userName);
 	Integer generateOtpForUser(String userName);

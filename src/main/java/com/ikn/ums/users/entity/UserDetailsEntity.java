@@ -1,4 +1,4 @@
-package com.ikn.ums.authentication.entity;
+package com.ikn.ums.users.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

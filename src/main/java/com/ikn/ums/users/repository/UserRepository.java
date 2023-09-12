@@ -1,11 +1,11 @@
-package com.ikn.ums.authentication.repository;
+package com.ikn.ums.users.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ikn.ums.authentication.entity.UserDetailsEntity;
+import com.ikn.ums.users.entity.UserDetailsEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserDetailsEntity, Integer> {

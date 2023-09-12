@@ -1,4 +1,4 @@
-package com.ikn.ums.authentication.controller;
+package com.ikn.ums.users.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ikn.ums.authentication.VO.EmployeeVO;
-import com.ikn.ums.authentication.VO.UserVO;
-import com.ikn.ums.authentication.entity.UserDetailsEntity;
-import com.ikn.ums.authentication.model.UpdatePasswordRequestModel;
-import com.ikn.ums.authentication.model.ValidateOtpRequestModel;
-import com.ikn.ums.authentication.service.IUsersService;
+import com.ikn.ums.users.VO.EmployeeVO;
+import com.ikn.ums.users.VO.UserVO;
+import com.ikn.ums.users.entity.UserDetailsEntity;
+import com.ikn.ums.users.model.UpdatePasswordRequestModel;
+import com.ikn.ums.users.model.ValidateOtpRequestModel;
+import com.ikn.ums.users.service.UsersService;
 
 @RestController
 @RequestMapping("/users")
@@ -27,7 +27,7 @@ public class UserController {
 	private BCryptPasswordEncoder encoder;
 	
 	@Autowired
-	private IUsersService userService;
+	private UsersService userService;
 	
 //	@Autowired
 //	private UserRepository userRepository;

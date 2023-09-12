@@ -1,4 +1,4 @@
-package com.ikn.ums.authentication.service.impl;
+package com.ikn.ums.users.service.impl;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,15 +14,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.ikn.ums.authentication.VO.EmployeeVO;
-import com.ikn.ums.authentication.VO.UserVO;
-import com.ikn.ums.authentication.entity.UserDetailsEntity;
-import com.ikn.ums.authentication.repository.UserRepository;
-import com.ikn.ums.authentication.service.IUsersService;
-import com.ikn.ums.authentication.utils.EmailService;
+import com.ikn.ums.users.VO.EmployeeVO;
+import com.ikn.ums.users.VO.UserVO;
+import com.ikn.ums.users.entity.UserDetailsEntity;
+import com.ikn.ums.users.repository.UserRepository;
+import com.ikn.ums.users.service.UsersService;
+import com.ikn.ums.users.utils.EmailService;
 
 @Service
-public class UsersServiceImpl implements IUsersService {
+public class UsersServiceImpl implements UsersService {
 
 	@Autowired
 	private UserRepository userRepo;

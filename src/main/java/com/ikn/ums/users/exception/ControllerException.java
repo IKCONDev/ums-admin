@@ -1,4 +1,4 @@
-package com.ikn.ums.authentication.exception;
+package com.ikn.ums.users.exception;
 
 public class ControllerException extends RuntimeException {
 

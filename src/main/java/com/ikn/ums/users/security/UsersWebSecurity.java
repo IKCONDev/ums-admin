@@ -1,4 +1,4 @@
-package com.ikn.ums.authentication.security;
+package com.ikn.ums.users.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.ikn.ums.authentication.service.IUsersService;
+import com.ikn.ums.users.service.UsersService;
 
 @Configuration
 @EnableWebSecurity
@@ -21,12 +21,12 @@ public class UsersWebSecurity {
 	
 	private Environment environment;
 	
-	private IUsersService service;
+	private UsersService service;
 	
 	private BCryptPasswordEncoder encoder;
 	
 	@Autowired
-	public UsersWebSecurity(Environment environment, IUsersService service,BCryptPasswordEncoder encoder){	
+	public UsersWebSecurity(Environment environment, UsersService service,BCryptPasswordEncoder encoder){	
 		this.environment = environment;
 		this.service= service;
 		this.encoder = encoder;

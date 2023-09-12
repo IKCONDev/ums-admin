@@ -1,4 +1,4 @@
-package com.ikn.ums.authentication.VO;
+package com.ikn.ums.users.VO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

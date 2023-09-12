@@ -1,4 +1,4 @@
-package com.ikn.ums.authentication.utils;
+package com.ikn.ums.users.utils;
 
 import javax.mail.internet.MimeMessage;
 

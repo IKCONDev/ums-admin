@@ -1,4 +1,4 @@
-package com.ikn.ums.authentication.exception;
+package com.ikn.ums.users.exception;
 
 import java.util.NoSuchElementException;
 

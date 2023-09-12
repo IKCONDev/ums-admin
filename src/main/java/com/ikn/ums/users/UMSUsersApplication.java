@@ -1,4 +1,4 @@
-package com.ikn.ums.authentication;
+package com.ikn.ums.users;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,10 +10,10 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class UmsAuthenticationApplication {
+public class UMSUsersApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UmsAuthenticationApplication.class, args);
+		SpringApplication.run(UMSUsersApplication.class, args);
 		
 	}
 	
