@@ -1,4 +1,4 @@
-package com.ikn.ums.users.roles;
+package com.ikn.ums.users.role.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
