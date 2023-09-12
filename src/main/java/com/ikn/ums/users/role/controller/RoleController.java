@@ -15,40 +15,54 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ikn.ums.users.exception.EmptyInputException;
+import com.ikn.ums.users.exception.ErrorCodeMessages;
 import com.ikn.ums.users.role.entity.Role;
 import com.ikn.ums.users.role.service.RoleService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/roles")
 public class RoleController {
-    @Autowired
+    
+	@Autowired
     private RoleService roleService;
 
     @GetMapping
     public List<Role> getAllRoles() {
-        return roleService.getAllRoles();
+    	log.info("RoleController.getAllRoles() ENTERED.");
+    	return roleService.getAllRoles();
     }
 
     @GetMapping("/{roleId}")
-    public ResponseEntity<Role> getRoleById(@PathVariable Long roleId) {
-        Optional<Role> role = roleService.getRoleById(roleId);
-        return role.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> getRoleById(@PathVariable Long roleId) {
+    	log.info("RoleController.getRoleById() ENTERED : roleId : " + roleId);
+		if (roleId <= 0)
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
+		Optional<Role> role = roleService.getRoleById(roleId);
+		return role.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Role> createRole(@RequestBody Role role) {
+    	log.info("RoleController.createRole() ENTERED.");
         Role createdRole = roleService.createRole(role);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdRole);
     }
 
     @PutMapping("/{roleId}")
     public ResponseEntity<Role> updateRole(@PathVariable Long roleId, @RequestBody Role updatedRole) {
+    	log.info("RoleController.updateRole() ENTERED.");
         Role role = roleService.updateRole(roleId, updatedRole);
         return ResponseEntity.ok(role);
     }
 
     @DeleteMapping("/{roleId}")
     public ResponseEntity<Void> deleteRole(@PathVariable Long roleId) {
+    	log.info("RoleController.deleteRole() ENTERED.");
         roleService.deleteRole(roleId);
         return ResponseEntity.noContent().build();
     }

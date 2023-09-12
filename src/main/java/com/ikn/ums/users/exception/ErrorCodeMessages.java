@@ -26,8 +26,8 @@ public class ErrorCodeMessages {
 	 public static final String ERR_EMP_LAST_NAME_IS_NULL_CODE = "EMPLOYEE_LAST_NAME_IS_NULL-1008";
 	 public static final String ERR_EMP_LAST_NAME_IS_NULL_MSG = "Employee Last Name Is Null."; 
 	 
-	 public static final String ERR_EMP_SAVE_SUCCESS_CODE = "EMPLOYEE-SAVE-SUCCESS-1009";
-	 public static final String ERR_EMP_SAVE_SUCCESS_MSG = "Employee Save Sucessfull."; 	 
+	 public static final String EMP_SAVE_SUCCESS_CODE = "EMPLOYEE-SAVE-SUCCESS-1009";
+	 public static final String EMP_SAVE_SUCCESS_MSG = "Employee Save Sucessfull."; 	 
 	 
 	 public static final String ERR_EMP_LIST_IS_EMPTY_CODE = "EMPLOYEE_LIST_IS_EMPTY-1010";
 	 public static final String ERR_EMP_LIST_IS_EMPTY_MSG = "Employee List Is Empty."; 	 
@@ -37,6 +37,31 @@ public class ErrorCodeMessages {
 
 	 public static final String ERR_EMP_EMAIL_ID_NOT_FOUND_CODE = "EMPLOYEE_EMAIL_ID_NOT_FOUND_CODE-1012";
 	 public static final String ERR_EMP_EMAIL_ID_NOT_FOUND_MSG = "Employee Email Id is not found."; 	
+
+	 public static final String ERR_ROLE_ID_ALREADY_EXISTS_CODE = "ROLE-ID-ALREADY-EXISTS-1013";
+	 public static final String ERR_ROLE_ID_ALREADY_EXISTS_MSG = "Role Id Already Exists."; 
+
+	 public static final String ERR_ROLE_NAME_IS_NULL_CODE = "ROLE NAME_IS_NULL-1014";
+	 public static final String ERR_ROLE_NAME_IS_NULL_MSG = "Role Name is Null."; 
+
+	 public static final String ROLE_SAVE_SUCCESS_CODE = "ROLE-SAVE-SUCCESS-1015";
+	 public static final String ROLE_SAVE_SUCCESS_MSG = "Role Save Sucessfull."; 	 
+	 
+	 public static final String ERR_ROLE_LIST_IS_EMPTY_CODE = "ROLE_LIST_IS_EMPTY-1016";
+	 public static final String ERR_ROLE_LIST_IS_EMPTY_MSG = "Role List Is Empty."; 	 
+
+	 public static final String ERR_ROLE_ID_IS_EMPTY_CODE = "ROLE_ID_IS_EMPTY-1017";
+	 public static final String ERR_ROLE_ID_IS_EMPTY_MSG = "Role Id Is Empty."; 	 
+
+	 public static final String ERR_ROLE_NAME_IS_EMPTY_CODE = "ROLE_NAME_IS_EMPTY-1018";
+	 public static final String ERR_ROLE_NAME_IS_EMPTY_MSG = "Role Name Is Empty."; 	
+	 
+	 public static final String ERR_ROLE_ENTITY_IS_NULL_CODE = "ROLE-ENTITY-IS-NULL-1019";
+	 public static final String ERR_ROLE_ENTITY_IS_NULL_MSG = "Role Entity is Null."; 
+
+	 
+	 public static final String ERR_ROLE_SERVICE_EXCEPTION_CODE = "ROLE_SERVICE_EXCEPTION_CODE-1020";
+	 public static final String ERR_ROLE_SERVICE_EXCEPTION_MSG = "Exception Occured in the Role Service Layer."; 	
 
 
 }
