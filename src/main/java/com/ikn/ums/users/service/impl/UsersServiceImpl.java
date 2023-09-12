@@ -142,7 +142,7 @@ public class UsersServiceImpl implements UsersService {
 		user.setEmail(dbLoggedInUser.getEmail());
 		user.setEncryptedPassword(dbLoggedInUser.getEncryptedPassword());
 		user.setTwoFactorAuthentication(dbLoggedInUser.isTwoFactorAuthentication());
-		user.setUserRole(dbLoggedInUser.getUserRole());
+		user.setUserRoles(dbLoggedInUser.getUserRoles());
 		user.setEmployee(employeeDetails);
 		return user;
 	}

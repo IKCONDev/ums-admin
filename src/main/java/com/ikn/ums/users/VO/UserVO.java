@@ -1,5 +1,10 @@
 package com.ikn.ums.users.VO;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.ikn.ums.users.role.entity.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +18,7 @@ public class UserVO {
 	
 	private String encryptedPassword;
 	
-	private String userRole;
+	private Set<Role> userRoles = new HashSet<>();
 	
 	private int otpCode;
 	

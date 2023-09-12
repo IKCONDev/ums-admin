@@ -1,9 +1,19 @@
 package com.ikn.ums.users.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.ikn.ums.users.role.entity.Role;
 
 import lombok.Data;
 
@@ -19,8 +29,13 @@ public class UserDetailsEntity{
 	@Column(name = "encrypted_password", nullable = false, unique = false)
 	private String encryptedPassword;
 	
-	@Column(name = "role", nullable = false, unique = false)
-	private String userRole;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(
+				name = "user_roles",
+				joinColumns = @JoinColumn(name = " user_id"),
+				inverseJoinColumns = @JoinColumn(name = "role_id")
+			)
+	private Set<Role> userRoles = new HashSet<>();
 	
 	@Column(name = "otp_code", nullable = true, unique = false)
 	private int otpCode;

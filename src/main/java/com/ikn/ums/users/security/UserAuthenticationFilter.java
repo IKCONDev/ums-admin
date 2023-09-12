@@ -69,18 +69,18 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				.setExpiration(new Date(
 						System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
 				.signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret"))
-				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRole()).compact();
+				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles()).compact();
 
 		String refreshToken = Jwts.builder().setSubject(loadedUser.getEmail())
 				.setExpiration(new Date(
 						System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
 				.signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret"))
-				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRole()).compact();
+				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles()).compact();
 		response.addHeader("token", webToken);
 		response.addHeader("refreshToken", refreshToken);
 		System.out.println(webToken);
 		//response.addHeader("userId", loadedUser.getId().toString());
-		response.addHeader("userRole", loadedUser.getUserRole());
+		response.addHeader("userRole", loadedUser.getUserRoles().toString());
 		response.addHeader("firstName", loadedUser.getEmployee().getFirstName());
 		response.addHeader("lastName", loadedUser.getEmployee().getLastName());
 		response.addHeader("email", loadedUser.getEmail());
