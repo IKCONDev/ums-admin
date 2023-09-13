@@ -9,5 +9,5 @@ import com.ikn.ums.users.role.entity.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-	 Optional<Role> findByName(String name);
+	 Optional<Role> findByRoleName(String name);
 }

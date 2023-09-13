@@ -49,7 +49,7 @@ public class RoleServiceImpl implements RoleService {
 		if (roleName == null || roleName.isEmpty() || roleName.length() == 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_NAME_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_NAME_IS_EMPTY_MSG);
-		return roleRepository.findByName(roleName);
+		return roleRepository.findByRoleName(roleName);
 	}
 
 	@Override

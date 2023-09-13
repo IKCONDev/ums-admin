@@ -59,7 +59,6 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ROLE_ENTITY_IS_NULL_CODE = "ROLE-ENTITY-IS-NULL-1019";
 	 public static final String ERR_ROLE_ENTITY_IS_NULL_MSG = "Role Entity is Null."; 
 
-	 
 	 public static final String ERR_ROLE_SERVICE_EXCEPTION_CODE = "ROLE_SERVICE_EXCEPTION_CODE-1020";
 	 public static final String ERR_ROLE_SERVICE_EXCEPTION_MSG = "Exception Occured in the Role Service Layer."; 	
 
