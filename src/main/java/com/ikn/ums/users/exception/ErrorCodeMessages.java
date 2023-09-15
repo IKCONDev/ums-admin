@@ -41,4 +41,28 @@ public class ErrorCodeMessages {
 	 public static final String ERR_USER_CONTROLLER_EXCEPTION_CODE = "USER_CONTROLLER_EXCEPTION-1015";
 	 public static final String ERR_USER_CONTROLLER_EXCEPTION_MSG = "User Controller Exception Occurred."; 
 
+	 public static final String ERR_ROLE_ID_ALREADY_EXISTS_CODE = "ROLE-ID-ALREADY-EXISTS-1016";
+	 public static final String ERR_ROLE_ID_ALREADY_EXISTS_MSG = "Role Id Already Exists."; 
+
+	 public static final String ERR_ROLE_NAME_IS_NULL_CODE = "ROLE NAME_IS_NULL-1017";
+	 public static final String ERR_ROLE_NAME_IS_NULL_MSG = "Role Name is Null."; 
+	 
+	 public static final String ROLE_SAVE_SUCCESS_CODE = "ROLE-SAVE-SUCCESS-1018";
+	 public static final String ROLE_SAVE_SUCCESS_MSG = "Role Save Sucessfull."; 	 
+	 
+	 public static final String ERR_ROLE_LIST_IS_EMPTY_CODE = "ROLE_LIST_IS_EMPTY-1019";
+	 public static final String ERR_ROLE_LIST_IS_EMPTY_MSG = "Role List Is Empty."; 	 
+
+	 public static final String ERR_ROLE_ID_IS_EMPTY_CODE = "ROLE_ID_IS_EMPTY-1020";
+	 public static final String ERR_ROLE_ID_IS_EMPTY_MSG = "Role Id Is Empty."; 	 
+
+	 public static final String ERR_ROLE_NAME_IS_EMPTY_CODE = "ROLE_NAME_IS_EMPTY-1021";
+	 public static final String ERR_ROLE_NAME_IS_EMPTY_MSG = "Role Name Is Empty."; 	
+	 
+	 public static final String ERR_ROLE_ENTITY_IS_NULL_CODE = "ROLE-ENTITY-IS-NULL-1022";
+	 public static final String ERR_ROLE_ENTITY_IS_NULL_MSG = "Role Entity is Null."; 
+	 
+	 public static final String ERR_ROLE_SERVICE_EXCEPTION_CODE = "ROLE_SERVICE_EXCEPTION_CODE-1023";
+	 public static final String ERR_ROLE_SERVICE_EXCEPTION_MSG = "Exception Occured in the Role Service Layer."; 	
+
 }
