@@ -21,6 +21,9 @@ import com.ikn.ums.users.repository.UserRepository;
 import com.ikn.ums.users.service.UsersService;
 import com.ikn.ums.users.utils.EmailService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class UsersServiceImpl implements UsersService {
 
@@ -78,6 +81,7 @@ public class UsersServiceImpl implements UsersService {
 	@Transactional
 	@Override
 	public Integer generateOtpForUser(String userName) {
+		log.info("UsersServiceImpl.generateOtpForUser() : userName :" + userName );
 		Random r = new Random();
 		Integer otp = 0;
 		try {

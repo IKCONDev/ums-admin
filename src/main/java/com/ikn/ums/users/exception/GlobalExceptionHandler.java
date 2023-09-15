@@ -42,6 +42,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	/**
+	 * EntityNotFoundException handles the exception when the Object is NUll
+	 * @param emptyInputException
+	 * @return
+	 */
+	@ExceptionHandler(EmptyOTPException.class)
+	public ResponseEntity<String> handleEntityNotFoundException(EmptyOTPException emptyOTPException) {
+		log.info("GlobalExceptionHandler.handleEntityNotFoundException() ENTERED" + emptyOTPException.getMessage());
+		return new ResponseEntity<String>("OTP is not generated for the User.", HttpStatus.BAD_REQUEST);
+	}
+
+	/**
 	 * The NoSuchElementException is a Pre-defined default handler for the
 	 * SpringBoot. No class required to be created for pre-defined.
 	 * 
@@ -75,7 +86,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<String> handleControllerException(ControllerException controllerException) {
 		log.info("GlobalExceptionHandler.handleControllerException() ENTERED");
 		log.info("Controller Exception Occurred" + controllerException.getMessage());
-		return new ResponseEntity<String>("Business Exception.", HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<String>("Controller Exception.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@Override
