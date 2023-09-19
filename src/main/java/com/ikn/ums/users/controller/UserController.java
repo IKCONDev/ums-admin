@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ikn.ums.users.VO.UserVO;
+import com.ikn.ums.users.entity.UserDetailsEntity;
 import com.ikn.ums.users.exception.ControllerException;
 import com.ikn.ums.users.exception.EmptyInputException;
 import com.ikn.ums.users.exception.EmptyOTPException;
@@ -139,6 +140,19 @@ public class UserController {
 			return new ResponseEntity<>("Error while updating two factor authentication status",
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@PostMapping("/save")
+	public ResponseEntity<?> createUser(@RequestBody UserDetailsEntity user){
+		try {
+			UserDetailsEntity savedUser =  userService.createUser(user);
+			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+		}catch (Exception e) {
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_CONTROLLER_EXCEPTION_CODE,
+					ErrorCodeMessages.ERR_USER_CONTROLLER_EXCEPTION_MSG);
+			return new ResponseEntity<>(umsCE, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 
 }

@@ -23,7 +23,7 @@ import lombok.Data;
 public class UserDetailsEntity{
 	
 	@Id
-	@Column(name = "email", nullable = false, unique = true)
+	@Column(name = "user_id", nullable = false, unique = true)
 	private String email;
 	
 	@Column(name = "encrypted_password", nullable = false, unique = false)
@@ -32,7 +32,7 @@ public class UserDetailsEntity{
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(
 				name = "user_roles",
-				joinColumns = @JoinColumn(name = " user_id"),
+				joinColumns = @JoinColumn(name = "user_id"),
 				inverseJoinColumns = @JoinColumn(name = "role_id")
 			)
 	private Set<Role> userRoles = new HashSet<>();

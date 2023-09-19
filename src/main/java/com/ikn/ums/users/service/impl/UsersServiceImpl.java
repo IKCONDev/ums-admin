@@ -17,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 import com.ikn.ums.users.VO.EmployeeVO;
 import com.ikn.ums.users.VO.UserVO;
 import com.ikn.ums.users.entity.UserDetailsEntity;
+import com.ikn.ums.users.exception.EmptyInputException;
+import com.ikn.ums.users.exception.ErrorCodeMessages;
 import com.ikn.ums.users.repository.UserRepository;
 import com.ikn.ums.users.service.UsersService;
 import com.ikn.ums.users.utils.EmailService;
@@ -144,11 +146,22 @@ public class UsersServiceImpl implements UsersService {
 			throw new UsernameNotFoundException("User with " + username + " does not exist");
 		UserVO user = new UserVO();
 		user.setEmail(dbLoggedInUser.getEmail());
+		user.setUserRoles(dbLoggedInUser.getUserRoles());
 		user.setEncryptedPassword(dbLoggedInUser.getEncryptedPassword());
 		user.setTwoFactorAuthentication(dbLoggedInUser.isTwoFactorAuthentication());
 		user.setUserRoles(dbLoggedInUser.getUserRoles());
 		user.setEmployee(employeeDetails);
 		return user;
+	}
+
+	@Override
+	public UserDetailsEntity createUser(UserDetailsEntity user) {
+		if(user == null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE, 
+					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
+		}
+		UserDetailsEntity savedUser =  userRepo.save(user);
+		return savedUser;
 	}
 
 }
