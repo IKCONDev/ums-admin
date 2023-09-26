@@ -1,5 +1,7 @@
 package com.ikn.ums.users.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ikn.ums.users.VO.UserVO;
 import com.ikn.ums.users.entity.UserDetailsEntity;
@@ -20,6 +24,7 @@ import com.ikn.ums.users.exception.EmptyOTPException;
 import com.ikn.ums.users.exception.EntityNotFoundException;
 import com.ikn.ums.users.exception.ErrorCodeMessages;
 import com.ikn.ums.users.model.UpdatePasswordRequestModel;
+import com.ikn.ums.users.model.UserProfilePicDetailsRequestModel;
 import com.ikn.ums.users.model.ValidateOtpRequestModel;
 import com.ikn.ums.users.service.UsersService;
 
@@ -154,5 +159,19 @@ public class UserController {
 		}
 		
 	}
-
+	@PostMapping("/profile-pic")
+	public ResponseEntity<?> updateUser(@RequestParam("email") String userEmailId,
+			@RequestParam ("profilePic")MultipartFile profilePicImage) throws IOException{
+		
+			try {
+				UserDetailsEntity dbUser=userService.getUserDetailsByUsername(userEmailId);
+				dbUser.setProfilePic(profilePicImage.getBytes());
+				UserDetailsEntity updatedUser = userService.updateUserProfilePic(dbUser);
+				return new ResponseEntity<>(updatedUser,HttpStatus.OK);
+			}catch(Exception e) {
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+	}
+	
+	
 }

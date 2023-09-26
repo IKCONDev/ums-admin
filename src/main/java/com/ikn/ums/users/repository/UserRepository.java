@@ -1,5 +1,7 @@
 package com.ikn.ums.users.repository;
 
+import javax.persistence.Column;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +31,8 @@ public interface UserRepository extends JpaRepository<UserDetailsEntity, Integer
     @Modifying
     @Query("UPDATE UserDetailsEntity SET twoFactorAuthentication=:isOn WHERE email=:email")
     Integer updateTwofactorAuthenticationStatus(String email, boolean isOn);
+    
+//    @Modifying
+//    @Query("UPDATE UserDetailsEntity SET profilePic=:profilePic WHERE email=:email")
+//    UserDetailsEntity updateProfilePicByEmail(String email);
 }
