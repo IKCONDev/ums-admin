@@ -25,4 +25,6 @@ public class UserVO {
 	private boolean twoFactorAuthentication;
 
 	private EmployeeVO employee;
+	
+	private byte[] profilePic;
 }

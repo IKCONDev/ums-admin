@@ -151,6 +151,7 @@ public class UsersServiceImpl implements UsersService {
 		user.setTwoFactorAuthentication(dbLoggedInUser.isTwoFactorAuthentication());
 		user.setUserRoles(dbLoggedInUser.getUserRoles());
 		user.setEmployee(employeeDetails);
+		user.setProfilePic(dbLoggedInUser.getProfilePic());
 		return user;
 	}
 
@@ -162,6 +163,21 @@ public class UsersServiceImpl implements UsersService {
 		}
 		UserDetailsEntity savedUser =  userRepo.save(user);
 		return savedUser;
+	}
+
+	@Override
+	@Transactional
+	public UserDetailsEntity updateProfilePicByEmail(String email) {
+		if(email!=null) {
+			UserDetailsEntity updateUser =userRepo.save(getUserDetailsByUsername(email));
+			return updateUser;
+		}
+		return null;
+	}
+
+	@Override
+	public UserDetailsEntity updateUserProfilePic(UserDetailsEntity userDetails) {
+		return userRepo.save(userDetails);
 	}
 
 }

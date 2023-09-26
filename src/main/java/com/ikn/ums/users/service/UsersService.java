@@ -15,4 +15,6 @@ public interface UsersService extends UserDetailsService {
 	Integer updateUserTwoFactorAuthStatus(String email, boolean isOn);
 	UserVO getUserProfile(String username);
 	UserDetailsEntity createUser(UserDetailsEntity user);
+	UserDetailsEntity updateProfilePicByEmail(String email);
+	UserDetailsEntity updateUserProfilePic(UserDetailsEntity userDetails);
 }

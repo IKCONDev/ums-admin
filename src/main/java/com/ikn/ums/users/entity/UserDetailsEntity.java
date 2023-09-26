@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -41,7 +42,11 @@ public class UserDetailsEntity{
 	private int otpCode;
 	
 	@Column(name = "two_factor_authentication", nullable = true, unique = false)
-	private boolean twoFactorAuthentication;
-
+	private boolean twoFactorAuthentication;	
 	
+	
+	@Column(name ="profile_pic",nullable=true,length = 1000)
+	private byte[] profilePic;
 }
+
+
