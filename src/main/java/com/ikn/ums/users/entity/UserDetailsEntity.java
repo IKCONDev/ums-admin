@@ -45,7 +45,7 @@ public class UserDetailsEntity{
 	private boolean twoFactorAuthentication;	
 	
 	
-	@Column(name ="profile_pic",nullable=true,length = 1000)
+	@Column(name ="profile_pic",nullable=true,length = 100000)
 	private byte[] profilePic;
 }
 
