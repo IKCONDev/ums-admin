@@ -27,4 +27,6 @@ public class UserVO {
 	private EmployeeVO employee;
 	
 	private byte[] profilePic;
+	
+	private boolean isActive;
 }

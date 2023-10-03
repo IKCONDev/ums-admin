@@ -1,6 +1,7 @@
 package com.ikn.ums.users.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.transaction.Transactional;
@@ -134,16 +135,16 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public UserVO getUserProfile(String username) {
+	public UserVO getUserProfile(String emailId) {
 		//get user details
-		UserDetailsEntity dbLoggedInUser = getUserDetailsByUsername(username);
+		UserDetailsEntity dbLoggedInUser = getUserDetailsByUsername(emailId);
 		// communicate with Employee microservice and get the employee object
-        System.out.println("UsersServiceImpl.getUserProfile() "+username);
+        System.out.println("UsersServiceImpl.getUserProfile() "+emailId);
 		ResponseEntity<EmployeeVO> response = restTemplate
-				.getForEntity("http://UMS-EMPLOYEE-SERVICE/employees/" + username, EmployeeVO.class);
+				.getForEntity("http://UMS-EMPLOYEE-SERVICE/employees/" + emailId, EmployeeVO.class);
 		EmployeeVO employeeDetails = response.getBody();
 		if (employeeDetails == null)
-			throw new UsernameNotFoundException("User with " + username + " does not exist");
+			throw new UsernameNotFoundException("User with " + emailId + " does not exist");
 		UserVO user = new UserVO();
 		user.setEmail(dbLoggedInUser.getEmail());
 		user.setUserRoles(dbLoggedInUser.getUserRoles());
@@ -152,6 +153,7 @@ public class UsersServiceImpl implements UsersService {
 		user.setUserRoles(dbLoggedInUser.getUserRoles());
 		user.setEmployee(employeeDetails);
 		user.setProfilePic(dbLoggedInUser.getProfilePic());
+		user.setActive(dbLoggedInUser.isActive());
 		return user;
 	}
 
@@ -178,6 +180,12 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public UserDetailsEntity updateUserProfilePic(UserDetailsEntity userDetails) {
 		return userRepo.save(userDetails);
+	}
+
+	@Override
+	public List<String> getActiveUsersEmailIdList(boolean isActive) {
+		List<String> userEmailIdList =  userRepo.findAllActiveUsersEmailIdList(isActive);
+		return userEmailIdList;
 	}
 
 }
