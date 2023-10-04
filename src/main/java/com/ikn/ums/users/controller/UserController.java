@@ -56,14 +56,14 @@ public class UserController {
 	 * user){ UserDetailsEntity savedUser = userRepository.save(user); return new
 	 * ResponseEntity<>(savedUser, HttpStatus.CREATED); }
 	 */
-	@PostMapping("/generate-otp/{email}")
-	public ResponseEntity<?> generateAndSendOtpToUser(@PathVariable String email) {
+	@PostMapping("/generate-otp/{email}/{pageType}")
+	public ResponseEntity<?> generateAndSendOtpToUser(@PathVariable String email,@PathVariable String pageType) {
 		log.info("UserController.generateAndSendOtpToUser() ENTERED : email : " + email);
 		try {
 			if (email.isBlank() || email.length() == 0)
 				throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 						ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
-			Integer otp = userService.generateOtpForUser(email);
+			Integer otp = userService.generateOtpForUser(email,pageType);
 			if (otp <= 0)
 				throw new EmptyOTPException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE,
 						ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);

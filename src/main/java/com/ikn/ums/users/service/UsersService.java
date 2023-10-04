@@ -8,7 +8,7 @@ import com.ikn.ums.users.entity.UserDetailsEntity;
 public interface UsersService extends UserDetailsService {
 	
 	UserDetailsEntity getUserDetailsByUsername(String userName);
-	Integer generateOtpForUser(String userName);
+	Integer generateOtpForUser(String userName,String pageType);
 	Integer validateUserOtp(String email, String otp);
 	Integer updatePasswordforUser(String email, CharSequence newRawPassword);
 	Integer validateEmailAddress(String email);
