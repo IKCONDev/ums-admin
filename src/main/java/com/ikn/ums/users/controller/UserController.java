@@ -1,7 +1,9 @@
 package com.ikn.ums.users.controller;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -146,32 +148,40 @@ public class UserController {
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@PostMapping("/save")
-	public ResponseEntity<?> createUser(@RequestBody UserDetailsEntity user){
+	public ResponseEntity<?> createUser(@RequestBody UserDetailsEntity user) {
 		try {
-			UserDetailsEntity savedUser =  userService.createUser(user);
+			UserDetailsEntity savedUser = userService.createUser(user);
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_CONTROLLER_EXCEPTION_CODE,
 					ErrorCodeMessages.ERR_USER_CONTROLLER_EXCEPTION_MSG);
 			return new ResponseEntity<>(umsCE, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 	}
+
 	@PostMapping("/profile-pic")
 	public ResponseEntity<?> updateUser(@RequestParam("email") String userEmailId,
-			@RequestParam ("profilePic")MultipartFile profilePicImage) throws IOException{
-		
-			try {
-				UserDetailsEntity dbUser=userService.getUserDetailsByUsername(userEmailId);
-				dbUser.setProfilePic(profilePicImage.getBytes());
-				UserDetailsEntity updatedUser = userService.updateUserProfilePic(dbUser);
-				return new ResponseEntity<>(updatedUser,HttpStatus.OK);
-			}catch(Exception e) {
-				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}
+			@RequestParam("profilePic") MultipartFile profilePicImage) throws IOException {
+
+		try {
+			UserDetailsEntity dbUser = userService.getUserDetailsByUsername(userEmailId);
+			dbUser.setProfilePic(profilePicImage.getBytes());
+			UserDetailsEntity updatedUser = userService.updateUserProfilePic(dbUser);
+			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
-	
+	@GetMapping("/getEmail-list")
+	public ResponseEntity<?> getActiveUsersEmailIdList(){
+		boolean isActive = true;
+		List<String> activeUserEmailIdList = userService.getActiveUsersEmailIdList(isActive);
+		return new ResponseEntity<>(activeUserEmailIdList, HttpStatus.OK);
+		
+	}
+
 }

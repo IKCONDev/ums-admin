@@ -1,5 +1,7 @@
 package com.ikn.ums.users.repository;
 
+import java.util.List;
+
 import javax.persistence.Column;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,4 +37,7 @@ public interface UserRepository extends JpaRepository<UserDetailsEntity, Integer
 //    @Modifying
 //    @Query("UPDATE UserDetailsEntity SET profilePic=:profilePic WHERE email=:email")
 //    UserDetailsEntity updateProfilePicByEmail(String email);
+    
+    @Query("SELECT email FROM UserDetailsEntity WHERE isActive=:isActive")
+	List<String> findAllActiveUsersEmailIdList(boolean isActive);
 }

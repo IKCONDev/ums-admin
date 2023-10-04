@@ -1,4 +1,6 @@
 package com.ikn.ums.users.service;
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.ikn.ums.users.VO.EmployeeVO;
@@ -17,4 +19,5 @@ public interface UsersService extends UserDetailsService {
 	UserDetailsEntity createUser(UserDetailsEntity user);
 	UserDetailsEntity updateProfilePicByEmail(String email);
 	UserDetailsEntity updateUserProfilePic(UserDetailsEntity userDetails);
+	List<String> getActiveUsersEmailIdList(boolean isActive);
 }

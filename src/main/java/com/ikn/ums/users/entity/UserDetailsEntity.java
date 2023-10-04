@@ -47,6 +47,9 @@ public class UserDetailsEntity{
 	
 	@Column(name ="profile_pic",nullable=true,length = 100000)
 	private byte[] profilePic;
+	
+	@Column(name = "isActive")
+	private boolean isActive;
 }
 
 
