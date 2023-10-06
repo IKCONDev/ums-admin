@@ -70,5 +70,8 @@ public class ErrorCodeMessages {
 	 
 	 public static final String USER_DELETE_UNSUCCESS_CODE = "USER_UPDATE_UNSUCCESS_CODE-1025";
 	 public static final String USER_DELETE_UNSUCCESS_MSG = "Exception occured while deleting user";
+	 
+	 public static final String USER_ROLE_UPDATE_UNSUCCESS_CODE = "USER_ROLE_UPDATE_UNSUCCESS_CODE-1026";
+	 public static final String USER_ROLE_UPDATE_UNSUCCESS_MSG = "Exception occured while updating user role";
 
 }

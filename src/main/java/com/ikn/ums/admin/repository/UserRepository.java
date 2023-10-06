@@ -42,4 +42,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query("DELETE FROM User WHERE email=:emailId")
     void deleteUserByUserId(String emailId);
+    
+//    @Modifying
+//    @Query("UPDATE User u SET u.role")
+//    Integer updateRoleByUserId(String emailId);
 }

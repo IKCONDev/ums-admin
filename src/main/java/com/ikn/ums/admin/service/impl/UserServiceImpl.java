@@ -1,8 +1,11 @@
 package com.ikn.ums.admin.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -16,11 +19,13 @@ import org.springframework.web.client.RestTemplate;
 
 import com.ikn.ums.admin.VO.EmployeeVO;
 import com.ikn.ums.admin.VO.UserVO;
+import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.repository.UserRepository;
+import com.ikn.ums.admin.service.RoleService;
 import com.ikn.ums.admin.service.UserService;
 import com.ikn.ums.admin.utils.EmailService;
 
@@ -41,6 +46,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private RoleService roleService;
 
 	@Override
 	public User getUserDetailsByUsername(String email) {
@@ -196,6 +204,7 @@ public class UserServiceImpl implements UserService {
 		return userEmailIdList;
 	}
 	
+	@Transactional
 	@Override
 	public User saveUser(User user) {
 		log.info("UsersServiceImpl.createUser() entered with args - user");
@@ -210,6 +219,7 @@ public class UserServiceImpl implements UserService {
 		return savedUser;
 	}
 
+	@Transactional
 	@Override
 	public User updateUser(User user) {
 		log.info("UsersServiceImpl.updateUser() entered with args - user");
@@ -224,6 +234,7 @@ public class UserServiceImpl implements UserService {
 		return updatedUser;
 	}
 
+	@Transactional
 	@Override
 	public void deleteUserByUserId(String emailId) {
 		log.info("UsersServiceImpl.deleteUser() entered with args - id");
@@ -235,6 +246,28 @@ public class UserServiceImpl implements UserService {
 		log.info("UsersServiceImpl.deleteUser() is under execution...");
 		userRepository.deleteUserByUserId(emailId);
 		log.info("UsersServiceImpl.deleteUser() executed successfully");
+	}
+
+	@Override
+	public User updateUserRoleByUserId(String emailId) {
+		Set<Role> userRoleList = null;
+		if(emailId.equals(null) || emailId == null) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE, 
+					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
+		}
+		User user = userRepository.findByEmail(emailId);
+		//update user with new role, for now its harcoded, later will come from UI, according to admin selection
+		Optional<Role> optRole = roleService.getRoleById(2L);
+		Role role = null;
+		//if roles are present create a HashSet and push the roles into set
+		if(optRole.isPresent()) {
+		   role = optRole.get();
+		   userRoleList = new HashSet<>(); 
+		   userRoleList.add(role);
+		}
+		//set the new role to user
+		user.setUserRoles(userRoleList);
+		return user;
 	}
 
 }
