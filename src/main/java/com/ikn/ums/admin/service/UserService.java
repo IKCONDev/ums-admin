@@ -5,21 +5,23 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.ikn.ums.admin.VO.EmployeeVO;
 import com.ikn.ums.admin.VO.UserVO;
-import com.ikn.ums.admin.entity.UserDetailsEntity;
+import com.ikn.ums.admin.entity.User;
 
-public interface UsersService extends UserDetailsService {
+public interface UserService extends UserDetailsService {
 	
-	UserDetailsEntity getUserDetailsByUsername(String userName);
+	User getUserDetailsByUsername(String emailId);
 	Integer generateOtpForUser(String userName,String pageType);
 	Integer validateUserOtp(String email, String otp);
 	Integer updatePasswordforUser(String email, CharSequence newRawPassword);
 	Integer validateEmailAddress(String email);
 	Integer updateUserTwoFactorAuthStatus(String email, boolean isOn);
 	UserVO getUserProfile(String username);
-	UserDetailsEntity updateProfilePicByEmail(String email);
-	UserDetailsEntity updateUserProfilePic(UserDetailsEntity userDetails);
+	User updateProfilePicByEmail(String email);
+	User updateUserProfilePic(User userDetails);
 	List<String> getActiveUsersEmailIdList(boolean isActive);
 	
 	//Admin Operations on user
-	UserDetailsEntity createUser(UserDetailsEntity user);
+	User saveUser(User user);
+	User updateUser(User user);
+	void deleteUserByUserId(String emailId);
 }

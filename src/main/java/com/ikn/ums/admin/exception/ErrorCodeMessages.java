@@ -21,7 +21,7 @@ public class ErrorCodeMessages {
 	 public static final String ERR_USER_LAST_NAME_IS_NULL_MSG = "User Last Name Is Null."; 
 	 
 	 public static final String USER_SAVE_UNSUCCESS_CODE = "User-SAVE-UNSUCCESS-1009";
-	 public static final String USER_SAVE_UNSUCCESS_MSG = "User Save unsucessfull."; 	 
+	 public static final String USER_SAVE_UNSUCCESS_MSG = "Exception occured while saving user."; 	 
 	 
 	 public static final String ERR_USER_LIST_IS_USERTY_CODE = "USER_LIST_IS_USERTY-1010";
 	 public static final String ERR_USER_LIST_IS_USERTY_MSG = "user List Is Empty."; 	 
@@ -63,6 +63,12 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ROLE_ENTITY_IS_NULL_MSG = "Role Entity is Null."; 
 	 
 	 public static final String ERR_ROLE_SERVICE_EXCEPTION_CODE = "ROLE_SERVICE_EXCEPTION_CODE-1023";
-	 public static final String ERR_ROLE_SERVICE_EXCEPTION_MSG = "Exception Occured in the Role Service Layer."; 	
+	 public static final String ERR_ROLE_SERVICE_EXCEPTION_MSG = "Exception Occured in the Role Service Layer."; 
+	 
+	 public static final String USER_UPDATE_UNSUCCESS_CODE = "USER_UPDATE_UNSUCCESS_CODE-1024";
+	 public static final String USER_UPDATE_UNSUCCESS_MSG = "Exception occured while updating user";
+	 
+	 public static final String USER_DELETE_UNSUCCESS_CODE = "USER_UPDATE_UNSUCCESS_CODE-1025";
+	 public static final String USER_DELETE_UNSUCCESS_MSG = "Exception occured while deleting user";
 
 }

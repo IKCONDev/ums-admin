@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.ikn.ums.admin.service.UsersService;
+import com.ikn.ums.admin.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -21,12 +21,12 @@ public class UsersWebSecurity {
 	
 	private Environment environment;
 	
-	private UsersService service;
+	private UserService service;
 	
 	private BCryptPasswordEncoder encoder;
 	
 	@Autowired
-	public UsersWebSecurity(Environment environment, UsersService service,BCryptPasswordEncoder encoder){	
+	public UsersWebSecurity(Environment environment, UserService service,BCryptPasswordEncoder encoder){	
 		this.environment = environment;
 		this.service= service;
 		this.encoder = encoder;

@@ -18,7 +18,7 @@ import lombok.Data;
 @Entity
 @Table(name = "user_master")
 @Data
-public class UserDetailsEntity{
+public class User{
 	
 	@Id
 	@Column(name = "user_id", nullable = false, unique = true)

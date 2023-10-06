@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ikn.ums.admin.VO.UserVO;
-import com.ikn.ums.admin.entity.UserDetailsEntity;
+import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyOTPException;
@@ -28,7 +28,7 @@ import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.model.UpdatePasswordRequestModel;
 import com.ikn.ums.admin.model.UserProfilePicDetailsRequestModel;
 import com.ikn.ums.admin.model.ValidateOtpRequestModel;
-import com.ikn.ums.admin.service.UsersService;
+import com.ikn.ums.admin.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,7 +41,7 @@ public class AuthenticationController {
 	private BCryptPasswordEncoder encoder;
 
 	@Autowired
-	private UsersService userService;
+	private UserService userService;
 
 //	@Autowired
 //	private UserRepository userRepository;
@@ -53,11 +53,6 @@ public class AuthenticationController {
 		return new ResponseEntity<String>(encodedPWD, HttpStatus.OK);
 	}
 
-	/*
-	 * @PostMapping public ResponseEntity<?> saveUser(@RequestBody UserDetailsEntity
-	 * user){ UserDetailsEntity savedUser = userRepository.save(user); return new
-	 * ResponseEntity<>(savedUser, HttpStatus.CREATED); }
-	 */
 	@PostMapping("/generate-otp/{email}/{pageType}")
 	public ResponseEntity<?> generateAndSendOtpToUser(@PathVariable String email,@PathVariable String pageType) {
 		log.info("UserController.generateAndSendOtpToUser() ENTERED : email : " + email);
@@ -153,9 +148,9 @@ public class AuthenticationController {
 			@RequestParam("profilePic") MultipartFile profilePicImage) throws IOException {
 
 		try {
-			UserDetailsEntity dbUser = userService.getUserDetailsByUsername(userEmailId);
+			User dbUser = userService.getUserDetailsByUsername(userEmailId);
 			dbUser.setProfilePic(profilePicImage.getBytes());
-			UserDetailsEntity updatedUser = userService.updateUserProfilePic(dbUser);
+			User updatedUser = userService.updateUserProfilePic(dbUser);
 			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -22,18 +22,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ikn.ums.admin.VO.UserVO;
 import com.ikn.ums.admin.model.UserLoginRequestModel;
-import com.ikn.ums.admin.service.UsersService;
+import com.ikn.ums.admin.service.UserService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-	private UsersService service;
+	private UserService service;
 
 	private Environment environment;
 
-	public UserAuthenticationFilter(UsersService service, Environment environment, AuthenticationManager authManager) {
+	public UserAuthenticationFilter(UserService service, Environment environment, AuthenticationManager authManager) {
 		this.service = service;
 		this.environment = environment;
 		super.setAuthenticationManager(authManager);

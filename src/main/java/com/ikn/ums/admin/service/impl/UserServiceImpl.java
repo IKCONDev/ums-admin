@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,19 +16,19 @@ import org.springframework.web.client.RestTemplate;
 
 import com.ikn.ums.admin.VO.EmployeeVO;
 import com.ikn.ums.admin.VO.UserVO;
-import com.ikn.ums.admin.entity.UserDetailsEntity;
+import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.repository.UserRepository;
-import com.ikn.ums.admin.service.UsersService;
+import com.ikn.ums.admin.service.UserService;
 import com.ikn.ums.admin.utils.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class UsersServiceImpl implements UsersService {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -44,9 +43,9 @@ public class UsersServiceImpl implements UsersService {
 	private RestTemplate restTemplate;
 
 	@Override
-	public UserDetailsEntity getUserDetailsByUsername(String email) {
+	public User getUserDetailsByUsername(String email) {
 		// old implementation UserDetailsEntity loadedUser =
-		UserDetailsEntity loadedUser = userRepository.findByEmail(email);
+		User loadedUser = userRepository.findByEmail(email);
 		if (loadedUser == null)
 			throw new UsernameNotFoundException("User with " + email + " does not exist");
 		
@@ -74,11 +73,11 @@ public class UsersServiceImpl implements UsersService {
 		 * .getForEntity("http://UMS-EMPLOYEE-SERVICE/employees/" + username,
 		 * EmployeeVO.class); EmployeeVO employeeDetails = response.getBody();
 		 */
-		UserDetailsEntity userDetails = userRepository.findByEmail(username);
+		User userDetails = userRepository.findByEmail(username);
 		if (userDetails == null)
 			throw new UsernameNotFoundException("User does not exists");
 		System.out.println("UsersServiceImpl.loadUserByUsername() "+userDetails);
-		return new User(userDetails.getEmail(), userDetails.getEncryptedPassword(), true, true, true, true,
+		return new org.springframework.security.core.userdetails.User(userDetails.getEmail(), userDetails.getEncryptedPassword(), true, true, true, true,
 				new ArrayList<>());
 	}
 
@@ -155,7 +154,7 @@ public class UsersServiceImpl implements UsersService {
 		}
 		log.info("UsersServiceImpl.getUserProfile() is under execution...");
 		//get user details
-		UserDetailsEntity dbLoggedInUser = getUserDetailsByUsername(emailId);
+		User dbLoggedInUser = getUserDetailsByUsername(emailId);
 		// communicate with Employee microservice and get the employee object
 		ResponseEntity<EmployeeVO> response = restTemplate
 				.getForEntity("http://UMS-EMPLOYEE-SERVICE/employees/" + emailId, EmployeeVO.class);
@@ -178,16 +177,16 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	@Transactional
-	public UserDetailsEntity updateProfilePicByEmail(String email) {
+	public User updateProfilePicByEmail(String email) {
 		if(email!=null) {
-			UserDetailsEntity updateUser =userRepository.save(getUserDetailsByUsername(email));
+			User updateUser =userRepository.save(getUserDetailsByUsername(email));
 			return updateUser;
 		}
 		return null;
 	}
 
 	@Override
-	public UserDetailsEntity updateUserProfilePic(UserDetailsEntity userDetails) {
+	public User updateUserProfilePic(User userDetails) {
 		return userRepository.save(userDetails);
 	}
 
@@ -198,7 +197,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 	
 	@Override
-	public UserDetailsEntity createUser(UserDetailsEntity user) {
+	public User saveUser(User user) {
 		log.info("UsersServiceImpl.createUser() entered with args - user");
 		if(user == null || user.equals(null)) {
 			log.info("UsersServiceImpl.createUser() EntityNotFoundException : user object is null");
@@ -206,9 +205,36 @@ public class UsersServiceImpl implements UsersService {
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
 		log.info("UsersServiceImpl.createUser() is under execution...");
-		UserDetailsEntity savedUser =  userRepository.save(user);
+		User savedUser =  userRepository.save(user);
 		log.info("UsersServiceImpl.createUser() executed successfully.");
 		return savedUser;
+	}
+
+	@Override
+	public User updateUser(User user) {
+		log.info("UsersServiceImpl.updateUser() entered with args - user");
+		if(user == null || user.equals(null)) {
+			log.info("UsersServiceImpl.updateUser() EntityNotFoundException : user object is null");
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE, 
+					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
+		}
+		log.info("UsersServiceImpl.updateUser() is under execution...");
+		User updatedUser =  userRepository.save(user);
+		log.info("UsersServiceImpl.updateUser() executed successfully.");
+		return updatedUser;
+	}
+
+	@Override
+	public void deleteUserByUserId(String emailId) {
+		log.info("UsersServiceImpl.deleteUser() entered with args - id");
+		if(emailId.equals(null) || emailId == null || emailId.equals("")) {
+			log.info("UsersServiceImpl.deleteUser() EmptyInputException : emailid/userid is null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE, 
+					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
+		}
+		log.info("UsersServiceImpl.deleteUser() is under execution...");
+		userRepository.deleteUserByUserId(emailId);
+		log.info("UsersServiceImpl.deleteUser() executed successfully");
 	}
 
 }

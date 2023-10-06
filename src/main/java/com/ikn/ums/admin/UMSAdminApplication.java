@@ -10,10 +10,10 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class UMSUsersApplication {
+public class UMSAdminApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UMSUsersApplication.class, args);
+		SpringApplication.run(UMSAdminApplication.class, args);
 		
 	}
 	
