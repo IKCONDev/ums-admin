@@ -2,11 +2,11 @@ package com.ikn.ums.admin.exception;
 
 public class ErrorCodeMessages {
 
-	 public static final String ERR_USER_SERVICE_NOT_FOUND_CODE = "USER-CORE-SERVICE-1001";
-	 public static final String ERR_USER_SERVICE_NOT_FOUND_MSG = "User Service not present.";
+	 public static final String ERR_ADMIN_SERVICE_NOT_FOUND_CODE = "ADMIN-CORE-SERVICE-1001";
+	 public static final String ERR_ADMIN_SERVICE_NOT_FOUND_MSG = "Admin Service not present.";
 	 
-	 public static final String ERR_USER_ENTITY_IS_NULL_CODE = "USER-ENTITY-IS-NULL-1002";
-	 public static final String ERR_USER_ENTITY_IS_NULL_MSG = "User Entity is Null."; 
+	 public static final String ERR_ADMIN_ENTITY_IS_NULL_CODE = "ADMIN-ENTITY-IS-NULL-1002";
+	 public static final String ERR_ADMIN_ENTITY_IS_NULL_MSG = "Admin Entity is Null."; 
 
 	 public static final String ERR_USER_ID_NOT_FOUND_CODE = "USER-ID-NOT-FOUND-1003";
 	 public static final String ERR_USER_ID_NOT_FOUND_MSG = "Requested User Id is not present."; 
@@ -74,4 +74,50 @@ public class ErrorCodeMessages {
 	 public static final String USER_ROLE_UPDATE_UNSUCCESS_CODE = "USER_ROLE_UPDATE_UNSUCCESS_CODE-1026";
 	 public static final String USER_ROLE_UPDATE_UNSUCCESS_MSG = "Exception occured while updating user role";
 
+	 //ORGANIZATION MODULE ERROR CODES
+	 
+	 public static final String ERR_ORG_ENTITY_IS_NULL_CODE = "ORG-ENTITY-IS-NULL-1027";
+	 public static final String ERR_ORG_ENTITY_IS_NULL_MSG = "Organization Entity is Null."; 
+
+	 public static final String ERR_ORG_ID_NOT_FOUND_CODE = "ORG-ID-NOT-FOUND-1028";
+	 public static final String ERR_ORG_ID_NOT_FOUND_MSG = "Requested Organization Id is not present."; 
+
+	 public static final String ERR_ORG_ID_ALREADY_EXISTS_CODE = "ORG-ID-ALREADY-EXISTS-1029";
+	 public static final String ERR_ORG_ID_ALREADY_EXISTS_MSG = "Organization Id Already Exists."; 
+
+	 public static final String ERR_ORG_FIRST_NAME_IS_NULL_CODE = "ORG_FIRST_NAME_IS_NULL-1030";
+	 public static final String ERR_ORG_FIRST_NAME_IS_NULL_MSG = "Organization First Name Is Null."; 
+
+	 public static final String ERR_ORG_LAST_NAME_IS_NULL_CODE = "ORG_LAST_NAME_IS_NULL-1031";
+	 public static final String ERR_ORG_LAST_NAME_IS_NULL_MSG = "Organization Last Name Is Null."; 
+	 
+	 public static final String ORG_SAVE_UNSUCCESS_CODE = "Organization-SAVE-UNSUCCESS-1032";
+	 public static final String ORG_SAVE_UNSUCCESS_MSG = "Exception occured while saving Organization."; 	 
+	 
+	 public static final String ERR_ORG_LIST_IS_ENTITY_CODE = "ORG_LIST_IS_ENTITY-1033";
+	 public static final String ERR_ORG_LIST_IS_ENTITY_MSG = "Organization List Is Empty."; 	 
+
+	 public static final String ERR_ORG_SERVICE_EXCEPTION_CODE = "ORG_SERVICE_EXCEPTION_CODE-1034";
+	 public static final String ERR_ORG_SERVICE_EXCEPTION_MSG = "Organization Occured in the Employee Service Layer."; 	
+
+	 public static final String ERR_ORG_EMAIL_ID_NOT_FOUND_CODE = "ORG_EMAIL_ID_NOT_FOUND_CODE-1035";
+	 public static final String ERR_ORG_EMAIL_ID_NOT_FOUND_MSG = "Organization Email Id is not found."; 	
+
+	 public static final String ERR_ORG_LIST_IS_EMPTY_CODE = "ORG_LIST_IS_EMPTY-1036";
+	 public static final String ERR_ORG_LIST_IS_EMPTY_MSG = "Organization List Is Empty."; 	 
+
+	 public static final String ERR_ORG_ID_IS_EMPTY_CODE = "ORG-ID-IS-EMPTY-1037";
+	 public static final String ERR_ORG_ID_IS_EMPTY_MSG = "Requested Organization Id is not present."; 
+
+	 public static final String ERR_ORG_CONTROLLER_EXCEPTION_CODE = "ORG_CONTROLLER_EXCEPTION-1038";
+	 public static final String ERR_ORG_CONTROLLER_EXCEPTION_MSG = "Organization Controller Exception Occurred."; 
+	 
+	 public static final String ERR_ORG_UPDATE_UNSUCCESS_CODE = "ORG_UPDATE_UNSUCCESS_CODE-1039";
+	 public static final String ERR_ORG_UPDATE_UNSUCCESS_MSG = "Exception Occured while Updating Organization."; 
+	 
+	 public static final String ERR_ORG_DELETE_UNSUCCESS_CODE = "ORG_DELETE_UNSUCCESS_CODE-1040";
+	 public static final String ERR_ORG_DELETE_UNSUCCESS_MSG = "Exception Occured while deleting Organization."; 
+	 
+	 
+	 //ORGANIZATION MODULE ERROR CODES
 }
