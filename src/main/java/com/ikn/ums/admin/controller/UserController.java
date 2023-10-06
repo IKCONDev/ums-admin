@@ -22,14 +22,14 @@ import com.ikn.ums.admin.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/user")
 @Slf4j
-public class AdminController {
+public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/user/save")
+	@PostMapping("/save")
 	public ResponseEntity<?> createUser(@RequestBody User user) {
 		log.info("AdminController.createUser() entered with args - user");
 		if(user == null || user.equals(null)) {
@@ -50,7 +50,7 @@ public class AdminController {
 	}
 	
 	
-	@PutMapping("/user/update")
+	@PutMapping("/update")
 	public ResponseEntity<?> updateUser(@RequestBody User user) {
 		log.info("AdminController.updateUser() entered with args - user");
 		if(user == null || user.equals(null)) {
@@ -71,7 +71,7 @@ public class AdminController {
 		}
 	}
 	
-	@DeleteMapping("/user/delete/{userId}")
+	@DeleteMapping("/delete/{userId}")
 	public ResponseEntity<?> deleteUserByUserId(@PathVariable("userId") String emailId){
 		boolean isDeleted = false;
 		log.info("AdminController.deleteUserByUserId() entered with args - emailId");
@@ -94,7 +94,7 @@ public class AdminController {
 		}
 	}
 	
-	@PatchMapping("/user/updateRole/{userId}")
+	@PatchMapping("/updateRole/{userId}")
 	public ResponseEntity<?> updateUserRole(@PathVariable("userId") String emailId){
 		log.info("AdminController.updateUserRole() entered with args - emailid/userid : "+emailId);
 		if(emailId.equals("") || emailId == null) {
