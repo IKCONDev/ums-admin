@@ -77,8 +77,8 @@ public class AuthenticationController {
 	public ResponseEntity<?> validateUserOtp(@RequestBody ValidateOtpRequestModel otpRequestModel) {
 		if (otpRequestModel == null) {
 			log.info("UserController.validateUserOtp() ValidateOtpRequestModel Object in NULL");
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_MSG);
 		}
 		try {
 			int count = userService.validateUserOtp(otpRequestModel.getEmail(), otpRequestModel.getOtpCode());

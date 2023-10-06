@@ -33,8 +33,8 @@ public class UserController {
 	public ResponseEntity<?> createUser(@RequestBody User user) {
 		log.info("AdminController.createUser() entered with args - user");
 		if(user == null || user.equals(null)) {
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_MSG);
 		}
 		try {
 			log.info("AdminController.createUser() is under execution...");
@@ -55,8 +55,8 @@ public class UserController {
 		log.info("AdminController.updateUser() entered with args - user");
 		if(user == null || user.equals(null)) {
 			log.info("AdminController.updateUser() EntityNotFoundException : User object is null ");
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_MSG);
 		}
 		try {
 			log.info("AdminController.updateUser() is under execution...");
