@@ -132,7 +132,7 @@ public class AuthenticationController {
 
 	@PatchMapping("/update-auth/{username}/{isOn}")
 	public ResponseEntity<?> updateUserTwofactorAuthentication(@PathVariable String username,
-			@PathVariable boolean isTwoFactorSwitched) {
+			@PathVariable("isOn") boolean isTwoFactorSwitched) {
 		try {
 			Integer value = userService.updateUserTwoFactorAuthStatus(username, isTwoFactorSwitched);
 			return new ResponseEntity<>(value, HttpStatus.OK);
