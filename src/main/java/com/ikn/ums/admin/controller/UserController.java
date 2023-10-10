@@ -1,9 +1,12 @@
 package com.ikn.ums.admin.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,8 +53,8 @@ public class UserController {
 	}
 	
 	
-	@PutMapping("/update")
-	public ResponseEntity<?> updateUser(@RequestBody User user) {
+	@PutMapping("/update/{userId}")
+	public ResponseEntity<?> updateUser(@PathVariable("userId") String emailId, @RequestBody User user) {
 		log.info("AdminController.updateUser() entered with args - user");
 		if(user == null || user.equals(null)) {
 			log.info("AdminController.updateUser() EntityNotFoundException : User object is null ");
@@ -60,7 +63,7 @@ public class UserController {
 		}
 		try {
 			log.info("AdminController.updateUser() is under execution...");
-			User savedUser = userService.updateUser(user);
+			User savedUser = userService.updateUser(emailId,user);
 			log.info("AdminController.updateUser() executed successfully.");
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -111,4 +114,24 @@ public class UserController {
 		}
 		
 	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<?> getAllUser(){
+		
+		log.info("UserController.getAllUserDetails() is entered");
+		log.info("UserController.getAllUserDetails() is under execution");
+		try {
+			List<User> userList = userService.getAllUsers();
+			log.info("UserController.getAllUserDetails() executed successfully");
+			return new ResponseEntity<>(userList,HttpStatus.OK);
+		}catch (Exception e) {
+			// TODO: handle exception
+			throw new ControllerException(ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_MSG);
+		}
+		
+		
+		
+	}
+	
 }
