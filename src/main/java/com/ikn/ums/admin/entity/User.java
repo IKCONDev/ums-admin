@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "user_master")
+@Table(name = "user_master_tab")
 @Data
 public class User{
 	
@@ -29,7 +29,7 @@ public class User{
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(
-				name = "user_roles",
+				name = "user_role_tab",
 				joinColumns = @JoinColumn(name = "user_id"),
 				inverseJoinColumns = @JoinColumn(name = "role_id")
 			)
