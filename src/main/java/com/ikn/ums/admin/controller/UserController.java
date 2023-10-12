@@ -34,42 +34,44 @@ public class UserController {
 	
 	@PostMapping("/save")
 	public ResponseEntity<?> createUser(@RequestBody User user) {
-		log.info("AdminController.createUser() entered with args - user");
+		log.info("UserController.createUser() entered with args - user");
 		if(user == null || user.equals(null)) {
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_MSG);
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("AdminController.createUser() is under execution...");
+			log.info("UserController.createUser() is under execution...");
 			User savedUser = userService.saveUser(user);
-			log.info("AdminController.createUser() executed successfully.");
+			log.info("UserController.createUser() executed successfully.");
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 		} catch (Exception e) {
-			log.info("AdminController.createUser() exited with exception : Exception occured while saving user.");
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.USER_SAVE_UNSUCCESS_CODE,
-					ErrorCodeMessages.USER_SAVE_UNSUCCESS_MSG);
+			log.info("UserController.createUser() exited with exception : Exception occured while saving user.");
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_MSG);
 			throw umsCE;
 		}
 	}
 	
 	
+
 	@PutMapping("/update/{userId}")
 	public ResponseEntity<?> updateUser(@PathVariable("userId") String emailId, @RequestBody User user) {
 		log.info("AdminController.updateUser() entered with args - user");
 		if(user == null || user.equals(null)) {
-			log.info("AdminController.updateUser() EntityNotFoundException : User object is null ");
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_MSG);
+			log.info("UserController.updateUser() EntityNotFoundException : User object is null ");
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("AdminController.updateUser() is under execution...");
+			log.info("UserController.updateUser() is under execution...");
 			User savedUser = userService.updateUser(emailId,user);
-			log.info("AdminController.updateUser() executed successfully.");
+			log.info("UserController.updateUser() executed successfully.");
+
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 		} catch (Exception e) {
-			log.info("AdminController.updateUser() exited with exception : Exception occured while updating user.");
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.USER_UPDATE_UNSUCCESS_CODE,
-					ErrorCodeMessages.USER_UPDATE_UNSUCCESS_MSG);
+			log.info("UserController.updateUser() exited with exception : Exception occured while updating user.");
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_MSG);
 			throw umsCE;
 		}
 	}
@@ -77,25 +79,26 @@ public class UserController {
 	@DeleteMapping("/delete/{userId}")
 	public ResponseEntity<?> deleteUserByUserId(@PathVariable("userId") String emailId){
 		boolean isDeleted = false;
-		log.info("AdminController.deleteUserByUserId() entered with args - emailId");
+		log.info("UserController.deleteUserByUserId() entered with args - emailId");
 		if(emailId.equals("") || emailId == null) {
-			log.info("AdminController.deleteUserByUserId() EmptyInputException : userid/emailid is empty");
+			log.info("UserController.deleteUserByUserId() EmptyInputException : userid/emailid is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 		}
 		try {
-			log.info("AdminController.deleteUserByUserId() is under execution...");
+			log.info("UserController.deleteUserByUserId() is under execution...");
 			userService.deleteUserByUserId(emailId);
 			isDeleted = true;
-			log.info("AdminController.deleteUserByUserId() executed successfully");
+			log.info("UserController.deleteUserByUserId() executed successfully");
 			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
 		}catch (Exception e) {
-			log.info("AdminController.deleteUserByUserId() exited with exception : Exception occured while deleting user.");
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.USER_DELETE_UNSUCCESS_CODE,
-			ErrorCodeMessages.USER_DELETE_UNSUCCESS_MSG);
+			log.info("UserController.deleteUserByUserId() exited with exception : Exception occured while deleting user.");
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_CODE,
+			ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_MSG);
 			throw umsCE;
 		}
 	}
+
 	
 	@PatchMapping("/updateRole/{userId}")
 	public ResponseEntity<?> updateUserRole(@PathVariable("userId") String emailId){
@@ -109,8 +112,8 @@ public class UserController {
 			User updatedUserWithNewRole = userService.updateUserRoleByUserId(emailId);
 			return new ResponseEntity<>(updatedUserWithNewRole, HttpStatus.PARTIAL_CONTENT);
 		}catch (Exception e) {
-			throw new ControllerException(ErrorCodeMessages.USER_ROLE_UPDATE_UNSUCCESS_CODE,
-					ErrorCodeMessages.USER_ROLE_UPDATE_UNSUCCESS_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_UPDATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_ROLE_UPDATE_UNSUCCESS_MSG);
 		}
 		
 	}
@@ -119,19 +122,57 @@ public class UserController {
 	public ResponseEntity<?> getAllUser(){
 		
 		log.info("UserController.getAllUserDetails() is entered");
-		log.info("UserController.getAllUserDetails() is under execution");
 		try {
+			log.info("UserController.getAllUserDetails() is under execution");
 			List<User> userList = userService.getAllUsers();
 			log.info("UserController.getAllUserDetails() executed successfully");
 			return new ResponseEntity<>(userList,HttpStatus.OK);
 		}catch (Exception e) {
 			// TODO: handle exception
-			throw new ControllerException(ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
 		
 		
 		
 	}
 	
+	@GetMapping("/getUser/{emailId}")
+	public ResponseEntity<?> getSingleUserByEmailId(@PathVariable("emailId") String emailId){
+		log.info("UserController.getSingleUserByEmailId() entered with args - emailid "+emailId);
+		try {
+			log.info("UserController.getSingleUserByEmailId() is under execution...");
+			User userObject = userService.getUserDetailsByUsername(emailId);
+			log.info("UserController.getSingleUserByEmailId() executed successfully");
+			return new ResponseEntity<>(userObject,HttpStatus.OK);
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.info("UserController.getSingleUserByEmailId() exited with exception : Exception occured while fetching user.");
+			
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
+		}
+		
+	}
+	
+
+//	@PatchMapping("/updateRole/{userId}")
+//	public ResponseEntity<User> updateUserRole(@PathVariable("userId") String emailId){
+//		log.info("UserController.updateUserRole() entered with args - emailid/userid : "+emailId);
+//		if(emailId.equals("") || emailId == null) {
+//			log.info("UserController.updateUserRole()");
+//			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
+//					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
+//		}
+//		try {
+//			User updatedUserWithNewRole = userService.updateUserRoleByUserId(emailId);
+//			return new ResponseEntity<>(updatedUserWithNewRole, HttpStatus.PARTIAL_CONTENT);
+//		}catch (Exception e) {
+//			throw new ControllerException(ErrorCodeMessages.USER_ROLE_UPDATE_UNSUCCESS_CODE,
+//					ErrorCodeMessages.USER_ROLE_UPDATE_UNSUCCESS_MSG);
+//		}
+//		
+//	}
+
 }

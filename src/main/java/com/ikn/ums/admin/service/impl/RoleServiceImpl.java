@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikn.ums.admin.entity.Role;
+import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
@@ -63,9 +64,17 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public Role updateRole(Long roleId, Role updatedRole) {
-		return null;
-		//TODO: Implement
+	public Role updateRole(Role role) {
+		log.info("RoleServiceImpl.updateRole() entered with args - role");
+		if(role == null || role.equals(null)) {
+			log.info("RoleServiceImpl.updateRole() EntityNotFoundException : user object is null");
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE, 
+					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
+		}
+		log.info("RoleServiceImpl.updateRole() is under execution...");
+		Role updatedRole =  roleRepository.save(role);
+		log.info("RoleServiceImpl.updateRole() executed successfully.");
+		return updatedRole;
 	}
 
 	@Override

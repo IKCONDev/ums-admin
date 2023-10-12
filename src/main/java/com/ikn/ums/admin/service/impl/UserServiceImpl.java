@@ -210,8 +210,8 @@ public class UserServiceImpl implements UserService {
 		log.info("UsersServiceImpl.createUser() entered with args - user");
 		if(user == null || user.equals(null)) {
 			log.info("UsersServiceImpl.createUser() EntityNotFoundException : user object is null");
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_CODE, 
-					ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_CODE);
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE, 
+					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE);
 		}
 		log.info("UsersServiceImpl.createUser() is under execution...");
 		User savedUser =  userRepository.save(user);
@@ -225,8 +225,8 @@ public class UserServiceImpl implements UserService {
 		log.info("UsersServiceImpl.updateUser() entered with args - user");
 		if(user == null || user.equals(null)) {
 			log.info("UsersServiceImpl.updateUser() EntityNotFoundException : user object is null");
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_CODE, 
-					ErrorCodeMessages.ERR_ADMIN_ENTITY_IS_NULL_MSG);
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE, 
+					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
 		User dbUser = userRepository.findByEmail(emailId);
 		if(dbUser != null) {
