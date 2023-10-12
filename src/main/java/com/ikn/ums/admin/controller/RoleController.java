@@ -32,10 +32,24 @@ public class RoleController {
 	@Autowired
     private RoleService roleService;
 
-    @GetMapping
-    public List<Role> getAllRoles() {
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllRoles() {
     	log.info("RoleController.getAllRoles() ENTERED.");
-    	return roleService.getAllRoles();
+    	try {
+    		log.info("RoleController.getAllRoles() is under execution...");
+    		List<Role> rolesList = roleService.getAllRoles();
+    		log.info("RoleController.getAllRoles() executed successfully");
+    		return new ResponseEntity<>(rolesList,HttpStatus.OK);
+    	}catch (Exception e) {
+			// TODO: handle exception
+    		log.info("RoleController.getAllRoles() exited with exception : Exception occured fetching roles list." + e.getMessage());
+    		throw new ControllerException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
+    				ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_MSG);
+		}
+    	
+    	
+    	
+    	
     }
 
     @GetMapping("/{roleId}")
