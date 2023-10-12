@@ -214,6 +214,11 @@ public class UserServiceImpl implements UserService {
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE);
 		}
 		log.info("UsersServiceImpl.createUser() is under execution...");
+		String defaultEncryptedpassword = passwordEncoder.encode("Test@123");
+		user.setEncryptedPassword(defaultEncryptedpassword);
+		user.setActive(true);
+		user.setOtpCode(0);
+		user.setProfilePic(user.getProfilePic());
 		User savedUser =  userRepository.save(user);
 		log.info("UsersServiceImpl.createUser() executed successfully.");
 		return savedUser;
@@ -221,17 +226,16 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public User updateUser(String emailId, User user) {
+	public User updateUser(User user) {
 		log.info("UsersServiceImpl.updateUser() entered with args - user");
 		if(user == null || user.equals(null)) {
 			log.info("UsersServiceImpl.updateUser() EntityNotFoundException : user object is null");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
-		User dbUser = userRepository.findByEmail(emailId);
+		User dbUser = userRepository.findByEmail(user.getEmail());
 		if(dbUser != null) {
 			dbUser.setActive(user.isActive());
-			dbUser.setEmail(user.getEmail());
 			dbUser.setTwoFactorAuthentication(user.isTwoFactorAuthentication());
 			dbUser.setUserRoles(user.getUserRoles());
 		}

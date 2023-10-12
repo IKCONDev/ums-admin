@@ -54,8 +54,8 @@ public class UserController {
 	
 	
 
-	@PutMapping("/update/{userId}")
-	public ResponseEntity<?> updateUser(@PathVariable("userId") String emailId, @RequestBody User user) {
+	@PutMapping("/update")
+	public ResponseEntity<?> updateUser(@RequestBody User user) {
 		log.info("AdminController.updateUser() entered with args - user");
 		if(user == null || user.equals(null)) {
 			log.info("UserController.updateUser() EntityNotFoundException : User object is null ");
@@ -64,7 +64,7 @@ public class UserController {
 		}
 		try {
 			log.info("UserController.updateUser() is under execution...");
-			User savedUser = userService.updateUser(emailId,user);
+			User savedUser = userService.updateUser(user);
 			log.info("UserController.updateUser() executed successfully.");
 
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
