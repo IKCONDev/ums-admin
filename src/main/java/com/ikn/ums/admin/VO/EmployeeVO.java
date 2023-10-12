@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class EmployeeVO {
 
 	private Integer id;
+	private String employeeOrgId;
 	//required for batch processing of teams meetings
 	private String teamsUserId;
 	private String firstName;
