@@ -48,7 +48,7 @@ public class RoleController {
 		return role.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Role> createRole(@RequestBody Role role) {
     	log.info("RoleController.createRole() entered with args - role");
 		if(role == null || role.equals(null)) {
