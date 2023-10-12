@@ -1,5 +1,6 @@
 package com.ikn.ums.admin.entity;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,6 +48,27 @@ public class User{
 	
 	@Column(name = "isActive")
 	private boolean isActive;
+	
+	@Column(name = "createdDateTime")
+	private LocalDateTime createdDateTime;
+	
+	@Column(name = "modifiedDateTime")
+	private LocalDateTime modifiedDateTime;
+	
+	@Column(name = "createdBy")
+	private String createdBy;
+	
+	@Column(name = "modifiedBy")
+	private String modifiedBy;
+	
+	@Column(name = "createdByEmailId")
+	private String createdByEmailId;
+	
+	@Column(name = "modifiedByEmailId")
+	private String modifiedByEmailId;
 }
+
+
+
 
 

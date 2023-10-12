@@ -1,5 +1,7 @@
 package com.ikn.ums.admin.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,5 +61,23 @@ public class Organization {
 	
 	@Column(name = "defaultReplyEmailId", nullable = false, unique = true)
 	private String defaultReplyEmailId;
+	
+	@Column(name = "createdDateTime")
+	private LocalDateTime createdDateTime;
+	
+	@Column(name = "modifiedDateTime")
+	private LocalDateTime modifiedDateTime;
+	
+	@Column(name = "createdBy")
+	private String createdBy;
+	
+	@Column(name = "modifiedBy")
+	private String modifiedBy;
+	
+	@Column(name = "createdByEmailId")
+	private String createdByEmailId;
+	
+	@Column(name = "modifiedByEmailId")
+	private String modifiedByEmailId;
 
 }
