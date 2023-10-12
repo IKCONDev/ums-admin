@@ -221,15 +221,23 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public User updateUser(User user) {
+	public User updateUser(String emailId, User user) {
 		log.info("UsersServiceImpl.updateUser() entered with args - user");
 		if(user == null || user.equals(null)) {
 			log.info("UsersServiceImpl.updateUser() EntityNotFoundException : user object is null");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
+		User dbUser = userRepository.findByEmail(emailId);
+		if(dbUser != null) {
+			dbUser.setActive(user.isActive());
+			dbUser.setEmail(user.getEmail());
+			dbUser.setTwoFactorAuthentication(user.isTwoFactorAuthentication());
+			dbUser.setUserRoles(user.getUserRoles());
+		}
+		
 		log.info("UsersServiceImpl.updateUser() is under execution...");
-		User updatedUser =  userRepository.save(user);
+		User updatedUser =  userRepository.save(dbUser);
 		log.info("UsersServiceImpl.updateUser() executed successfully.");
 		return updatedUser;
 	}
@@ -270,4 +278,14 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	public List<User> getAllUsers() {
+		// TODO Auto-generated method stub
+		log.info("UserServiceImpl.getAllUsers() is entered");
+		log.info("UserServiceImpl.getAllUsers() is under execution");
+	    List<User> userList = userRepository.findAll();
+	    log.info("UserServiceImpl.getAllUsers() executed successfully");
+		return userList;
+	}
+    
 }

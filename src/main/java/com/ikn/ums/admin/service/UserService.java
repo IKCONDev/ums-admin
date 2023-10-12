@@ -22,8 +22,9 @@ public interface UserService extends UserDetailsService {
 	
 	//Admin Operations on user
 	User saveUser(User user);
-	User updateUser(User user);
+	User updateUser(String emailId,User user);
 	void deleteUserByUserId(String emailId);
+	List<User> getAllUsers();
 	
 	//admin operation on user roles
 	User updateUserRoleByUserId(String emailId);
