@@ -26,40 +26,43 @@ public class Organization {
 	@Column(name = "orgId")
 	private Integer orgId;
 	
-	@Column(name = "orgName", nullable = false, unique = true)
+	@Column(name = "orgName", nullable = true, unique = true)
 	private String orgName;
 	
-	@Column(name = "orgEmailId", nullable = false, unique = true)
+	@Column(name = "orgEmailId", nullable = true, unique = true)
 	private String orgEmailId;
 	
-	@Column(name = "orgContact", nullable = false, unique = true)
+	@Column(name = "orgContact", nullable = true, unique = true)
 	private String orgContact;
 	
-	@Column(name = "orgContactPerson", nullable = false, unique = true)
+	@Column(name = "orgContactPerson", nullable = true, unique = true)
 	private String orgContactPerson;
 	
-	@Column(name = "orgContactPersonEmail", nullable = false, unique = true)
+	@Column(name = "orgContactPersonEmail", nullable = true, unique = true)
 	private String orgContactPersonEmail;
 	
-	@Column(name = "orgFunctionalType", nullable = false)
+	@Column(name = "orgFunctionalType", nullable = true)
 	private String orgFunctionalType;
 	
-	@Column(name = "orgLogo", nullable = false)
+	@Column(name = "orgLogo", nullable = true)
 	private byte[] orgLogo;
 	
-	@Column(name = "orgCountry", nullable = false)
+	@Column(name = "orgWebsite", nullable = true)
+	private String orgWebsite;
+	
+	@Column(name = "orgCountry", nullable = true)
 	private String orgCountry;
 	
-	@Column(name = "orgTimeZone", nullable = false)
+	@Column(name = "orgTimeZone", nullable = true)
 	private String orgTimeZone;
 	
-	@Column(name = "orgAddress", nullable = false)
+	@Column(name = "orgAddress", nullable = true)
 	private String orgAddress;
 	
-	@Column(name = "orgSuperAdminEmailId", nullable = false, unique = true)
+	@Column(name = "orgSuperAdminEmailId", nullable = true, unique = true)
 	private String orgSuperAdminEmailId;
 	
-	@Column(name = "defaultReplyEmailId", nullable = false, unique = true)
+	@Column(name = "defaultReplyEmailId", nullable = true, unique = true)
 	private String defaultReplyEmailId;
 	
 	@Column(name = "createdDateTime")

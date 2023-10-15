@@ -11,9 +11,9 @@ import com.ikn.ums.admin.entity.Organization;
 public interface OrgService {
 
     public List<Organization> getAllOrgs();
-    public Optional<Organization> getOrgById(Integer orgId);
+    public Organization getOrgById(Integer orgId);
     public Organization createOrg(Organization org) ;
-    public Organization updateOrg(Integer orgId, Organization updatedOrg);	       
-    public void deleteOrg(Integer id) ;
+    public Organization updateOrg(Organization updatedOrg);	       
+    public void deleteOrgById(Integer id) ;
 
 }

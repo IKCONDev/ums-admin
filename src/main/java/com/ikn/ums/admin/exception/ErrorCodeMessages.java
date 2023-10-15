@@ -137,6 +137,10 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ORG_DELETE_UNSUCCESS_CODE = "ORG_DELETE_UNSUCCESS_CODE-1040";
 	 public static final String ERR_ORG_DELETE_UNSUCCESS_MSG = "Exception Occured while deleting Organization."; 
 	 
+	 public static final String ERR_ORG_GET_UNSUCCESS_CODE = "ERR_ORG_GET_UNSUCCESS_CODE-1041";
+	 public static final String ERR_ORG_GET_UNSUCCESS_MSG = "Exception Occured while getting Organization details."; 
+	 
+	 
 	 
 	 //ORGANIZATION MODULE ERROR CODES
 }
