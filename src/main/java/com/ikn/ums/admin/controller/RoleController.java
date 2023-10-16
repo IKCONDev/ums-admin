@@ -126,4 +126,30 @@ public class RoleController {
 			throw umsCE;
 		}
     }
+    
+    @DeleteMapping("/all/{ids}")
+    public ResponseEntity<?> deleteSelectedRoles(@PathVariable List<Long> ids) {
+    	
+    	boolean isDeleted = false;
+		log.info("RoleController.deleteSelectedRoles() entered with args - ids : " );
+		if(ids.equals(null) || ids == null || ids.size() < 1 ) {
+			log.info("RoleController.deleteSelectedRoles() EmptyInputException : role Id is empty");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
+		}
+		try {
+			log.info("RoleController.deleteSelectedRoles() is under execution...");
+			roleService.deleteRolesbyIds(ids);
+ 			isDeleted = true;
+			log.info("RoleController.deleteSelectedRoles() executed successfully");
+			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+		}catch (Exception e) {
+			log.info("RoleController.deleteSelectedRoles() exited with exception : Exception occured while deleting role.");
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_CODE,
+			ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_MSG);
+			throw umsCE;
+		}
+    }
+    
+    
 }

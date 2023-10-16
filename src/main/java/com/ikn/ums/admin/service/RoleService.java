@@ -12,4 +12,5 @@ public interface RoleService {
     public Role createRole(Role role) ;
     public Role updateRole(Role role);	       
     public void deleteRole(Long id) ;
+    public void deleteRolesbyIds(List<Long> ids);
 }

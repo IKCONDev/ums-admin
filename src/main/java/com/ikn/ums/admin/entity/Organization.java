@@ -26,21 +26,27 @@ public class Organization {
 	@Column(name = "orgId")
 	private Integer orgId;
 	
+	//org details
 	@Column(name = "orgName", nullable = true, unique = true)
 	private String orgName;
+	
+	@Column(name = "orgContactNumber", nullable = true, unique = true)
+	private String orgContactNumber;
 	
 	@Column(name = "orgEmailId", nullable = true, unique = true)
 	private String orgEmailId;
 	
-	@Column(name = "orgContact", nullable = true, unique = true)
-	private String orgContact;
+	//org contact person details
+	@Column(name = "orgContactPersonName", nullable = true)
+	private String orgContactPersonName;
 	
-	@Column(name = "orgContactPerson", nullable = true, unique = true)
-	private String orgContactPerson;
+	@Column(name = "orgContactPersonNumber", nullable = true, unique = true)
+	private String orgContactPersonNumber;
 	
 	@Column(name = "orgContactPersonEmail", nullable = true, unique = true)
 	private String orgContactPersonEmail;
 	
+	//
 	@Column(name = "orgFunctionalType", nullable = true)
 	private String orgFunctionalType;
 	
@@ -65,6 +71,8 @@ public class Organization {
 	@Column(name = "defaultReplyEmailId", nullable = true, unique = true)
 	private String defaultReplyEmailId;
 	
+	
+	//other properties
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;
 	

@@ -102,4 +102,13 @@ public class RoleServiceImpl implements RoleService {
 		roleRepository.deleteById(roleId);
 	}
 
+	@Transactional
+	@Override
+	public void deleteRolesbyIds(List<Long> ids) {
+		List<Role> roleList = roleRepository.findAllById(ids);
+		if(roleList.size() > 0) {
+			roleRepository.deleteAll(roleList);
+		}
+	}
+
 }
