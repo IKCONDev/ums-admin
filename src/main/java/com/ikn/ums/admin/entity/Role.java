@@ -19,7 +19,7 @@ public class Role {
 	@Id
 	@Column(name = "role_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer roleId;
+	private Long roleId;
 	
 	@Column(name = "roleName", nullable = false)
 	private String roleName;
@@ -27,7 +27,7 @@ public class Role {
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;
 	
-	@Column(name = "modifiedDateTime")
+	@Column(name = "modifiedDateTime", nullable = true)
 	private LocalDateTime modifiedDateTime;
 	
 	@Column(name = "createdBy")
@@ -39,6 +39,6 @@ public class Role {
 	@Column(name = "createdByEmailId")
 	private String createdByEmailId;
 	
-	@Column(name = "modifiedByEmailId")
+	@Column(name = "modifiedByEmailId", nullable = true)
 	private String modifiedByEmailId;
 }

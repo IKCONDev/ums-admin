@@ -1,8 +1,12 @@
 package com.ikn.ums.admin.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
+    
+    @Autowired
+    private ModelMapper mapper;
     
 	@Override
 	public List<Role> getAllRoles() {
@@ -63,6 +70,7 @@ public class RoleServiceImpl implements RoleService {
 		return savedRole;
 	}
 
+	@Transactional
 	@Override
 	public Role updateRole(Role role) {
 		log.info("RoleServiceImpl.updateRole() entered with args - role");
@@ -71,8 +79,16 @@ public class RoleServiceImpl implements RoleService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		}
+		Optional<Role> optRole = roleRepository.findById(role.getRoleId());
+		Role dbRole = null;
+		if(optRole.isPresent()) {
+			dbRole = optRole.get();
+		}
+		//set modified date time
+		role.setModifiedDateTime(LocalDateTime.now());
+		mapper.map(role, dbRole);
 		log.info("RoleServiceImpl.updateRole() is under execution...");
-		Role updatedRole =  roleRepository.save(role);
+		Role updatedRole =  roleRepository.save(dbRole);
 		log.info("RoleServiceImpl.updateRole() executed successfully.");
 		return updatedRole;
 	}
