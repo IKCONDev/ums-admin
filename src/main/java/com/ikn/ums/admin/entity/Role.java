@@ -28,7 +28,7 @@ public class Role {
 	private LocalDateTime createdDateTime;
 	
 	@Column(name = "modifiedDateTime", nullable = true)
-	private LocalDateTime modifiedDateTime;
+	private LocalDateTime modifiedDateTime = LocalDateTime.now();
 	
 	@Column(name = "createdBy")
 	private String createdBy;

@@ -26,7 +26,9 @@ import com.ikn.ums.admin.service.UserService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private UserService service;
@@ -60,22 +62,22 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		String userName = ((User) authResult.getPrincipal()).getUsername();
-		System.out.println("UserAuthenticationFilter.successfulAuthentication()" +userName);
+		log.info("UserAuthenticationFilter.successfulAuthentication()" +userName);
 		//get employee and their department details
 		UserVO loadedUser = service.getUserProfile(userName);
-		System.out.println("UserAuthenticationFilter.successfulAuthentication() "+loadedUser);
+		log.info("UserAuthenticationFilter.successfulAuthentication() "+loadedUser);
 
 		String webToken = Jwts.builder().setSubject(loadedUser.getEmail())
 				.setExpiration(new Date(
 						System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
 				.signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret"))
-				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles()).compact();
+				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().toString()).compact();
 
 		String refreshToken = Jwts.builder().setSubject(loadedUser.getEmail())
 				.setExpiration(new Date(
 						System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
 				.signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret"))
-				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles()).compact();
+				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().toString()).compact();
 		response.addHeader("token", webToken);
 		response.addHeader("refreshToken", refreshToken);
 		System.out.println(webToken);
