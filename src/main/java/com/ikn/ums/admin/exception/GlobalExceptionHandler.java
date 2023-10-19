@@ -85,14 +85,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(ControllerException.class)
 	public ResponseEntity<String> handleControllerException(ControllerException controllerException) {
 		log.info("GlobalExceptionHandler.handleControllerException() ENTERED");
-		log.info("Controller Exception Occurred" + controllerException.getMessage());
+		log.info("Controller Exception Occurred " + controllerException.getMessage());
 		return new ResponseEntity<String>("Controller Exception.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED" + ex.getMessage());
+		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED " + ex.getMessage());
 		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.NOT_FOUND);
 	}
 

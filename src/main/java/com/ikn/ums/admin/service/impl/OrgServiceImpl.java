@@ -31,12 +31,7 @@ public class OrgServiceImpl implements OrgService {
 	public List<Organization> getAllOrgs() {
 		log.info("OrgServiceImpl.getAllOrgs() ENTERED.");
 		List<Organization> orgsList = null;
-		
 		orgsList = orgRepository.findAll();
-		
-		if ( orgsList == null || orgsList.isEmpty())
-			throw new EmptyListException(ErrorCodeMessages.ERR_ORG_LIST_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_ORG_LIST_IS_EMPTY_MSG);
 		return orgsList;
 	}
 
