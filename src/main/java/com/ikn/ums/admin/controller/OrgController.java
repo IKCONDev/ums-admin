@@ -1,5 +1,7 @@
 package com.ikn.ums.admin.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -105,8 +107,12 @@ public class OrgController {
 		}
 		try {
 			log.info("OrgController.getOrg() is under execution...");
-			Organization org = orgService.getOrgById(orgId);
-			if(org == null || org.equals(null)) {
+			List<Organization> orgList = orgService.getAllOrgs();
+			Organization org = null;
+			if(orgList.size() == 1) {
+				 org = orgList.get(0);
+			}
+			if(org == null || org.equals(null)) {;
 				//return an empty org if no org is present in DB for handling null.
 				return new ResponseEntity<>(new Organization(), HttpStatus.OK);
 			}

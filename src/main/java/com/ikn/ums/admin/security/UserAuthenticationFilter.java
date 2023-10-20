@@ -87,6 +87,8 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		response.addHeader("lastName", loadedUser.getEmployee().getLastName());
 		response.addHeader("email", loadedUser.getEmail());
 		response.addHeader("twoFactorAuth", Boolean.toString(loadedUser.isTwoFactorAuthentication()));
+		response.addHeader("jwtExpiry", new Date(
+				System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))).toString());
 		//response.addHeader("department", loadedUser.getDepartment());
 		//response.addHeader("Access-Control-Allow-Origin", "*");
 		Map<String, String> tokenData = new HashMap<String, String>();

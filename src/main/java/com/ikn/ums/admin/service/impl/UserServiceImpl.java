@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 			for (int i = 0; i < r.nextInt(999999); i++) {
 				System.out.println("executed " + i);
 				otp = r.nextInt(999999);
-				if (otp > 000000 && otp < 999999) {
+				if (otp > 100000 && otp < 999999) {
 					userRepository.saveOtp(userName, otp);
 					String textBody = "Hi, "+ text + otp + "\r\n" + "\r\n" + ""
 							+ "Please dont share it with anyone" + "\r\n" + "\r\n" + "\r\n" + "\r\n" + ""

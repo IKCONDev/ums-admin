@@ -31,5 +31,5 @@ spring:
             enable: true
     username: vaishnavdev05@gmail.com
 token:
-  expiration_time: 864000000
+  expiration_time: 864000
   secret: hgsd75767sdj87sd708bjh65
