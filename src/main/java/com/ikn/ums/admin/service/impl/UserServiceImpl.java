@@ -135,9 +135,30 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public Integer updatePasswordforUser(String email, CharSequence newRawPassword) {
-		String encodedPassword = passwordEncoder.encode(newRawPassword);
-		int updateStatus = userRepository.updatePassword(email, encodedPassword);
-		return updateStatus;
+	    User user = userRepository.findByEmail(email);
+	 
+	    if (user == null) {
+	        return 0; // User is not found
+	    }
+	    if (passwordEncoder.matches(newRawPassword, user.getEncryptedPassword())) {
+	        return 0; // New password matching  the current password
+	    }
+	    // Checking against the previous two passwords
+	    if (user.getPreviousPassword1() != null && passwordEncoder.matches(newRawPassword, user.getPreviousPassword1())) {
+	        return 0; // New password matching the previous password
+	    }
+	    if (user.getPreviousPassword2() != null && passwordEncoder.matches(newRawPassword, user.getPreviousPassword2())) {
+	        return 0; // New password matching the second previous password
+	    }
+	    // Updating the previous password fields
+	    user.setPreviousPassword2(user.getPreviousPassword1());
+	    user.setPreviousPassword1(user.getEncryptedPassword());
+	    // Encode and set the new password
+	    String newEncodedPassword = passwordEncoder.encode(newRawPassword);
+	    user.setEncryptedPassword(newEncodedPassword);
+	 
+	    int updateStatus = userRepository.updatePassword(email, newEncodedPassword);
+	    return updateStatus;
 	}
 
 	@Override

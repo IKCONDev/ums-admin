@@ -30,6 +30,15 @@ spring:
           starttls:
             enable: true
     username: vaishnavdev05@gmail.com
+  servlet:
+      multipart:
+        max-file-size: 10MB
+        max-request-size: 10MB
 token:
   expiration_time: 864000
   secret: hgsd75767sdj87sd708bjh65
+
+
+  
+
+

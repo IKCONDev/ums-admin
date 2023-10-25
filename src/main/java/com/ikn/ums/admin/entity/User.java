@@ -28,6 +28,15 @@ public class User{
 	@Column(name = "encrypted_password", nullable = false, unique = false)
 	private String encryptedPassword;
 	
+	@Column(name="previousPassword1",nullable=true,unique=true)
+	private String previousPassword1;
+	
+	@Column(name="previousPassword2",nullable=true,unique=true)
+	private String previousPassword2;
+
+	@Column(name="previousPassword",nullable=true,unique=true)
+	private String previousPassword;
+	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(
 				name = "user_role_tab",
@@ -43,7 +52,7 @@ public class User{
 	private boolean twoFactorAuthentication;	
 	
 	
-	@Column(name ="profile_pic",nullable=true,length = 100000)
+	@Column(name ="profile_pic",nullable=true)
 	private byte[] profilePic;
 	
 	@Column(name = "isActive")
