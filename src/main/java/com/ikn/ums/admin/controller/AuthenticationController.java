@@ -25,6 +25,7 @@ import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyOTPException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
+import com.ikn.ums.admin.exception.ImageNotFoundException;
 import com.ikn.ums.admin.model.UpdatePasswordRequestModel;
 import com.ikn.ums.admin.model.UserProfilePicDetailsRequestModel;
 import com.ikn.ums.admin.model.ValidateOtpRequestModel;
@@ -144,18 +145,27 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/profile-pic")
-	public ResponseEntity<?> updateUserProfilePicture(@RequestParam("email") String userEmailId,
-			@RequestParam("profilePic") MultipartFile profilePicImage) throws IOException {
-
-		try {
-			User dbUser = userService.getUserDetailsByUsername(userEmailId);
-			dbUser.setProfilePic(profilePicImage.getBytes());
-			User updatedUser = userService.updateUserProfilePic(dbUser);
-			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		public ResponseEntity<?> updateUserProfilePicture(@RequestParam("email") String userEmailId,
+				@RequestParam("profilePic") MultipartFile profilePicImage) throws ImageNotFoundException {
+				String contentType=profilePicImage.getContentType();
+				if(!contentType.startsWith("image/")) {
+					throw new ImageNotFoundException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
+							ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
+				 }
+			try {	
+				User updatedUser = null;
+				if(contentType.startsWith("image/")) {
+				User dbUser = userService.getUserDetailsByUsername(userEmailId);
+				dbUser.setProfilePic(profilePicImage.getBytes());
+				updatedUser = userService.updateUserProfilePic(dbUser);	
+				}
+				return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+			}catch (Exception e) {
+					//return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				throw new ControllerException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
+						ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
+			}	
 		}
-	}
 	
 	@GetMapping("/getEmail-list")
 	public ResponseEntity<?> getActiveUsersEmailIdList(){

@@ -76,6 +76,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("Business Exception Occurred." + businessException.getMessage());
 		return new ResponseEntity<String>("Business Exception.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	
+	@ExceptionHandler(ImageNotFoundException.class)
+	public ResponseEntity<String> handleImageNotFound(ImageNotFoundException imageNotFoundException) {
+		log.info("GlobalExceptionHandler.handleImageNotFoundException() ENTERED");
+		log.info("Not a Valid Image Exception Occurred." + imageNotFoundException.getMessage());
+		return new ResponseEntity<String>("Not a Image Exception", HttpStatus.NO_CONTENT);
+	}
+
 
 	/**
 	 * Handling the Controller Exceptions global to reduce boiler plate code
