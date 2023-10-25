@@ -16,6 +16,7 @@ public class EmployeeVO {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String reportingManager;
 //	private String encryptedPassword;
 //	private String userRole;
 	//private String department;
