@@ -64,7 +64,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		String userName = ((User) authResult.getPrincipal()).getUsername();
 		log.info("UserAuthenticationFilter.successfulAuthentication()" +userName);
 		//get employee and their department details
-		UserVO loadedUser = service.getUserProfile(userName);
+		UserVO loadedUser = service.getUser(userName);
 		log.info("UserAuthenticationFilter.successfulAuthentication() "+loadedUser);
 
 		String webToken = Jwts.builder().setSubject(loadedUser.getEmail())
@@ -83,8 +83,8 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		System.out.println(webToken);
 		//response.addHeader("userId", loadedUser.getId().toString());
 		response.addHeader("userRole", loadedUser.getUserRoles().toString());
-		response.addHeader("firstName", loadedUser.getEmployee().getFirstName());
-		response.addHeader("lastName", loadedUser.getEmployee().getLastName());
+		//response.addHeader("firstName", loadedUser.getEmployee().getFirstName());
+		//response.addHeader("lastName", loadedUser.getEmployee().getLastName());
 		response.addHeader("email", loadedUser.getEmail());
 		response.addHeader("twoFactorAuth", Boolean.toString(loadedUser.isTwoFactorAuthentication()));
 		response.addHeader("jwtExpiry", new Date(

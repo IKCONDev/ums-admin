@@ -15,6 +15,7 @@ public interface UserService extends UserDetailsService {
 	Integer updatePasswordforUser(String email, CharSequence newRawPassword);
 	Integer validateEmailAddress(String email);
 	Integer updateUserTwoFactorAuthStatus(String email, boolean isOn);
+	UserVO getUser(String username);
 	UserVO getUserProfile(String username);
 	User updateProfilePicByEmail(String email);
 	User updateUserProfilePic(User userDetails);

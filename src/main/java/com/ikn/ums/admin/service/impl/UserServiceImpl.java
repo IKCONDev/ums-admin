@@ -135,9 +135,30 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public Integer updatePasswordforUser(String email, CharSequence newRawPassword) {
-		String encodedPassword = passwordEncoder.encode(newRawPassword);
-		int updateStatus = userRepository.updatePassword(email, encodedPassword);
-		return updateStatus;
+	    User user = userRepository.findByEmail(email);
+	 
+	    if (user == null) {
+	        return 0; // User is not found
+	    }
+	    if (passwordEncoder.matches(newRawPassword, user.getEncryptedPassword())) {
+	        return 0; // New password matching  the current password
+	    }
+	    // Checking against the previous two passwords
+	    if (user.getPreviousPassword1() != null && passwordEncoder.matches(newRawPassword, user.getPreviousPassword1())) {
+	        return 0; // New password matching the previous password
+	    }
+	    if (user.getPreviousPassword2() != null && passwordEncoder.matches(newRawPassword, user.getPreviousPassword2())) {
+	        return 0; // New password matching the second previous password
+	    }
+	    // Updating the previous password fields
+	    user.setPreviousPassword2(user.getPreviousPassword1());
+	    user.setPreviousPassword1(user.getEncryptedPassword());
+	    // Encode and set the new password
+	    String newEncodedPassword = passwordEncoder.encode(newRawPassword);
+	    user.setEncryptedPassword(newEncodedPassword);
+	 
+	    int updateStatus = userRepository.updatePassword(email, newEncodedPassword);
+	    return updateStatus;
 	}
 
 	@Override
@@ -153,7 +174,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserVO getUserProfile(String emailId) {
+	public UserVO getUser(String emailId) {
 		 log.info("UsersServiceImpl.getUserProfile() entered with args - emailId : "+emailId);
 		if(emailId.equals("") || emailId == null || emailId.equals(null)) {
 			log.info("UsersServiceImpl.getUserProfile() EmptyInputException : empty/null userid/emailid");
@@ -163,6 +184,7 @@ public class UserServiceImpl implements UserService {
 		log.info("UsersServiceImpl.getUserProfile() is under execution...");
 		//get user details
 		User dbLoggedInUser = getUserDetailsByUsername(emailId);
+		/*
 		// communicate with Employee microservice and get the employee object
 		ResponseEntity<EmployeeVO> response = restTemplate
 				.getForEntity("http://UMS-EMPLOYEE-SERVICE/employees/" + emailId, EmployeeVO.class);
@@ -170,13 +192,14 @@ public class UserServiceImpl implements UserService {
 		EmployeeVO employeeDetails = response.getBody();
 		if (employeeDetails == null)
 			throw new UsernameNotFoundException("User with " + emailId + " does not exist");
+		*/
 		UserVO user = new UserVO();
 		user.setEmail(dbLoggedInUser.getEmail());
 		user.setUserRoles(dbLoggedInUser.getUserRoles());
 		user.setEncryptedPassword(dbLoggedInUser.getEncryptedPassword());
 		user.setTwoFactorAuthentication(dbLoggedInUser.isTwoFactorAuthentication());
 		user.setUserRoles(dbLoggedInUser.getUserRoles());
-		user.setEmployee(employeeDetails);
+		//user.setEmployee(employeeDetails);
 		user.setProfilePic(dbLoggedInUser.getProfilePic());
 		user.setActive(dbLoggedInUser.isActive());
 		log.info("UsersServiceImpl.getUserProfile() executed successfully");
@@ -290,6 +313,37 @@ public class UserServiceImpl implements UserService {
 	    List<User> userList = userRepository.findAll();
 	    log.info("UserServiceImpl.getAllUsers() executed successfully");
 		return userList;
+	}
+
+	@Override
+	public UserVO getUserProfile(String username) {
+		 log.info("UsersServiceImpl.getUserProfile() entered with args - emailId : "+username);
+			if(username.equals("") || username == null || username.equals(null)) {
+				log.info("UsersServiceImpl.getUserProfile() EmptyInputException : empty/null userid/emailid");
+				throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
+						ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
+			}
+			log.info("UsersServiceImpl.getUserProfile() is under execution...");
+			//get user details
+			User dbLoggedInUser = getUserDetailsByUsername(username);
+			// communicate with Employee microservice and get the employee object
+			ResponseEntity<EmployeeVO> response = restTemplate
+					.getForEntity("http://UMS-EMPLOYEE-SERVICE/employees/" + username, EmployeeVO.class);
+			log.info("UsersServiceImpl.getUserProfile() : call to employee microservice successful");
+			EmployeeVO employeeDetails = response.getBody();
+			if (employeeDetails == null)
+				throw new UsernameNotFoundException("Employee with " + username + " does not exist");
+			UserVO user = new UserVO();
+			user.setEmail(dbLoggedInUser.getEmail());
+			user.setUserRoles(dbLoggedInUser.getUserRoles());
+			user.setEncryptedPassword(dbLoggedInUser.getEncryptedPassword());
+			user.setTwoFactorAuthentication(dbLoggedInUser.isTwoFactorAuthentication());
+			user.setUserRoles(dbLoggedInUser.getUserRoles());
+			user.setEmployee(employeeDetails);
+			user.setProfilePic(dbLoggedInUser.getProfilePic());
+			user.setActive(dbLoggedInUser.isActive());
+			log.info("UsersServiceImpl.getUserProfile() executed successfully");
+			return user;
 	}
     
 }
