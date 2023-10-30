@@ -104,5 +104,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED " + ex.getMessage());
 		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.NOT_FOUND);
 	}
+	
+	/*
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException unfe) {
+		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED " + unfe.getMessage());
+		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.NOT_ACCEPTABLE);
+	}
+	*/
+	
+	@ExceptionHandler(UserInactiveException.class)
+	public ResponseEntity<Object> handleUserInactiveException(UserInactiveException uiae) {
+		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED " + uiae.getMessage());
+		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.FORBIDDEN);
+	}
 
 }

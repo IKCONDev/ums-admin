@@ -66,6 +66,7 @@ public class RoleServiceImpl implements RoleService {
 		if (role == null) 
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
+		role.setCreatedDateTime(LocalDateTime.now());
 		Role savedRole = roleRepository.save(role);
 		return savedRole;
 	}
