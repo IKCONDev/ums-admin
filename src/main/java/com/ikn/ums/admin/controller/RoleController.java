@@ -20,7 +20,6 @@ import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
-import com.ikn.ums.admin.exception.RoleNameExistsException;
 import com.ikn.ums.admin.service.RoleService;
 
 import lombok.extern.slf4j.Slf4j;

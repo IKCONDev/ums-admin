@@ -86,9 +86,6 @@ public class RoleServiceImpl implements RoleService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		}
-		if (!isRoleNameExists(role)) 
-			throw new RoleNameExistsException(ErrorCodeMessages.ERR_ROLE_NAME_EXISTS_CODE,
-					ErrorCodeMessages.ERR_ROLE_NAME_EXISTS_MSG);
 		
 		Optional<Role> optRole = roleRepository.findById(role.getRoleId());
 		Role dbRole = null;
@@ -141,7 +138,8 @@ public class RoleServiceImpl implements RoleService {
 		} else {
 			log.info("RoleServiceImpl  : Role Id : " + role.getRoleId() + " Role Name : " + role.getRoleName());
 			Optional<Role> optRole = roleRepository.findByRoleName( role.getRoleName() );
-			isRoleNameExists = optRole.get().getRoleName().equalsIgnoreCase(role.getRoleName());
+		//	isRoleNameExists = optRole.get().getRoleName().equalsIgnoreCase(role.getRoleName());
+			isRoleNameExists = optRole.isPresent();
 			log.info("RoleServiceImpl  : isRoleNameExists : " + isRoleNameExists);
 		}
 		return isRoleNameExists;
