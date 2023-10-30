@@ -1,12 +1,11 @@
 package com.ikn.ums.admin.exception;
 
-public class UserInactiveException extends RuntimeException {
-	
+public class RoleNameExistsException extends RuntimeException{
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	private String errorCode;
 	private String errorMessage;
 	
@@ -29,12 +28,11 @@ public class UserInactiveException extends RuntimeException {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	public UserInactiveException(String errorCode, String errorMessage) {
+	
+	public RoleNameExistsException(String errorCode, String errorMessage) {
+		//super();
 		super(errorMessage , new Throwable(errorCode) );
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
-
-
 }

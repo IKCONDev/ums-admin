@@ -46,8 +46,7 @@ public class UserController {
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 		} catch (Exception e) {
 			log.info("UserController.createUser() exited with exception : Exception occured while saving user.");
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_CODE,
-					ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_MSG);
+			ControllerException umsCE = new ControllerException(e.getCause().toString() , e.getMessage());
 			throw umsCE;
 		}
 	}

@@ -11,13 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikn.ums.admin.entity.Role;
-import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
+import com.ikn.ums.admin.exception.RoleNameExistsException;
 import com.ikn.ums.admin.repository.RoleRepository;
 import com.ikn.ums.admin.service.RoleService;
+import com.ikn.ums.admin.utils.AdminConstants;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,12 +34,13 @@ public class RoleServiceImpl implements RoleService {
     
 	@Override
 	public List<Role> getAllRoles() {
-		log.info("RoleServiceImpl.getAllRoles() ENTERED.");
+		log.info(" getAllRoles() ENTERED.");
 		List<Role> rolesList = null;
-		rolesList = roleRepository.findAll();
-		if ( rolesList == null || rolesList.isEmpty())
+		rolesList = roleRepository.findAllRoles( AdminConstants.STATUS_ACTIVE );
+		if ( rolesList == null || rolesList.isEmpty() || rolesList.size() == 0 )
 			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_ALREADY_EXISTS_MSG);
+		log.info("getAllRoles() : Roles Count : " + rolesList.size());
 		return rolesList;
 	}
 
@@ -66,7 +68,11 @@ public class RoleServiceImpl implements RoleService {
 		if (role == null) 
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
+		if (isRoleNameExists(role)) 
+			throw new RoleNameExistsException(ErrorCodeMessages.ERR_ROLE_NAME_EXISTS_CODE,
+					ErrorCodeMessages.ERR_ROLE_NAME_EXISTS_MSG);
 		role.setCreatedDateTime(LocalDateTime.now());
+		role.setRoleStatus(AdminConstants.STATUS_ACTIVE);
 		Role savedRole = roleRepository.save(role);
 		return savedRole;
 	}
@@ -80,6 +86,10 @@ public class RoleServiceImpl implements RoleService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		}
+		if (isRoleNameExists(role)) 
+			throw new RoleNameExistsException(ErrorCodeMessages.ERR_ROLE_NAME_EXISTS_CODE,
+					ErrorCodeMessages.ERR_ROLE_NAME_EXISTS_MSG);
+		
 		Optional<Role> optRole = roleRepository.findById(role.getRoleId());
 		Role dbRole = null;
 		if(optRole.isPresent()) {
@@ -100,7 +110,16 @@ public class RoleServiceImpl implements RoleService {
 		if (roleId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
-		roleRepository.deleteById(roleId);
+		//retrieve the role details
+		Optional<Role> optRole = roleRepository.findById(roleId);
+		
+		if ( !optRole.isPresent() || optRole == null ) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
+		} else {
+			optRole.get().setRoleStatus(AdminConstants.STATUS_IN_ACTIVE);
+			updateRole(optRole.get());
+		}
 	}
 
 	@Transactional
@@ -112,4 +131,20 @@ public class RoleServiceImpl implements RoleService {
 		}
 	}
 
+	public boolean isRoleNameExists(Role role) {
+		log.info("RoleServiceImpl.isRoleExists() ENTERED : role : " );
+		boolean isRoleNameExists = false;
+		
+		if (role == null) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
+		} else {
+			log.info("RoleServiceImpl  : Role Id : " + role.getRoleId() + " Role Name : " + role.getRoleName());
+			Optional<Role> optRole = roleRepository.findByRoleName( role.getRoleName() );
+			isRoleNameExists = optRole.get().getRoleName().equalsIgnoreCase(role.getRoleName());
+			log.info("RoleServiceImpl  : isRoleNameExists : " + isRoleNameExists);
+		}
+		return isRoleNameExists;
+	}
+	
 }
