@@ -141,7 +141,13 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ORG_GET_UNSUCCESS_MSG = "Exception Occured while getting Organization details."; 
 	 
 	 public static final String ERR_USER_IMAGE_NOT_VALID_CODE = "IMAGE-IS-NOT-VALID-1042";
-	 public static final String ERR_USER_IMAGE_NOT_VALID_MSG = "THIS IS NOT A VALID IMAGE FILE"; 
+	 public static final String ERR_USER_IMAGE_NOT_VALID_MSG = "THIS IS NOT A VALID IMAGE FILE";
+	 
+	 public static final String ERR_USER_NOT_FOUND_CODE = "ERR_USER_NOT_FOUND_CODE-1043";
+	 public static final String ERR_USER_NOT_FOUND_MSG = "User does not exists to Login";
+	 
+	 public static final String ERR_USER_INACTIVE_CODE = "ERR_USER_INACTIVE_CODE-1043";
+	 public static final String ERR_USER_INACTIVE_MSG = "User is inactive - Cannot Login";
 	 
 	 
 	 //ORGANIZATION MODULE ERROR CODES

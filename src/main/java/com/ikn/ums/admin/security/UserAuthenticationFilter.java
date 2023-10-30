@@ -21,6 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ikn.ums.admin.VO.UserVO;
+import com.ikn.ums.admin.exception.ErrorCodeMessages;
+import com.ikn.ums.admin.exception.UserInactiveException;
+import com.ikn.ums.admin.exception.UserNotFoundException;
 import com.ikn.ums.admin.model.UserLoginRequestModel;
 import com.ikn.ums.admin.service.UserService;
 
@@ -48,7 +51,14 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		try {
 			UserLoginRequestModel creds = new ObjectMapper().readValue(request.getInputStream(),
 					UserLoginRequestModel.class);
-
+			UserVO loadedUser = service.getUser(creds.getEmail());
+			if(loadedUser != null) {
+				boolean isActive = loadedUser.isActive();
+				if(!isActive) {
+					throw new UserInactiveException(ErrorCodeMessages.ERR_USER_INACTIVE_CODE,
+							ErrorCodeMessages.ERR_USER_INACTIVE_MSG);
+				}
+			}
 			return getAuthenticationManager().authenticate(
 					new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));
 		} // try
@@ -66,7 +76,12 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		//get employee and their department details
 		UserVO loadedUser = service.getUser(userName);
 		log.info("UserAuthenticationFilter.successfulAuthentication() "+loadedUser);
-
+		/*
+		if(loadedUser == null) {
+			throw new UserNotFoundException(ErrorCodeMessages.ERR_USER_NOT_FOUND_CODE, 
+					ErrorCodeMessages.ERR_USER_NOT_FOUND_MSG);
+		}
+		*/
 		String webToken = Jwts.builder().setSubject(loadedUser.getEmail())
 				.setExpiration(new Date(
 						System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
@@ -80,17 +95,11 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().toString()).compact();
 		response.addHeader("token", webToken);
 		response.addHeader("refreshToken", refreshToken);
-		System.out.println(webToken);
-		//response.addHeader("userId", loadedUser.getId().toString());
 		response.addHeader("userRole", loadedUser.getUserRoles().toString());
-		//response.addHeader("firstName", loadedUser.getEmployee().getFirstName());
-		//response.addHeader("lastName", loadedUser.getEmployee().getLastName());
 		response.addHeader("email", loadedUser.getEmail());
 		response.addHeader("twoFactorAuth", Boolean.toString(loadedUser.isTwoFactorAuthentication()));
 		response.addHeader("jwtExpiry", new Date(
 				System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))).toString());
-		//response.addHeader("department", loadedUser.getDepartment());
-		//response.addHeader("Access-Control-Allow-Origin", "*");
 		Map<String, String> tokenData = new HashMap<String, String>();
 		tokenData.put("token", webToken);
 		tokenData.put("refreshToken", refreshToken);
