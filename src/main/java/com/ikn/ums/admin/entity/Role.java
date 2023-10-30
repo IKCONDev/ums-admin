@@ -21,7 +21,7 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long roleId;
 	
-	@Column(name = "roleName", nullable = false)
+	@Column(name = "roleName", nullable = false , unique = true)
 	private String roleName;
 	
 	@Column(name = "createdDateTime")
@@ -41,4 +41,7 @@ public class Role {
 	
 	@Column(name = "modifiedByEmailId", nullable = true)
 	private String modifiedByEmailId;
+	
+	@Column(name = "roleStatus", nullable = false)
+	private String roleStatus;
 }

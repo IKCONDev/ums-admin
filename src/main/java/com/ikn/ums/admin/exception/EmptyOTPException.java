@@ -27,7 +27,7 @@ public class EmptyOTPException extends RuntimeException {
 	}
 
 	public EmptyOTPException(String errorCode, String errorMessage) {
-		super();
+		super(errorMessage , new Throwable(errorCode) );
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}

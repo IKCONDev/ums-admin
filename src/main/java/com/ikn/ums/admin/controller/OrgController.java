@@ -46,8 +46,7 @@ public class OrgController {
 			return new ResponseEntity<>(savedOrg, HttpStatus.CREATED);
 		} catch (Exception e) {
 			log.info("OrgController.createOrg() exited with exception : Exception occured while saving Organization.");
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ORG_SAVE_UNSUCCESS_CODE,
-					ErrorCodeMessages.ORG_SAVE_UNSUCCESS_MSG);
+			ControllerException umsCE = new ControllerException(e.getCause().toString() , e.getMessage());
 			throw umsCE;
 		}
 	}

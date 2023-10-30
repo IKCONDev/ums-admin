@@ -93,6 +93,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ROLE_UPDATE_UNSUCCESS_CODE = "ROLE_UPDATE_UNSUCCESS_CODE-1011";
 	 public static final String ERR_ROLE_UPDATE_UNSUCCESS_MSG = "Exception occured while updating role";
 
+	 public static final String ERR_ROLE_NAME_EXISTS_CODE = "ROLE_NAME_EXISTS_CODE-1011";
+	 public static final String ERR_ROLE_NAME_EXISTS_MSG = "Role Name Already Exists";
+	 
 	 //ORGANIZATION MODULE ERROR CODES
 	 
 	 public static final String ERR_ORG_ENTITY_IS_NULL_CODE = "ORG-ENTITY-IS-NULL-1027";

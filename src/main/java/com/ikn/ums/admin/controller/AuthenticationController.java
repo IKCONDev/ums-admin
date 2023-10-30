@@ -68,8 +68,7 @@ public class AuthenticationController {
 			return new ResponseEntity<>(otp, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("UserController.generateAndSendOtpToUser() : Exception Occurred." + e.getMessage());
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_CONTROLLER_EXCEPTION_CODE,
-					ErrorCodeMessages.ERR_USER_CONTROLLER_EXCEPTION_MSG);
+			ControllerException umsCE = new ControllerException(e.getCause().toString() , e.getMessage());
 			return new ResponseEntity<ControllerException>(umsCE, HttpStatus.BAD_REQUEST);
 		}
 	}

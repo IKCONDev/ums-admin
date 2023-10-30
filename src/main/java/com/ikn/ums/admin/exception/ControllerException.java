@@ -22,7 +22,8 @@ public class ControllerException extends RuntimeException {
 	}
 
 	public ControllerException(String errorCode, String errorMessage) {
-		super();
+		//super();
+		super(errorMessage , new Throwable(errorCode) );
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}

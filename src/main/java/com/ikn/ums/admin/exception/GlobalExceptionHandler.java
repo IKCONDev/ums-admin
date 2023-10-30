@@ -25,7 +25,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException entityNotFoundException) {
-		log.info("GlobalExceptionHandler.handleEntityNotFoundException() ENTERED" + entityNotFoundException.getMessage());
+		log.info("GlobalExceptionHandler.handleEntityNotFoundException() ENTERED" );
+		log.info("EntityNotFoundException Occurred ::::::::::::: " + entityNotFoundException.getErrorCode());
+		log.info("EntityNotFoundException Occurred ::::::::::::: " + entityNotFoundException.getErrorMessage());
+		
 		return new ResponseEntity<String>("Entity Object is NUll.", HttpStatus.BAD_REQUEST);
 	}
 	
@@ -94,7 +97,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(ControllerException.class)
 	public ResponseEntity<String> handleControllerException(ControllerException controllerException) {
 		log.info("GlobalExceptionHandler.handleControllerException() ENTERED");
-		log.info("Controller Exception Occurred " + controllerException.getMessage());
+		log.info("Controller Exception Occurred ::::::::::::: " + controllerException.getErrorCode());
+		log.info("Controller Exception Occurred ::::::::::::: " + controllerException.getErrorMessage());
 		return new ResponseEntity<String>("Controller Exception.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
@@ -119,4 +123,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.FORBIDDEN);
 	}
 
+	/**
+	 * RoleNameExistsException handles the exception when the Role Name is exists
+	 * @param roleNameExistsException
+	 * @return
+	 */
+	@ExceptionHandler(RoleNameExistsException.class)
+	public ResponseEntity<String> handleRoleNameExistsException(RoleNameExistsException roleNameExistsException) {
+		log.info("GlobalExceptionHandler.handleRoleNameExistsException() ENTERED" + roleNameExistsException.getMessage());
+		return new ResponseEntity<String>("Role Name Already Exists.", HttpStatus.FOUND);
+	}
 }

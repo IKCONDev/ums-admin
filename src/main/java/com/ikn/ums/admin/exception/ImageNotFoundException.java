@@ -31,7 +31,7 @@ public class ImageNotFoundException extends Exception {
 	}
 
 	public ImageNotFoundException(String errorCode, String errorMessage) {
-		super();
+		super(errorMessage , new Throwable(errorCode) );
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
