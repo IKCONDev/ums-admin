@@ -86,7 +86,7 @@ public class RoleServiceImpl implements RoleService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		}
-		if (isRoleNameExists(role)) 
+		if (!isRoleNameExists(role)) 
 			throw new RoleNameExistsException(ErrorCodeMessages.ERR_ROLE_NAME_EXISTS_CODE,
 					ErrorCodeMessages.ERR_ROLE_NAME_EXISTS_MSG);
 		
