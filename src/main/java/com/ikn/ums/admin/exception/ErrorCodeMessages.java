@@ -96,6 +96,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ROLE_NAME_EXISTS_CODE = "ROLE_NAME_EXISTS_CODE-1011";
 	 public static final String ERR_ROLE_NAME_EXISTS_MSG = "Role Name Already Exists";
 	 
+	 public static final String ERR_ROLE_GET_UNSUCCESS_CODE = "ERR_ROLE_GET_UNSUCCESS_CODE-1012";
+	 public static final String ERR_ROLE_GET_UNSUCCESS_MSG = "Error while getting user role(s)";
+	 
 	 //ORGANIZATION MODULE ERROR CODES
 	 
 	 public static final String ERR_ORG_ENTITY_IS_NULL_CODE = "ORG-ENTITY-IS-NULL-1027";
@@ -151,6 +154,7 @@ public class ErrorCodeMessages {
 	 
 	 public static final String ERR_USER_INACTIVE_CODE = "ERR_USER_INACTIVE_CODE-1043";
 	 public static final String ERR_USER_INACTIVE_MSG = "User is inactive - Cannot Login";
+	 
 	 
 	 
 	 //ORGANIZATION MODULE ERROR CODES

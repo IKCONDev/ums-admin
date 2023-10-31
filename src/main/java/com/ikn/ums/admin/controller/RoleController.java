@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
+import com.ikn.ums.admin.exception.EmptyListException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
+import com.ikn.ums.admin.exception.RoleNameExistsException;
 import com.ikn.ums.admin.service.RoleService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +42,10 @@ public class RoleController {
 			List<Role> rolesList = roleService.getAllRoles();
 			log.info("RoleController.getAllRoles() executed successfully");
 			return new ResponseEntity<>(rolesList, HttpStatus.OK);
-		} catch (Exception e) {
+		}catch (EmptyListException businessException) {
+			throw businessException;
+		} 
+		catch (Exception e) {
 			// TODO: handle exception
 			log.info("RoleController.getAllRoles() exited with exception : Exception occured fetching roles list."
 					+ e.getMessage());
@@ -56,8 +61,17 @@ public class RoleController {
 		if (roleId < 1)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
-		Optional<Role> role = roleService.getRoleById(roleId);
-		return role.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+		try {
+			Optional<Role> role = roleService.getRoleById(roleId);
+			return role.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+		}catch (EmptyInputException businessException) {
+			throw businessException;
+		}
+		catch (Exception e) {
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_MSG);
+			throw umsCE;
+		}
 	}
 
 	@PostMapping("/create")
@@ -72,10 +86,10 @@ public class RoleController {
 			Role createdRole = roleService.createRole(role);
 			log.info("RoleController.createRole() executed successfully.");
 			return new ResponseEntity<>(createdRole, HttpStatus.CREATED);
+		} catch (EntityNotFoundException | RoleNameExistsException businessException) {
+			throw businessException;
 		} catch (Exception e) {
 			log.info(" in exception before calling controller exception .... ");
-//			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_CREATE_UNSUCCESS_CODE,
-//					ErrorCodeMessages.ERR_ROLE_CREATE_UNSUCCESS_MSG);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_CREATE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -118,7 +132,10 @@ public class RoleController {
 			isDeleted = true;
 			log.info("RoleController.deleteRole() executed successfully");
 			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
-		} catch (Exception e) {
+		}catch (EmptyInputException | EntityNotFoundException businessException) {
+			throw businessException;
+		} 
+		catch (Exception e) {
 			log.info("RoleController.deleteRole() exited with exception : Exception occured while deleting role.");
 			ControllerException umsCE = new ControllerException(e.getCause().toString(), e.getMessage());
 			throw umsCE;
@@ -141,10 +158,12 @@ public class RoleController {
 			isDeleted = true;
 			log.info("RoleController.deleteSelectedRoles() executed successfully");
 			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
-		} catch (Exception e) {
-			log.info(
-					"RoleController.deleteSelectedRoles() exited with exception : Exception occured while deleting role.");
-			ControllerException umsCE = new ControllerException(e.getCause().toString(), e.getMessage());
+		}catch (EmptyListException businessException) {
+			throw businessException;
+		} 
+		catch (Exception e) {
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_MSG);
 			throw umsCE;
 		}
 	}
