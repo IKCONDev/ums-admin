@@ -31,37 +31,7 @@ public class RoleServiceImpl implements RoleService {
     
     @Autowired
     private ModelMapper mapper;
-    
-	@Override
-	public List<Role> getAllRoles() {
-		log.info(" getAllRoles() ENTERED.");
-		List<Role> rolesList = null;
-		rolesList = roleRepository.findAllRoles( AdminConstants.STATUS_ACTIVE );
-		if ( rolesList == null || rolesList.isEmpty() || rolesList.size() == 0 )
-			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_ROLE_ID_ALREADY_EXISTS_MSG);
-		log.info("getAllRoles() : Roles Count : " + rolesList.size());
-		return rolesList;
-	}
-
-	@Override
-	public Optional<Role> getRoleById(Long roleId) {
-		log.info("RoleServiceImpl.getRoleById() ENTERED : roleId : " + roleId);
-		if (roleId <= 0)
-			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
-		return roleRepository.findById(roleId);
-	}
-
-	@Override
-	public Optional<Role> getRoleByName(String roleName) {
-		log.info("RoleServiceImpl.getRoleByName() ENTERED : roleName : " + roleName);
-		if (roleName == null || roleName.isEmpty() || roleName.length() == 0)
-			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_NAME_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_ROLE_NAME_IS_EMPTY_MSG);
-		return roleRepository.findByRoleName(roleName);
-	}
-
+  
 	@Override
 	public Role createRole(Role role) {
 		log.info("RoleServiceImpl.createRole() ENTERED");
@@ -76,7 +46,7 @@ public class RoleServiceImpl implements RoleService {
 		Role savedRole = roleRepository.save(role);
 		return savedRole;
 	}
-
+	
 	@Transactional
 	@Override
 	public Role updateRole(Role role) {
@@ -95,7 +65,7 @@ public class RoleServiceImpl implements RoleService {
 		//set modified date time
 		role.setModifiedDateTime(LocalDateTime.now());
 		mapper.map(role, dbRole);
-		log.info("RoleServiceImpl.updateRole() is under execution...");
+		log.info("RoleServiceImpl.updateRole() is under execution.");
 		Role updatedRole =  roleRepository.save(dbRole);
 		log.info("RoleServiceImpl.updateRole() executed successfully.");
 		return updatedRole;
@@ -121,14 +91,41 @@ public class RoleServiceImpl implements RoleService {
 
 	@Transactional
 	@Override
-	public void deleteRolesbyIds(List<Long> ids) {
-		List<Role> roleList = roleRepository.findAllById(ids);
-		if(roleList.size() > 0) {
-			roleRepository.deleteAll(roleList);
-		}else {
-			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE, 
-					ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_MSG);
-		}
+	public void deleteSelectedRolesByIds(List<Long> roleIds) {
+		log.info("RoleServiceImpl.deleteSelectedRolesByIds() ENTERED : roleIds Size : " + roleIds.size() );
+		if ( roleIds.size() <= 0 )
+			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_MSG);		
+			roleRepository.deleteAllById(roleIds);
+	}
+	@Override
+	public List<Role> getAllRoles() {
+		log.info("getAllRoles() ENTERED.");
+		List<Role> rolesList = null;
+		rolesList = roleRepository.findAllRoles( AdminConstants.STATUS_ACTIVE );
+		if ( rolesList == null || rolesList.isEmpty() || rolesList.size() == 0 )
+			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_ROLE_ID_ALREADY_EXISTS_MSG);
+		log.info("getAllRoles() : Total Roles Count : " + rolesList.size());
+		return rolesList;
+	}
+
+	@Override
+	public Optional<Role> getRoleById(Long roleId) {
+		log.info("RoleServiceImpl.getRoleById() ENTERED : roleId : " + roleId);
+		if (roleId <= 0)
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
+		return roleRepository.findById(roleId);
+	}
+
+	@Override
+	public Optional<Role> getRoleByName(String roleName) {
+		log.info("RoleServiceImpl.getRoleByName() ENTERED : roleName : " + roleName);
+		if (roleName == null || roleName.isEmpty() || roleName.length() == 0)
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_NAME_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_ROLE_NAME_IS_EMPTY_MSG);
+		return roleRepository.findByRoleName(roleName);
 	}
 
 	public boolean isRoleNameExists(Role role) {
@@ -139,9 +136,8 @@ public class RoleServiceImpl implements RoleService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		} else {
-			log.info("RoleServiceImpl  : Role Id : " + role.getRoleId() + " Role Name : " + role.getRoleName());
+			log.info("RoleServiceImpl  : Role Id : " + role.getRoleId() + " || Role Name : " + role.getRoleName());
 			Optional<Role> optRole = roleRepository.findByRoleName( role.getRoleName() );
-		//	isRoleNameExists = optRole.get().getRoleName().equalsIgnoreCase(role.getRoleName());
 			isRoleNameExists = optRole.isPresent();
 			log.info("RoleServiceImpl  : isRoleNameExists : " + isRoleNameExists);
 		}
