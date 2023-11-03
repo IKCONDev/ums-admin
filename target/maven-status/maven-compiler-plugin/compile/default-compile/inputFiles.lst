@@ -5,6 +5,7 @@ C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\service\im
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\service\UserService.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\repository\RoleRepository.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\BusinessException.java
+C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\UserInactiveException.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\model\UpdatePasswordRequestModel.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\controller\UserController.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\service\impl\RoleServiceImpl.java
@@ -14,11 +15,14 @@ C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\entity\Org
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\ErrorCodeMessages.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\model\ValidateOtpRequestModel.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\VO\DepartmentVO.java
+C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\UserNotFoundException.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\UMSAdminApplication.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\repository\OrgRepository.java
+C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\RoleNameExistsException.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\utils\EmailService.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\EmptyListException.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\GlobalExceptionHandler.java
+C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\utils\AdminConstants.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\service\impl\UserServiceImpl.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\EmptyOTPException.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\VO\EmployeeVO.java

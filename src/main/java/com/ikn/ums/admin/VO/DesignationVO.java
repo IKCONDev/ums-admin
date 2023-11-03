@@ -1,33 +1,37 @@
-package com.ikn.ums.admin.entity;
+package com.ikn.ums.admin.VO;
 
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
 @Entity
-@Table (name = "role_tab")
-public class Role {
-
-	@Id
-	@Column(name = "role_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long roleId;
+@Table(name = "designation_tab")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class DesignationVO {
 	
-	@Column(name = "roleName", nullable = false , unique = true)
-	private String roleName;
+	@Id
+	@SequenceGenerator(name = "designation_id_gen", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(generator = "designation_id_gen")
+	private Long id;
+	
+	@Column(name = "designationName")
+	private String designationName;
 	
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;
 	
-	@Column(name = "modifiedDateTime", nullable = true)
+	@Column(name = "modifiedDateTime")
 	private LocalDateTime modifiedDateTime;
 	
 	@Column(name = "createdBy")
@@ -39,9 +43,8 @@ public class Role {
 	@Column(name = "createdByEmailId")
 	private String createdByEmailId;
 	
-	@Column(name = "modifiedByEmailId", nullable = true)
+	@Column(name = "modifiedByEmailId")
 	private String modifiedByEmailId;
 	
-	@Column(name = "roleStatus", nullable = true)
-	private String roleStatus;
+
 }

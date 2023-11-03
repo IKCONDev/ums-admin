@@ -21,8 +21,10 @@ public class EmployeeVO {
 //	private String userRole;
 	//private String department;
 	private String designation;
+	private DesignationVO empDesignation;
 //	private int otpCode;
 //	private boolean twoFactorAuthentication;
 	private Long departmentId;
+	private String gender;
 	private DepartmentVO department;
 }

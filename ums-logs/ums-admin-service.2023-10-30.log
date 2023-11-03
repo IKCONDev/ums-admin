@@ -5348,3 +5348,458 @@ java.lang.NullPointerException: Cannot invoke "java.lang.Throwable.toString()" b
 20:21:20.965 [RMI TCP Connection(42)-127.0.0.1] INFO  c.netflix.discovery.DiscoveryClient - Unregistering ...
 20:21:20.968 [RMI TCP Connection(42)-127.0.0.1] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0 - deregister  status: 200
 20:21:20.976 [RMI TCP Connection(42)-127.0.0.1] INFO  c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+20:22:05.132 [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\VaishnavPuthiyanampa\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.5.0.0\ojdbc8-21.5.0.0.jar referenced one or more files that do not exist: file:/C:/Users/VaishnavPuthiyanampa/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.5.0.0/oraclepki.jar
+20:22:05.133 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+20:22:05.595 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Fetching config from server at : http://localhost:9296
+20:22:07.284 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Located environment: name=UMS-USERS-SERVICE, profiles=[default], label=null, version=abc948351d8765c2e5a2691c8f7f75664420de7d, state=null
+20:22:07.285 [restartedMain] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/IKCONDev/ums-config-server/application.yaml'}]
+20:22:07.291 [restartedMain] INFO  c.ikn.ums.admin.UMSAdminApplication - No active profile set, falling back to 1 default profile: "default"
+20:22:08.556 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+20:22:08.792 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 221 ms. Found 3 JPA repository interfaces.
+20:22:09.117 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=a8fad1a4-edcb-3d3d-a152-0eb612189428
+20:22:09.916 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 0 (http)
+20:22:09.927 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-auto-1"]
+20:22:09.930 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:22:09.930 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.78]
+20:22:10.158 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:22:10.158 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2852 ms
+20:22:10.279 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+20:22:10.848 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+20:22:10.864 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5432/umsadmindb'
+20:22:11.109 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+20:22:11.209 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+20:22:11.459 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+20:22:11.707 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+20:22:13.258 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+20:22:13.285 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+20:22:14.289 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4219d91, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@726fae9a, org.springframework.security.web.context.SecurityContextPersistenceFilter@2957dae5, org.springframework.security.web.header.HeaderWriterFilter@23f91c15, org.springframework.security.web.authentication.logout.LogoutFilter@5b68d6d6, com.ikn.ums.admin.security.UserAuthenticationFilter@19b0092d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2f8dfa4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@54940dba, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@22729a94, org.springframework.security.web.session.SessionManagementFilter@440f43d, org.springframework.security.web.access.ExceptionTranslationFilter@60bfa437, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@71d246c4]
+20:22:14.330 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+20:22:15.163 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+20:22:15.301 [restartedMain] INFO  o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+20:22:15.363 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+20:22:15.369 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+20:22:15.456 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-auto-1"]
+20:22:15.547 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 54437 (http) with context path ''
+20:22:15.549 [restartedMain] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 54437
+20:22:15.555 [restartedMain] INFO  o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+20:22:15.668 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+20:22:15.678 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:22:15.711 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+20:22:15.711 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+20:22:15.711 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+20:22:15.711 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+20:22:15.711 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+20:22:15.711 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+20:22:15.711 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+20:22:16.081 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+20:22:16.085 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+20:22:16.088 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+20:22:16.094 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1698677536093 with initial instances count: 7
+20:22:16.096 [restartedMain] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Registering application UMS-USERS-SERVICE with eureka with status UP
+20:22:16.097 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1698677536097, current=UP, previous=STARTING]
+20:22:16.098 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0: registering service...
+20:22:16.173 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0 - registration status: 204
+20:22:16.270 [restartedMain] INFO  c.ikn.ums.admin.UMSAdminApplication - Started UMSAdminApplication in 12.142 seconds (JVM running for 14.002)
+20:22:18.257 [RMI TCP Connection(3)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+20:22:18.257 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+20:22:18.259 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+20:24:49.057 [http-nio-auto-1-exec-1] INFO  c.i.u.a.controller.RoleController - RoleController.deleteRole() entered with args - roleId : 49
+20:24:49.060 [http-nio-auto-1-exec-1] INFO  c.i.u.a.controller.RoleController - RoleController.deleteRole() is under execution...
+20:24:49.088 [http-nio-auto-1-exec-1] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.deleteRole() ENTERED : roleId : 49
+20:24:49.379 [http-nio-auto-1-exec-1] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.updateRole() entered with args - role
+20:24:49.466 [http-nio-auto-1-exec-1] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.updateRole() is under execution...
+20:24:49.535 [http-nio-auto-1-exec-1] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.updateRole() executed successfully.
+20:24:49.535 [http-nio-auto-1-exec-1] INFO  c.i.u.a.controller.RoleController - RoleController.deleteRole() executed successfully
+20:24:51.860 [http-nio-auto-1-exec-3] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() ENTERED.
+20:24:51.861 [http-nio-auto-1-exec-3] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() is under execution...
+20:24:51.861 [http-nio-auto-1-exec-3] INFO  c.i.u.a.service.impl.RoleServiceImpl -  getAllRoles() ENTERED.
+20:24:51.918 [http-nio-auto-1-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:24:51.918 [http-nio-auto-1-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:24:51.954 [http-nio-auto-1-exec-3] INFO  c.i.u.a.service.impl.RoleServiceImpl - getAllRoles() : Roles Count : 2
+20:24:51.954 [http-nio-auto-1-exec-3] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() executed successfully
+20:24:53.038 [http-nio-auto-1-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:24:53.039 [http-nio-auto-1-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:27:15.733 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:29:52.124 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+20:29:52.190 [Thread-1] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application UMS-USERS-SERVICE with eureka with status DOWN
+20:29:52.191 [Thread-1] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1698677992191, current=DOWN, previous=UP]
+20:29:52.192 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0: registering service...
+20:29:52.271 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0 - registration status: 204
+20:29:52.356 [Thread-1] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-auto-1"]
+20:29:52.358 [Thread-1] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+20:29:52.377 [Thread-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+20:29:52.417 [Thread-1] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [boundedElastic-evictor-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+20:29:52.419 [Thread-1] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [pool-10-thread-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.park(LockSupport.java:341)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block(AbstractQueuedSynchronizer.java:506)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.unmanagedBlock(ForkJoinPool.java:3463)
+ java.base@17.0.7/java.util.concurrent.ForkJoinPool.managedBlock(ForkJoinPool.java:3434)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1623)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1170)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+20:29:52.429 [Thread-1] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-auto-1"]
+20:29:52.480 [Thread-1] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-auto-1"]
+20:29:52.554 [Thread-1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+20:29:52.642 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+20:29:52.689 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+20:29:52.762 [Thread-1] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+20:29:55.928 [Thread-1] INFO  c.netflix.discovery.DiscoveryClient - Unregistering ...
+20:29:55.959 [Thread-1] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0 - deregister  status: 200
+20:29:56.023 [Thread-1] INFO  c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+20:29:56.739 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Fetching config from server at : http://localhost:9296
+20:29:58.360 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Located environment: name=UMS-USERS-SERVICE, profiles=[default], label=null, version=abc948351d8765c2e5a2691c8f7f75664420de7d, state=null
+20:29:58.361 [restartedMain] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/IKCONDev/ums-config-server/application.yaml'}]
+20:29:58.364 [restartedMain] INFO  c.ikn.ums.admin.UMSAdminApplication - No active profile set, falling back to 1 default profile: "default"
+20:29:58.914 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+20:29:58.944 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 3 JPA repository interfaces.
+20:29:59.008 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=a8fad1a4-edcb-3d3d-a152-0eb612189428
+20:29:59.081 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 0 (http)
+20:29:59.082 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-auto-2"]
+20:29:59.082 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:29:59.082 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.78]
+20:29:59.116 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:29:59.116 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 748 ms
+20:29:59.152 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+20:29:59.314 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+20:29:59.315 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5432/umsadmindb'
+20:29:59.361 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+20:29:59.371 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+20:29:59.802 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+20:29:59.803 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+20:29:59.963 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2a1571cd, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@38cc8223, org.springframework.security.web.context.SecurityContextPersistenceFilter@2a71a500, org.springframework.security.web.header.HeaderWriterFilter@2e625488, org.springframework.security.web.authentication.logout.LogoutFilter@611151e6, com.ikn.ums.admin.security.UserAuthenticationFilter@16d85d97, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@78b59f84, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@444f420e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@ce6bc2a, org.springframework.security.web.session.SessionManagementFilter@654cedc4, org.springframework.security.web.access.ExceptionTranslationFilter@1f19a1f3, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@745ddf31]
+20:29:59.977 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+20:30:00.281 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+20:30:00.366 [restartedMain] INFO  o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+20:30:00.388 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+20:30:00.391 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+20:30:00.419 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-auto-2"]
+20:30:00.426 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 54992 (http) with context path ''
+20:30:00.427 [restartedMain] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 54992
+20:30:00.427 [restartedMain] INFO  o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+20:30:00.429 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+20:30:00.430 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:30:00.439 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+20:30:00.439 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+20:30:00.439 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+20:30:00.439 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+20:30:00.439 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+20:30:00.439 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+20:30:00.439 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+20:30:00.462 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+20:30:00.463 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+20:30:00.464 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+20:30:00.464 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1698678000464 with initial instances count: 8
+20:30:00.466 [restartedMain] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Registering application UMS-USERS-SERVICE with eureka with status UP
+20:30:00.466 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1698678000466, current=UP, previous=STARTING]
+20:30:00.466 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0: registering service...
+20:30:00.476 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0 - registration status: 204
+20:30:00.557 [restartedMain] INFO  c.ikn.ums.admin.UMSAdminApplication - Started UMSAdminApplication in 4.158 seconds (JVM running for 478.288)
+20:30:00.560 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+20:30:44.132 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+20:30:44.159 [Thread-8] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Unregistering application UMS-USERS-SERVICE with eureka with status DOWN
+20:30:44.160 [Thread-8] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1698678044160, current=DOWN, previous=UP]
+20:30:44.160 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0: registering service...
+20:30:44.185 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0 - registration status: 204
+20:30:44.252 [Thread-8] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-auto-2"]
+20:30:44.253 [Thread-8] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+20:30:44.306 [Thread-8] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-auto-2"]
+20:30:44.312 [Thread-8] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-auto-2"]
+20:30:44.331 [Thread-8] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+20:30:44.353 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+20:30:44.364 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+20:30:44.370 [Thread-8] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+20:30:47.384 [Thread-8] INFO  c.netflix.discovery.DiscoveryClient - Unregistering ...
+20:30:47.388 [Thread-8] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0 - deregister  status: 200
+20:30:47.395 [Thread-8] INFO  c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+20:30:48.036 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Fetching config from server at : http://localhost:9296
+20:30:49.093 [restartedMain] INFO  o.s.c.c.c.ConfigServicePropertySourceLocator - Located environment: name=UMS-USERS-SERVICE, profiles=[default], label=null, version=abc948351d8765c2e5a2691c8f7f75664420de7d, state=null
+20:30:49.093 [restartedMain] INFO  o.s.c.b.c.PropertySourceBootstrapConfiguration - Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/IKCONDev/ums-config-server/application.yaml'}]
+20:30:49.096 [restartedMain] INFO  c.ikn.ums.admin.UMSAdminApplication - No active profile set, falling back to 1 default profile: "default"
+20:30:49.606 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+20:30:49.639 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 32 ms. Found 3 JPA repository interfaces.
+20:30:49.714 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=a8fad1a4-edcb-3d3d-a152-0eb612189428
+20:30:49.809 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 0 (http)
+20:30:49.810 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-auto-3"]
+20:30:49.810 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:30:49.810 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.78]
+20:30:49.852 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:30:49.852 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 754 ms
+20:30:49.900 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+20:30:50.078 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+20:30:50.079 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5432/umsadmindb'
+20:30:50.111 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+20:30:50.115 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+20:30:50.454 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+20:30:50.455 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+20:30:50.604 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@74c35d74, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@d948bb5, org.springframework.security.web.context.SecurityContextPersistenceFilter@214c600b, org.springframework.security.web.header.HeaderWriterFilter@793e3825, org.springframework.security.web.authentication.logout.LogoutFilter@1e40604a, com.ikn.ums.admin.security.UserAuthenticationFilter@12ecf175, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3bb7e759, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@33c01f1a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4867a243, org.springframework.security.web.session.SessionManagementFilter@1d9e5fe5, org.springframework.security.web.access.ExceptionTranslationFilter@33352a99, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4c12c87b]
+20:30:50.614 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+20:30:50.885 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+20:30:50.971 [restartedMain] INFO  o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+20:30:50.999 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+20:30:51.004 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+20:30:51.035 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-auto-3"]
+20:30:51.040 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 55076 (http) with context path ''
+20:30:51.041 [restartedMain] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 55076
+20:30:51.041 [restartedMain] INFO  o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+20:30:51.043 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+20:30:51.043 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:30:51.045 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+20:30:51.045 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+20:30:51.045 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+20:30:51.045 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+20:30:51.046 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+20:30:51.046 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+20:30:51.046 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+20:30:51.062 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+20:30:51.064 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+20:30:51.064 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+20:30:51.065 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1698678051065 with initial instances count: 7
+20:30:51.066 [restartedMain] INFO  o.s.c.n.e.s.EurekaServiceRegistry - Registering application UMS-USERS-SERVICE with eureka with status UP
+20:30:51.066 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1698678051066, current=UP, previous=STARTING]
+20:30:51.066 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0: registering service...
+20:30:51.077 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_UMS-USERS-SERVICE/IKCON1049:UMS-USERS-SERVICE:0 - registration status: 204
+20:30:51.160 [restartedMain] INFO  c.ikn.ums.admin.UMSAdminApplication - Started UMSAdminApplication in 3.433 seconds (JVM running for 528.891)
+20:30:51.162 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+20:34:02.963 [http-nio-auto-3-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+20:34:02.975 [http-nio-auto-3-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+20:34:03.118 [http-nio-auto-3-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 143 ms
+20:34:03.456 [http-nio-auto-3-exec-1] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() ENTERED.
+20:34:03.457 [http-nio-auto-3-exec-1] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() is under execution...
+20:34:03.664 [http-nio-auto-3-exec-1] INFO  c.i.u.a.service.impl.RoleServiceImpl -  getAllRoles() ENTERED.
+20:34:03.664 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:34:03.665 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:34:03.838 [http-nio-auto-3-exec-1] INFO  c.i.u.a.service.impl.RoleServiceImpl - getAllRoles() : Roles Count : 2
+20:34:03.838 [http-nio-auto-3-exec-1] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() executed successfully
+20:34:04.513 [http-nio-auto-3-exec-3] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() ENTERED.
+20:34:04.513 [http-nio-auto-3-exec-3] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() is under execution...
+20:34:04.513 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.RoleServiceImpl -  getAllRoles() ENTERED.
+20:34:04.517 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.RoleServiceImpl - getAllRoles() : Roles Count : 2
+20:34:04.517 [http-nio-auto-3-exec-3] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() executed successfully
+20:34:04.528 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:34:04.528 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:34:05.051 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:34:05.051 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:34:05.057 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:34:05.057 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:34:23.900 [http-nio-auto-3-exec-5] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() entered with args - role
+20:34:23.900 [http-nio-auto-3-exec-5] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() is under execution...
+20:34:23.900 [http-nio-auto-3-exec-5] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.createRole() ENTERED
+20:34:23.900 [http-nio-auto-3-exec-5] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.isRoleExists() ENTERED : role : 
+20:34:23.900 [http-nio-auto-3-exec-5] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : Role Id : 0 Role Name : ADMIN
+20:34:23.908 [http-nio-auto-3-exec-5] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : isRoleNameExists : true
+20:34:23.911 [http-nio-auto-3-exec-5] INFO  c.i.u.a.e.GlobalExceptionHandler - GlobalExceptionHandler.handleRoleNameExistsException() ENTEREDRole Name Already Exists
+20:34:23.913 [http-nio-auto-3-exec-5] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.ikn.ums.admin.exception.RoleNameExistsException: Role Name Already Exists]
+20:34:38.926 [http-nio-auto-3-exec-6] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() entered with args - role
+20:34:38.926 [http-nio-auto-3-exec-6] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() is under execution...
+20:34:38.926 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.createRole() ENTERED
+20:34:38.926 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.isRoleExists() ENTERED : role : 
+20:34:38.926 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : Role Id : 0 Role Name : ADMIN
+20:34:38.930 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : isRoleNameExists : true
+20:34:38.931 [http-nio-auto-3-exec-6] INFO  c.i.u.a.e.GlobalExceptionHandler - GlobalExceptionHandler.handleRoleNameExistsException() ENTEREDRole Name Already Exists
+20:34:38.932 [http-nio-auto-3-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.ikn.ums.admin.exception.RoleNameExistsException: Role Name Already Exists]
+20:35:22.525 [http-nio-auto-3-exec-7] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() entered with args - role
+20:35:22.525 [http-nio-auto-3-exec-7] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() is under execution...
+20:35:22.525 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.createRole() ENTERED
+20:35:22.525 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.isRoleExists() ENTERED : role : 
+20:35:22.525 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : Role Id : 0 Role Name : ADMIN
+20:35:22.528 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : isRoleNameExists : true
+20:35:22.530 [http-nio-auto-3-exec-7] INFO  c.i.u.a.e.GlobalExceptionHandler - GlobalExceptionHandler.handleRoleNameExistsException() ENTEREDRole Name Already Exists
+20:35:22.531 [http-nio-auto-3-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.ikn.ums.admin.exception.RoleNameExistsException: Role Name Already Exists]
+20:35:51.068 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:36:41.638 [http-nio-auto-3-exec-10] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() entered with args - role
+20:36:41.638 [http-nio-auto-3-exec-10] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() is under execution...
+20:36:41.642 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.createRole() ENTERED
+20:36:41.642 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.isRoleExists() ENTERED : role : 
+20:36:41.642 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : Role Id : 0 Role Name : ADMIN
+20:36:41.673 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : isRoleNameExists : true
+20:36:41.677 [http-nio-auto-3-exec-10] INFO  c.i.u.a.e.GlobalExceptionHandler - GlobalExceptionHandler.handleRoleNameExistsException() ENTEREDRole Name Already Exists
+20:36:41.687 [http-nio-auto-3-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.ikn.ums.admin.exception.RoleNameExistsException: Role Name Already Exists]
+20:37:44.032 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:37:44.035 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:37:44.078 [http-nio-auto-3-exec-4] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() ENTERED.
+20:37:44.078 [http-nio-auto-3-exec-4] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() is under execution...
+20:37:44.078 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.RoleServiceImpl -  getAllRoles() ENTERED.
+20:37:44.195 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.RoleServiceImpl - getAllRoles() : Roles Count : 2
+20:37:44.196 [http-nio-auto-3-exec-4] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() executed successfully
+20:37:46.051 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:37:46.051 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:37:50.257 [http-nio-auto-3-exec-2] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() entered with args - role
+20:37:50.257 [http-nio-auto-3-exec-2] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() is under execution...
+20:37:50.258 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.createRole() ENTERED
+20:37:50.258 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.isRoleExists() ENTERED : role : 
+20:37:50.258 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : Role Id : 0 Role Name : ADMIN
+20:37:50.284 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : isRoleNameExists : true
+20:37:50.287 [http-nio-auto-3-exec-2] INFO  c.i.u.a.e.GlobalExceptionHandler - GlobalExceptionHandler.handleRoleNameExistsException() ENTEREDRole Name Already Exists
+20:37:50.290 [http-nio-auto-3-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.ikn.ums.admin.exception.RoleNameExistsException: Role Name Already Exists]
+20:38:06.100 [http-nio-auto-3-exec-5] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:38:06.101 [http-nio-auto-3-exec-5] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:38:06.103 [http-nio-auto-3-exec-6] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() ENTERED.
+20:38:06.103 [http-nio-auto-3-exec-6] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() is under execution...
+20:38:06.103 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.RoleServiceImpl -  getAllRoles() ENTERED.
+20:38:06.131 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.RoleServiceImpl - getAllRoles() : Roles Count : 2
+20:38:06.135 [http-nio-auto-3-exec-6] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() executed successfully
+20:38:06.158 [http-nio-auto-3-exec-5] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:38:06.158 [http-nio-auto-3-exec-5] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:38:23.892 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:38:23.892 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:38:23.900 [http-nio-auto-3-exec-8] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() ENTERED.
+20:38:23.900 [http-nio-auto-3-exec-8] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() is under execution...
+20:38:23.900 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.RoleServiceImpl -  getAllRoles() ENTERED.
+20:38:23.903 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.RoleServiceImpl - getAllRoles() : Roles Count : 2
+20:38:23.903 [http-nio-auto-3-exec-8] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() executed successfully
+20:38:23.941 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:38:23.941 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:38:27.849 [http-nio-auto-3-exec-9] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() entered with args - role
+20:38:27.849 [http-nio-auto-3-exec-9] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() is under execution...
+20:38:27.849 [http-nio-auto-3-exec-9] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.createRole() ENTERED
+20:38:27.849 [http-nio-auto-3-exec-9] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.isRoleExists() ENTERED : role : 
+20:38:27.849 [http-nio-auto-3-exec-9] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : Role Id : 0 Role Name : ADMIN
+20:38:27.858 [http-nio-auto-3-exec-9] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : isRoleNameExists : true
+20:38:27.860 [http-nio-auto-3-exec-9] INFO  c.i.u.a.e.GlobalExceptionHandler - GlobalExceptionHandler.handleRoleNameExistsException() ENTEREDRole Name Already Exists
+20:38:27.861 [http-nio-auto-3-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.ikn.ums.admin.exception.RoleNameExistsException: Role Name Already Exists]
+20:38:34.622 [http-nio-auto-3-exec-10] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() entered with args - role
+20:38:34.622 [http-nio-auto-3-exec-10] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() is under execution...
+20:38:34.623 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.createRole() ENTERED
+20:38:34.623 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.isRoleExists() ENTERED : role : 
+20:38:34.623 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : Role Id : 0 Role Name : ADMIN
+20:38:34.678 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : isRoleNameExists : true
+20:38:34.678 [http-nio-auto-3-exec-10] INFO  c.i.u.a.e.GlobalExceptionHandler - GlobalExceptionHandler.handleRoleNameExistsException() ENTEREDRole Name Already Exists
+20:38:34.679 [http-nio-auto-3-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.ikn.ums.admin.exception.RoleNameExistsException: Role Name Already Exists]
+20:38:58.959 [http-nio-auto-3-exec-1] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:38:58.959 [http-nio-auto-3-exec-1] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:38:58.976 [http-nio-auto-3-exec-4] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() ENTERED.
+20:38:59.179 [http-nio-auto-3-exec-4] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() is under execution...
+20:38:59.179 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.RoleServiceImpl -  getAllRoles() ENTERED.
+20:38:59.182 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.RoleServiceImpl - getAllRoles() : Roles Count : 2
+20:38:59.182 [http-nio-auto-3-exec-4] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() executed successfully
+20:38:59.214 [http-nio-auto-3-exec-1] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:38:59.214 [http-nio-auto-3-exec-1] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:39:04.608 [http-nio-auto-3-exec-3] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() entered with args - role
+20:39:04.608 [http-nio-auto-3-exec-3] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() is under execution...
+20:39:04.608 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.createRole() ENTERED
+20:39:04.608 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.isRoleExists() ENTERED : role : 
+20:39:04.608 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : Role Id : 0 Role Name : ADMIN
+20:39:04.615 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : isRoleNameExists : true
+20:39:04.616 [http-nio-auto-3-exec-3] INFO  c.i.u.a.e.GlobalExceptionHandler - GlobalExceptionHandler.handleRoleNameExistsException() ENTEREDRole Name Already Exists
+20:39:04.617 [http-nio-auto-3-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.ikn.ums.admin.exception.RoleNameExistsException: Role Name Already Exists]
+20:39:11.588 [http-nio-auto-3-exec-2] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() entered with args - role
+20:39:11.588 [http-nio-auto-3-exec-2] INFO  c.i.u.a.controller.RoleController - RoleController.createRole() is under execution...
+20:39:11.588 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.createRole() ENTERED
+20:39:11.588 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.isRoleExists() ENTERED : role : 
+20:39:11.588 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : Role Id : 0 Role Name : ADMIN
+20:39:11.593 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl  : isRoleNameExists : true
+20:39:11.593 [http-nio-auto-3-exec-2] INFO  c.i.u.a.e.GlobalExceptionHandler - GlobalExceptionHandler.handleRoleNameExistsException() ENTEREDRole Name Already Exists
+20:39:11.594 [http-nio-auto-3-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.ikn.ums.admin.exception.RoleNameExistsException: Role Name Already Exists]
+20:40:51.082 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:41:21.363 [http-nio-auto-3-exec-8] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() ENTERED.
+20:41:21.364 [http-nio-auto-3-exec-8] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() is under execution...
+20:41:21.366 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:41:21.366 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:41:21.366 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.RoleServiceImpl -  getAllRoles() ENTERED.
+20:41:21.408 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.RoleServiceImpl - getAllRoles() : Roles Count : 2
+20:41:21.408 [http-nio-auto-3-exec-8] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() executed successfully
+20:41:21.654 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:41:21.654 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:42:34.705 [http-nio-auto-3-exec-1] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() ENTERED.
+20:42:34.708 [http-nio-auto-3-exec-1] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() is under execution...
+20:42:34.709 [http-nio-auto-3-exec-1] INFO  c.i.u.a.service.impl.RoleServiceImpl -  getAllRoles() ENTERED.
+20:42:34.709 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:42:34.709 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:42:34.741 [http-nio-auto-3-exec-1] INFO  c.i.u.a.service.impl.RoleServiceImpl - getAllRoles() : Roles Count : 2
+20:42:34.741 [http-nio-auto-3-exec-1] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() executed successfully
+20:42:35.010 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:42:35.010 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:42:36.354 [http-nio-auto-3-exec-3] INFO  c.i.u.a.controller.RoleController - RoleController.getRoleById() ENTERED : roleId : 2
+20:42:36.357 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.getRoleById() ENTERED : roleId : 2
+20:42:37.406 [http-nio-auto-3-exec-2] INFO  c.i.u.a.controller.RoleController - RoleController.updateRole() entered with args - role
+20:42:37.406 [http-nio-auto-3-exec-2] INFO  c.i.u.a.controller.RoleController - RoleController.updateRole() is under execution...
+20:42:37.407 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.updateRole() entered with args - role
+20:42:37.416 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.updateRole() is under execution...
+20:42:37.440 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.RoleServiceImpl - RoleServiceImpl.updateRole() executed successfully.
+20:42:37.466 [http-nio-auto-3-exec-2] INFO  c.i.u.a.controller.RoleController - RoleController.updateRole() executed successfully.
+20:42:39.096 [http-nio-auto-3-exec-5] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() ENTERED.
+20:42:39.096 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:42:39.096 [http-nio-auto-3-exec-5] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() is under execution...
+20:42:39.096 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:42:39.096 [http-nio-auto-3-exec-5] INFO  c.i.u.a.service.impl.RoleServiceImpl -  getAllRoles() ENTERED.
+20:42:39.099 [http-nio-auto-3-exec-5] INFO  c.i.u.a.service.impl.RoleServiceImpl - getAllRoles() : Roles Count : 2
+20:42:39.099 [http-nio-auto-3-exec-5] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() executed successfully
+20:42:39.124 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:42:39.124 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:42:59.321 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:42:59.321 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:42:59.356 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:42:59.356 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:43:00.790 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:43:00.790 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:43:00.814 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:43:00.814 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:43:15.595 [http-nio-auto-3-exec-9] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:43:15.596 [http-nio-auto-3-exec-9] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:43:15.626 [http-nio-auto-3-exec-9] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:43:15.626 [http-nio-auto-3-exec-9] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:43:15.656 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:43:15.656 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:43:15.672 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:43:15.672 [http-nio-auto-3-exec-10] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:44:48.582 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:44:48.584 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:44:48.818 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:44:48.818 [http-nio-auto-3-exec-3] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:44:55.423 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:44:55.423 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:44:55.470 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:44:55.470 [http-nio-auto-3-exec-2] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:45:51.093 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:47:50.419 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:47:50.420 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:47:50.891 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:47:50.891 [http-nio-auto-3-exec-6] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:47:51.018 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:47:51.018 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:47:51.040 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:47:51.040 [http-nio-auto-3-exec-8] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:47:51.048 [http-nio-auto-3-exec-7] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() ENTERED.
+20:47:51.048 [http-nio-auto-3-exec-7] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() is under execution...
+20:47:51.049 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.RoleServiceImpl -  getAllRoles() ENTERED.
+20:47:51.056 [http-nio-auto-3-exec-7] INFO  c.i.u.a.service.impl.RoleServiceImpl - getAllRoles() : Roles Count : 2
+20:47:51.056 [http-nio-auto-3-exec-7] INFO  c.i.u.a.controller.RoleController - RoleController.getAllRoles() executed successfully
+20:49:36.778 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() entered with args - emailId : Vaishnav.P@ikcontech.com
+20:49:36.778 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() is under execution...
+20:49:36.850 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() : call to employee microservice successful
+20:49:36.850 [http-nio-auto-3-exec-4] INFO  c.i.u.a.service.impl.UserServiceImpl - UsersServiceImpl.getUserProfile() executed successfully
+20:50:51.117 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+20:55:51.152 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+21:00:51.184 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+22:36:40.484 [HikariPool-3 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=1h34m17s907ms870µs800ns).
+22:39:40.233 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+22:44:40.261 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+22:49:40.276 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+22:54:40.296 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+22:59:40.325 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:04:40.355 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:09:40.367 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:14:40.400 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:19:40.430 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:24:40.437 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:29:40.438 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:34:40.454 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:39:40.464 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:44:40.476 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:49:40.484 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:54:40.494 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+23:59:40.509 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration

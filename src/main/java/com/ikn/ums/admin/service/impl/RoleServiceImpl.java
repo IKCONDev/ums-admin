@@ -96,7 +96,12 @@ public class RoleServiceImpl implements RoleService {
 		if ( roleIds.size() <= 0 )
 			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_MSG);		
-			roleRepository.deleteAllById(roleIds);
+			List<Role> roleList = roleRepository.findAllById(roleIds);
+			if(roleList.size() > 0) {
+				roleList.forEach(role -> {
+					role.setRoleStatus("InActive");
+				});
+			}
 	}
 	@Override
 	public List<Role> getAllRoles() {
