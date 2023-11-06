@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.FilterChain;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ikn.ums.admin.VO.UserVO;
+import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.UserInactiveException;
 import com.ikn.ums.admin.exception.UserNotFoundException;
@@ -95,7 +97,12 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().toString()).compact();
 		response.addHeader("token", webToken);
 		response.addHeader("refreshToken", refreshToken);
-		response.addHeader("userRole", loadedUser.getUserRoles().toString());
+		Iterator<Role> itr = loadedUser.getUserRoles().iterator(); 
+		Role role = null;
+		while(itr.hasNext()) {
+		   role = itr.next();
+		}
+		response.addHeader("userRole", role.getRoleName());
 		response.addHeader("email", loadedUser.getEmail());
 		response.addHeader("twoFactorAuth", Boolean.toString(loadedUser.isTwoFactorAuthentication()));
 		response.addHeader("jwtExpiry", new Date(
