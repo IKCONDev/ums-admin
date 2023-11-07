@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -232,7 +233,9 @@ public class UserServiceImpl implements UserService {
 		user.setActive(true);
 		user.setOtpCode(0);
 		user.setProfilePic(user.getProfilePic());
+		String email= user.getEmail();
 		User savedUser = userRepository.save(user);
+		restTemplate.exchange("http://UMS-EMPLOYEE-SERVICE/employees/employeestatus-update/"+email,HttpMethod.PUT, null, boolean.class);
 		log.info("UsersServiceImpl.createUser() executed successfully.");
 		return savedUser;
 	}
@@ -270,6 +273,7 @@ public class UserServiceImpl implements UserService {
 		}
 		log.info("UsersServiceImpl.deleteUser() is under execution...");
 		userRepository.deleteUserByUserId(emailId);
+		
 		log.info("UsersServiceImpl.deleteUser() executed successfully");
 	}
 
