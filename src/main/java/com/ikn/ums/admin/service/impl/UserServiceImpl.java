@@ -110,16 +110,17 @@ public class UserServiceImpl implements UserService {
 					emailService.sendMail(userName, mailHeading, textBody);
 					break;
 				}
-				 // Set up timer to clear OTP after 60 seconds
-		        Timer timer = new Timer();
-		        timer.schedule( new TimerTask() {
-					@Override
-					public void run() {
-						otp = 0;
-						userRepository.saveOtp(userName, otp);
-					}
-				}, AdminConstants.OTP_ACTIVE_SECONDS);
-			}
+			}//for 
+			 // Set up timer to clear OTP after 60 seconds
+	        Timer timer = new Timer();
+	        timer.schedule( new TimerTask() {
+				@Override
+				@Transactional
+				public void run() {
+					otp = 0;
+					userRepository.saveOtp(userName, otp);
+				}
+			}, AdminConstants.OTP_ACTIVE_SECONDS);
 			return otp;
 		} catch (Exception e) {
 			e.printStackTrace();
