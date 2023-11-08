@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.transaction.Transactional;
 
@@ -25,10 +27,10 @@ import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
-import com.ikn.ums.admin.exception.UserInactiveException;
 import com.ikn.ums.admin.repository.UserRepository;
 import com.ikn.ums.admin.service.RoleService;
 import com.ikn.ums.admin.service.UserService;
+import com.ikn.ums.admin.utils.AdminConstants;
 import com.ikn.ums.admin.utils.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +54,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private RoleService roleService;
 
+	int otp = 0;
+	
 	@Override
 	public User getUserDetailsByUsername(String email) {
 		// old implementation UserDetailsEntity loadedUser =
@@ -83,7 +87,7 @@ public class UserServiceImpl implements UserService {
 	public Integer generateOtpForUser(String userName, String pageType) {
 		log.info("UsersServiceImpl.generateOtpForUser() : userName :" + userName);
 		Random r = new Random();
-		Integer otp = 0;
+		//Integer otp = 0;
 		String text = null;
 		String mailHeading = null;
 		if (pageType.equals("TwoFactorAuth")) {
@@ -94,7 +98,8 @@ public class UserServiceImpl implements UserService {
 			mailHeading = "One Time Password for Secure Login";
 		}
 		try {
-			for (int i = 0; i < r.nextInt(999999); i++) {
+			
+			for (int i = 0; i < r.nextInt(999999); i++) { //TODO Check This
 				System.out.println("executed " + i);
 				otp = r.nextInt(999999);
 				if (otp > 100000 && otp < 999999) {
@@ -105,6 +110,15 @@ public class UserServiceImpl implements UserService {
 					emailService.sendMail(userName, mailHeading, textBody);
 					break;
 				}
+				 // Set up timer to clear OTP after 60 seconds
+		        Timer timer = new Timer();
+		        timer.schedule( new TimerTask() {
+					@Override
+					public void run() {
+						otp = 0;
+						userRepository.saveOtp(userName, otp);
+					}
+				}, AdminConstants.OTP_ACTIVE_SECONDS);
 			}
 			return otp;
 		} catch (Exception e) {
