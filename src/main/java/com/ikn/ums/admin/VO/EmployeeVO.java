@@ -27,4 +27,5 @@ public class EmployeeVO {
 	private Long departmentId;
 	private String gender;
 	private DepartmentVO department;
+	private String dateOfJoining;
 }
