@@ -28,13 +28,13 @@ public class User{
 	@Column(name = "encrypted_password", nullable = false, unique = false)
 	private String encryptedPassword;
 	
-	@Column(name="previousPassword1",nullable=true,unique=true)
+	@Column(name="previousPassword1",nullable=true, unique = false)
 	private String previousPassword1;
 	
-	@Column(name="previousPassword2",nullable=true,unique=true)
+	@Column(name="previousPassword2",nullable=true, unique = false)
 	private String previousPassword2;
 
-	@Column(name="previousPassword",nullable=true,unique=true)
+	@Column(name="previousPassword",nullable=true, unique = false)
 	private String previousPassword;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
