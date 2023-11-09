@@ -59,6 +59,7 @@ public class UserServiceImpl implements UserService {
 	int otpExecutionCount = 0;
 	
 	TimerTask timerTask;
+	Timer timer = new Timer();
 	
 	@Override
 	public User getUserDetailsByUsername(String email) {
@@ -117,16 +118,22 @@ public class UserServiceImpl implements UserService {
 				}
 			}//for
 			
+			//This is done in order to remove exsiting task which is already scheduled for the timer
 			 if( timerTask !=null ) {
+				 //cancel the previous task of timer
 				 timerTask.cancel();
+				 //remove all the cancelled tasks of this timer
+				 timer.purge();
+				 log.info("Existing Otp timer cancelled");
+				 
 			 }
-			 // Set up timer to clear OTP after 60 seconds
-	        Timer timer = new Timer();
-	        
+			 //Start a new timerTask to clear OTP after 60 seconds and attach to the current timer, 
+			 //which is now having no tasks in queue
 	        timerTask =new TimerTask() {
 				@Override
 				@Transactional
 				public void run() {
+					log.info("Otp timer started");
 					otp = 0;
 					userRepository.saveOtp(userName, otp);
 				}
