@@ -56,6 +56,10 @@ public class UserServiceImpl implements UserService {
 
 	int otp = 0;
 	
+	int otpExecutionCount = 0;
+	
+	TimerTask timerTask;
+	
 	@Override
 	public User getUserDetailsByUsername(String email) {
 		// old implementation UserDetailsEntity loadedUser =
@@ -85,6 +89,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public Integer generateOtpForUser(String userName, String pageType) {
+		otpExecutionCount = 1;
 		log.info("UsersServiceImpl.generateOtpForUser() : userName :" + userName);
 		Random r = new Random();
 		//Integer otp = 0;
@@ -110,17 +115,23 @@ public class UserServiceImpl implements UserService {
 					emailService.sendMail(userName, mailHeading, textBody);
 					break;
 				}
-			}//for 
+			}//for
+			
+			 if( timerTask !=null ) {
+				 timerTask.cancel();
+			 }
 			 // Set up timer to clear OTP after 60 seconds
 	        Timer timer = new Timer();
-	        timer.schedule( new TimerTask() {
+	        
+	        timerTask =new TimerTask() {
 				@Override
 				@Transactional
 				public void run() {
 					otp = 0;
 					userRepository.saveOtp(userName, otp);
 				}
-			}, AdminConstants.OTP_ACTIVE_SECONDS);
+			};
+	        timer.schedule(timerTask,AdminConstants.OTP_ACTIVE_SECONDS);
 			return otp;
 		} catch (Exception e) {
 			e.printStackTrace();
