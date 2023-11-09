@@ -299,8 +299,9 @@ public class UserServiceImpl implements UserService {
 		}
 		log.info("UsersServiceImpl.deleteUser() is under execution...");
 		userRepository.deleteUserByUserId(emailId);
-		
 		log.info("UsersServiceImpl.deleteUser() executed successfully");
+		restTemplate.exchange("http://UMS-EMPLOYEE-SERVICE/employees/status-update/"+emailId,HttpMethod.PUT, null, boolean.class);
+		log.info("UsersServiceImpl.createUser() executed successfully.");
 	}
 
 	@Override
