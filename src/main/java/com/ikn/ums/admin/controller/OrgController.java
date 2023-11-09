@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ikn.ums.admin.entity.Organization;
+import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
@@ -124,5 +127,25 @@ public class OrgController {
 			throw umsCE;
 		}
 	}
+	
+	@PostMapping("/saveOrgPic")
+	public ResponseEntity<?> saveOrgProfilePic(@RequestParam("orgPic") MultipartFile orgPic){
+		Organization org = null;
+		try {	
+			List<Organization> orgList = orgService.getAllOrgs();
+			
+			if(orgList.size() == 1) {
+				 org = orgList.get(0);
+			}
+			org.setOrganizationImage(orgPic.getBytes());
+			orgService.updateOrg(org);
+			
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}	
+		return new ResponseEntity<>(org,HttpStatus.OK);
+	}
+	
 	
 }

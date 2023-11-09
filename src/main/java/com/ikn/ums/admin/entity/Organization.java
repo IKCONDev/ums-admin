@@ -90,5 +90,8 @@ public class Organization {
 	
 	@Column(name = "modifiedByEmailId")
 	private String modifiedByEmailId;
+	
+	@Column(name ="organizationImage")
+	private byte[] organizationImage;
 
 }
