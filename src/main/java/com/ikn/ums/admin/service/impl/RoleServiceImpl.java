@@ -4,11 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.exception.EmptyInputException;
@@ -47,7 +46,9 @@ public class RoleServiceImpl implements RoleService {
 		return savedRole;
 	}
 	
-	@Transactional
+	
+//	@Transactional (propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT )
+	@Transactional 
 	@Override
 	public Role updateRole(Role role) {
 		log.info("RoleServiceImpl.updateRole() entered with args - role");
@@ -71,6 +72,7 @@ public class RoleServiceImpl implements RoleService {
 		return updatedRole;
 	}
 
+	@Transactional 
 	@Override
 	public void deleteRole(Long roleId) {
 		log.info("RoleServiceImpl.deleteRole() ENTERED : roleId : " + roleId);
@@ -89,7 +91,7 @@ public class RoleServiceImpl implements RoleService {
 		}
 	}
 
-	@Transactional
+	@Transactional 
 	@Override
 	public void deleteSelectedRolesByIds(List<Long> roleIds) {
 		log.info("RoleServiceImpl.deleteSelectedRolesByIds() ENTERED : roleIds Size : " + roleIds.size() );
