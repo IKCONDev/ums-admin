@@ -63,11 +63,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserDetailsByUsername(String email) {
 		// old implementation UserDetailsEntity loadedUser =
+		log.info("UsersServiceImpl.getUserDetailsByUsername() entered");
+		log.info("UsersServiceImpl.getUserDetailsByUsername() is under execution");
 		User loadedUser = userRepository.findByEmail(email);
 		if (loadedUser == null)
 			throw new UsernameNotFoundException("User with " + email + " does not exist");
 
 		System.out.println("UsersServiceImpl.getUserDetailsByUsername() " + email + " " + loadedUser);
+		log.info("UsersServiceImpl.getUserDetailsByUsername() executed successfully");
 		return loadedUser;
 	}
 
@@ -78,10 +81,13 @@ public class UserServiceImpl implements UserService {
 		 * .getForEntity("http://UMS-EMPLOYEE-SERVICE/employees/" + username,
 		 * EmployeeVO.class); EmployeeVO employeeDetails = response.getBody();
 		 */
+		log.info("UsersServiceImpl.loadUserByUsername() entered");
+		log.info("UsersServiceImpl.loadUserByUsername() is under execution");
 		User userDetails = userRepository.findByEmail(username);
 		if (userDetails == null)
 			throw new UsernameNotFoundException("User does not exists");
 		//userDetails.isActive();
+		log.info("UsersServiceImpl.loadUserByUsername() executed successfully");
 		return new org.springframework.security.core.userdetails.User(userDetails.getEmail(),
 				userDetails.getEncryptedPassword(), true, true, true, true, new ArrayList<>());
 	}
@@ -89,6 +95,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public Integer generateOtpForUser(String userName, String pageType) {
+		log.info("UsersServiceImpl.generateOtpForUser() is entered with args:");
 		otpExecutionCount = 1;
 		log.info("UsersServiceImpl.generateOtpForUser() : userName :" + userName);
 		Random r = new Random();
@@ -103,7 +110,7 @@ public class UserServiceImpl implements UserService {
 			mailHeading = "One Time Password for Secure Login";
 		}
 		try {
-			
+			log.info("UsersServiceImpl.generateOtpForUser() is under execution");
 			for (int i = 0; i < r.nextInt(999999); i++) { //TODO Check This
 				System.out.println("executed " + i);
 				otp = r.nextInt(999999);
@@ -132,6 +139,7 @@ public class UserServiceImpl implements UserService {
 				}
 			};
 	        timer.schedule(timerTask,AdminConstants.OTP_ACTIVE_SECONDS);
+	        log.info("UsersServiceImpl.generateOtpForUser() executed successfully");
 			return otp;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -141,14 +149,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Integer validateUserOtp(String email, String otp) {
+		log.info("UsersServiceImpl.validateUserOtp() entered");
 		int otpCode = Integer.parseInt(otp);
+		log.info("UsersServiceImpl.validateUserOtp() is under execution...");
 		int count = userRepository.validateUserOtp(email, otpCode);
+		log.info("UsersServiceImpl.validateUserOtp() executed successfully");
 		return count;
 	}
 
 	@Override
 	@Transactional
 	public Integer updatePasswordforUser(String email, CharSequence newRawPassword) {
+		log.info("UsersServiceImpl.updatePasswordforUser() entered with args :");
 		User user = userRepository.findByEmail(email);
 
 		if (user == null) {
@@ -166,6 +178,7 @@ public class UserServiceImpl implements UserService {
 				&& passwordEncoder.matches(newRawPassword, user.getPreviousPassword2())) {
 			return 0; // New password matching the second previous password
 		}
+		log.info("UsersServiceImpl.updatePasswordforUser() is under execution");
 		// Updating the previous password fields
 		user.setPreviousPassword2(user.getPreviousPassword1());
 		user.setPreviousPassword1(user.getEncryptedPassword());
@@ -174,18 +187,24 @@ public class UserServiceImpl implements UserService {
 		user.setEncryptedPassword(newEncodedPassword);
 
 		int updateStatus = userRepository.updatePassword(email, newEncodedPassword);
+		log.info("UsersServiceImpl.updatePasswordforUser() executed successfully");
 		return updateStatus;
 	}
 
 	@Override
 	public Integer validateEmailAddress(String email) {
+		log.info("UsersServiceImpl.validateEmailAddress() entered");
+		log.info("UsersServiceImpl.validateEmailAddress() is under execution");
 		int value = userRepository.validateEmail(email);
+		log.info("UsersServiceImpl.validateEmailAddress() executed successfully");
 		return value;
 	}
 
 	@Transactional
 	@Override
 	public Integer updateUserTwoFactorAuthStatus(String email, boolean isOn) {
+		log.info("UsersServiceImpl.updateUserTwoFactorAuthStatus() entered");
+		log.info("UsersServiceImpl.updateUserTwoFactorAuthStatus() executed successfully");
 		return userRepository.updateTwofactorAuthenticationStatus(email, isOn);
 	}
 
@@ -226,8 +245,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User updateProfilePicByEmail(String email) {
+		log.info("UsersServiceImpl.updateProfilePicByEmail() is entered with args - "+ email);
 		if (email != null) {
+			log.info("UsersServiceImpl.updateProfilePicByEmail() is under execution");
 			User updateUser = userRepository.save(getUserDetailsByUsername(email));
+			log.info("UsersServiceImpl.updateProfilePicByEmail() executed successfully");
 			return updateUser;
 		}
 		return null;
@@ -235,12 +257,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUserProfilePic(User userDetails) {
-		return userRepository.save(userDetails);
+		log.info("UsersServiceImpl.updateUserProfilePic() entered");
+		log.info("UsersServiceImpl.updateUserProfilePic() is under execution");
+		User updatedUser = userRepository.save(userDetails);
+		log.info("UsersServiceImpl.updateUserProfilePic() executed successfully");
+		return updatedUser;
 	}
 
 	@Override
 	public List<String> getActiveUsersEmailIdList(boolean isActive) {
+		log.info("UsersServiceImpl.getActiveUsersEmailIdList() entered");
+		log.info("UsersServiceImpl.getActiveUsersEmailIdList() is under execution");
 		List<String> userEmailIdList = userRepository.findAllActiveUsersEmailIdList(isActive);
+		log.info("UsersServiceImpl.getActiveUsersEmailIdList() executed successfully");
 		return userEmailIdList;
 	}
 
@@ -306,11 +335,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUserRoleByUserId(String emailId) {
+		log.info("UsersServiceImpl.updateUserRoleByUserId() entered c with args - emailId");
 		Set<Role> userRoleList = null;
 		if (emailId.equals(null) || emailId == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 		}
+		log.info("UsersServiceImpl.updateUserRoleByUserId() is under execution...");
 		User user = userRepository.findByEmail(emailId);
 		// update user with new role, for now its harcoded, later will come from UI,
 		// according to admin selection
@@ -324,6 +355,7 @@ public class UserServiceImpl implements UserService {
 		}
 		// set the new role to user
 		user.setUserRoles(userRoleList);
+		log.info("UsersServiceImpl.updateUserRoleByUserId() executed successfully");
 		return user;
 	}
 

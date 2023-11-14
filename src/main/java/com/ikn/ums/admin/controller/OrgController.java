@@ -129,8 +129,10 @@ public class OrgController {
 	
 	@PostMapping("/saveOrgPic")
 	public ResponseEntity<?> updateOrgPic(@RequestParam MultipartFile orgPic){
+		log.info("OrgController.updateOrgPic() entered with args - orgpic");
 		Organization org = null;
 		try {
+		log.info("OrgController.getOrg() is under execution...");
 		List<Organization> orgList = orgService.getAllOrgs();
 		if(orgList.size() == 1) {
 			 org = orgList.get(0);
@@ -139,7 +141,8 @@ public class OrgController {
 		updateOrg(org);	
 	}catch (Exception e) {
 		// TODO: handle exception
-	}
+	} 
+		log.info("OrgController.updateOrgPic() executed successfully");
 		return new ResponseEntity<>(org, HttpStatus.OK);
 	}
 	

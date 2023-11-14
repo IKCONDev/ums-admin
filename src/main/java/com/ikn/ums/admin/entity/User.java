@@ -75,6 +75,8 @@ public class User{
 	
 	@Column(name = "modifiedByEmailId")
 	private String modifiedByEmailId;
+	
+	
 }
 
 

@@ -134,7 +134,9 @@ public class RoleController {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
 		try {
+			log.info("RoleController.getRoleById() is under execution...");
 			Optional<Role> role = roleService.getRoleById(roleId);
+			log.info("RoleController.getRoleById() executed successfully");
 			return role.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 		}catch (EmptyInputException businessException) {
 			throw businessException;

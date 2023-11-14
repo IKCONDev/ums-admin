@@ -30,8 +30,10 @@ public class OrgServiceImpl implements OrgService {
 	@Override
 	public List<Organization> getAllOrgs() {
 		log.info("OrgServiceImpl.getAllOrgs() ENTERED.");
+		log.info("OrgServiceImpl.getAllOrgs() is under execution...");
 		List<Organization> orgsList = null;
 		orgsList = orgRepository.findAll();
+		log.info("OrgServiceImpl.getAllOrgs() executed successfully");
 		return orgsList;
 	}
 
@@ -41,12 +43,13 @@ public class OrgServiceImpl implements OrgService {
 		if (orgId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ORG_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ORG_ID_IS_EMPTY_MSG);
+		log.info("OrgServiceImpl.getOrgById() is under execution..");
 		Optional<Organization> optOrg = orgRepository.findById(orgId);
 		Organization org = null;
 		if(optOrg.isPresent()) {
 			org = optOrg.get();
 		}
-		
+		log.info("OrgServiceImpl.getOrgById() executed successfully");
 		return org;
 	}
 
@@ -56,12 +59,16 @@ public class OrgServiceImpl implements OrgService {
 		if (org == null) 
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_MSG);
+		log.info("OrgServiceImpl.createOrg() is under execution...");
 		Organization savedOrg = orgRepository.save(org);
+		log.info("OrgServiceImpl.createOrg() exected successfully");
 		return savedOrg;
 	}
 
 	@Override
 	public Organization updateOrg(Organization org) {
+		log.info("OrgServiceImpl.updateOrg() ENTERED with args - org");
+		log.info("OrgServiceImpl.updateOrg() is under execution...");
 		Optional<Organization> optOrg = orgRepository.findById(org.getOrgId());
 		Organization dbOrg = null;
 		if(optOrg.isPresent()) {
@@ -69,16 +76,19 @@ public class OrgServiceImpl implements OrgService {
 		}
 		mapper.map(org, dbOrg);
 		Organization updatedOrg = orgRepository.save(dbOrg);
+		log.info("OrgServiceImpl.updateOrg() exected successfully");
 		return updatedOrg;
 	}
 
 	@Override
 	public void deleteOrgById(Integer orgId) {
 		log.info("OrgServiceImpl.deleteOrg() ENTERED : orgId : " + orgId);
+		log.info("OrgServiceImpl.deleteOrg() is under execution...");
 		if (orgId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
 		orgRepository.deleteById(orgId);
+		log.info("OrgServiceImpl.deleteOrg() executed successfully");
 	}
 
 }

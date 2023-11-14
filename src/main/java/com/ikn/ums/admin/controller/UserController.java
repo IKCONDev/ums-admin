@@ -103,12 +103,13 @@ public class UserController {
 	public ResponseEntity<?> updateUserRole(@PathVariable("userId") String emailId){
 		log.info("AdminController.updateUserRole() entered with args - emailid/userid : "+emailId);
 		if(emailId.equals("") || emailId == null) {
-			log.info("AdminController.updateUserRole()");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 		}
 		try {
+			log.info("AdminController.updateUserRole() is under execution...");
 			User updatedUserWithNewRole = userService.updateUserRoleByUserId(emailId);
+			log.info("AdminController.updateUserRole() executed successfully");
 			return new ResponseEntity<>(updatedUserWithNewRole, HttpStatus.PARTIAL_CONTENT);
 		}catch (Exception e) {
 			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_UPDATE_UNSUCCESS_CODE,

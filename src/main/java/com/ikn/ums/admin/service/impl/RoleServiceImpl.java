@@ -40,9 +40,11 @@ public class RoleServiceImpl implements RoleService {
 		if (isRoleNameExists(role)) 
 			throw new RoleNameExistsException(ErrorCodeMessages.ERR_ROLE_NAME_EXISTS_CODE,
 					ErrorCodeMessages.ERR_ROLE_NAME_EXISTS_MSG);
+		log.info("RoleServiceImpl.createRole() is under execution...");
 		role.setCreatedDateTime(LocalDateTime.now());
 		role.setRoleStatus(AdminConstants.STATUS_ACTIVE);
 		Role savedRole = roleRepository.save(role);
+		log.info("RoleServiceImpl.createRole() executed successfully");
 		return savedRole;
 	}
 	
@@ -57,7 +59,6 @@ public class RoleServiceImpl implements RoleService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		}
-		
 		Optional<Role> optRole = roleRepository.findById(role.getRoleId());
 		Role dbRole = null;
 		if(optRole.isPresent()) {
@@ -80,6 +81,7 @@ public class RoleServiceImpl implements RoleService {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
 		//retrieve the role details
+		log.info("RoleServiceImpl.deleteRole() is under execution...");
 		Optional<Role> optRole = roleRepository.findById(roleId);
 		
 		if ( !optRole.isPresent() || optRole == null ) {
@@ -88,6 +90,7 @@ public class RoleServiceImpl implements RoleService {
 		} else {
 			optRole.get().setRoleStatus(AdminConstants.STATUS_IN_ACTIVE);
 			updateRole(optRole.get());
+			log.info("RoleServiceImpl.deleteRole() executed successfully");
 		}
 	}
 
@@ -109,29 +112,35 @@ public class RoleServiceImpl implements RoleService {
 	public List<Role> getAllRoles() {
 		log.info("getAllRoles() ENTERED.");
 		List<Role> rolesList = null;
+		log.info("getAllRoles() is under execution...");
 		rolesList = roleRepository.findAllRoles( AdminConstants.STATUS_ACTIVE );
 		if ( rolesList == null || rolesList.isEmpty() || rolesList.size() == 0 )
 			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_ALREADY_EXISTS_MSG);
 		log.info("getAllRoles() : Total Roles Count : " + rolesList.size());
+		log.info("getAllRoles() executed successfully");
 		return rolesList;
 	}
 
 	@Override
 	public Optional<Role> getRoleById(Long roleId) {
 		log.info("RoleServiceImpl.getRoleById() ENTERED : roleId : " + roleId);
+		log.info("RoleServiceImpl.getRoleById() is under execution...");
 		if (roleId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
+		log.info("RoleServiceImpl.getRoleById() executed successfully");
 		return roleRepository.findById(roleId);
 	}
 
 	@Override
 	public Optional<Role> getRoleByName(String roleName) {
 		log.info("RoleServiceImpl.getRoleByName() ENTERED : roleName : " + roleName);
+		log.info("RoleServiceImpl.getRoleByName() is under execution...");
 		if (roleName == null || roleName.isEmpty() || roleName.length() == 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_NAME_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_NAME_IS_EMPTY_MSG);
+		log.info("RoleServiceImpl.getRoleByName() executed successfully");
 		return roleRepository.findByRoleName(roleName);
 	}
 
@@ -148,6 +157,7 @@ public class RoleServiceImpl implements RoleService {
 			isRoleNameExists = optRole.isPresent();
 			log.info("RoleServiceImpl  : isRoleNameExists : " + isRoleNameExists);
 		}
+		log.info("RoleServiceImpl.isRoleExists() executed successfully" );
 		return isRoleNameExists;
 	}
 	

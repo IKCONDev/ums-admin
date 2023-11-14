@@ -61,10 +61,12 @@ public class AuthenticationController {
 			if (email.isBlank() || email.length() == 0)
 				throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 						ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
+			log.info("UserController.generateAndSendOtpToUser() is under execution...");
 			Integer otp = userService.generateOtpForUser(email,pageType);
 			if (otp <= 0)
 				throw new EmptyOTPException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE,
 						ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
+			log.info("UserController.generateAndSendOtpToUser() executed successfully");
 			return new ResponseEntity<>(otp, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("UserController.generateAndSendOtpToUser() : Exception Occurred." + e.getMessage());
@@ -75,38 +77,50 @@ public class AuthenticationController {
 
 	@PostMapping("/validate-otp")
 	public ResponseEntity<?> validateUserOtp(@RequestBody ValidateOtpRequestModel otpRequestModel) {
+		log.info("UserController.validateUserOtp() ENTERED with args : otpRequestModel ");
 		if (otpRequestModel == null) {
 			log.info("UserController.validateUserOtp() ValidateOtpRequestModel Object in NULL");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
 		try {
+			log.info("UserController.validateUserOtp() is under execution...");
 			int count = userService.validateUserOtp(otpRequestModel.getEmail(), otpRequestModel.getOtpCode());
+			log.info("UserController.validateUserOtp() executed successfully");
 			return new ResponseEntity<>(count, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error("UserController.validateUserOtp() : Exception Occurred." + e.getMessage());
 			return new ResponseEntity<>(e.getStackTrace(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PostMapping("/reset-password")
 	public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequestModel updatePasswordModel) {
+		log.info("UserController.updatePassword() ENTERED with args : updatePasswordModel");
 		try {
+			log.info("UserController.updatePassword() is under execution...");
 			int updateStatus = userService.updatePasswordforUser(updatePasswordModel.getEmail(),
 					updatePasswordModel.getConfirmPassword());
+			log.info("UserController.updatePassword() executed successfully");
 			return new ResponseEntity<>(updateStatus, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error("UserController.updatePassword() : Exception Occurred." + e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@GetMapping("/validate-email/{email}")
 	public ResponseEntity<?> verifyEmailAddress_ForOtp(@PathVariable String email) {
+		log.info("UserController.verifyEmailAddress_ForOtp() ENTERED with args :"+email);
 		try {
+			log.info("UserController.verifyEmailAddress_ForOtp() is under execution...");
 			Integer value = userService.validateEmailAddress(email);
+			log.info("UserController.verifyEmailAddress_ForOtp() executed successfully");
 			return new ResponseEntity<Integer>(value, HttpStatus.OK);
 		} catch (Exception e) {
+			log.error("UserController.verifyEmailAddress_ForOtp() : Exception Occurred." + e.getMessage());
 			return new ResponseEntity<>("Error while validating email, please try again",
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -115,12 +129,16 @@ public class AuthenticationController {
 
 	@GetMapping("/user-profile/{username}")
 	public ResponseEntity<?> fetchUserProfile(@PathVariable String username) {
+		log.info("UserController.fetchUserProfile() ENTERED with args :"+username);
 		try {
+			log.info("UserController.fetchUserProfile() is under execution...");
 			UserVO userprofileDetails = userService.getUserProfile(username);
 			System.out.println(userprofileDetails);
+			log.info("UserController.fetchUserProfile() executed successfully");
 			return new ResponseEntity<>(userprofileDetails, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error("UserController.fetchUserProfile() : Exception Occurred." + e.getMessage());
 			return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
 		}
 	}
@@ -133,11 +151,15 @@ public class AuthenticationController {
 	@PatchMapping("/update-auth/{username}/{isOn}")
 	public ResponseEntity<?> updateUserTwofactorAuthentication(@PathVariable String username,
 			@PathVariable("isOn") boolean isTwoFactorSwitched) {
+		log.info("UserController.updateUserTwofactorAuthentication() ENTERED with args :"+username);
 		try {
+			log.info("UserController.updateUserTwofactorAuthentication() is under execution...");
 			Integer value = userService.updateUserTwoFactorAuthStatus(username, isTwoFactorSwitched);
+			log.info("UserController.updateUserTwofactorAuthentication() executed successfully");
 			return new ResponseEntity<>(value, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.error("UserController.updateUserTwofactorAuthentication() : Exception Occurred." + e.getMessage());
 			return new ResponseEntity<>("Error while updating two factor authentication status",
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -146,21 +168,25 @@ public class AuthenticationController {
 	@PostMapping("/profile-pic")
 		public ResponseEntity<?> updateUserProfilePicture(@RequestParam("email") String userEmailId,
 				@RequestParam("profilePic") MultipartFile profilePicImage) throws ImageNotFoundException {
+		        log.info("UserController.updateUserProfilePicture() ENTERED with args :");
 				String contentType=profilePicImage.getContentType();
 				if(!contentType.startsWith("image/")) {
 					throw new ImageNotFoundException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
 							ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
 				 }
-			try {	
+			try {
+				log.info("UserController.updateUserProfilePicture() is under execution...");
 				User updatedUser = null;
 				if(contentType.startsWith("image/")) {
 				User dbUser = userService.getUserDetailsByUsername(userEmailId);
 				dbUser.setProfilePic(profilePicImage.getBytes());
 				updatedUser = userService.updateUserProfilePic(dbUser);	
 				}
+				log.info("UserController.updateUserProfilePicture() executed successfully");
 				return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 			}catch (Exception e) {
 					//return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				log.error("UserController.updateUserProfilePicture() : Exception Occurred." + e.getMessage());
 				throw new ControllerException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
 						ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
 			}	
@@ -168,9 +194,20 @@ public class AuthenticationController {
 	
 	@GetMapping("/getEmail-list")
 	public ResponseEntity<?> getActiveUsersEmailIdList(){
+		log.info("UserController.getActiveUsersEmailIdList() ENTERED with args :");
 		boolean isActive = true;
-		List<String> activeUserEmailIdList = userService.getActiveUsersEmailIdList(isActive);
-		return new ResponseEntity<>(activeUserEmailIdList, HttpStatus.OK);
+		try {
+			log.info("UserController.getActiveUsersEmailIdList() is under execution...");
+			List<String> activeUserEmailIdList = userService.getActiveUsersEmailIdList(isActive);
+			log.info("UserController.getActiveUsersEmailIdList() executed successfully");
+			return new ResponseEntity<>(activeUserEmailIdList, HttpStatus.OK);
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error("UserController.getActiveUsersEmailIdList() : Exception Occurred." + e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_LIST_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_USER_LIST_IS_EMPTY_MSG);
+		}
+		
 	}
 
 }

@@ -94,4 +94,9 @@ public class Organization {
 	@Column(name = "organizationImage")
 	private byte[] organizationImage;
 
+	public void setOrganizationImage(byte[] bytes) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
