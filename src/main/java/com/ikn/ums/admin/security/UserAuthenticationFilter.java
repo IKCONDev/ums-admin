@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ikn.ums.admin.VO.UserVO;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
+import com.ikn.ums.admin.exception.LoginAttemptsExceededException;
 import com.ikn.ums.admin.exception.UserInactiveException;
 import com.ikn.ums.admin.exception.UserNotFoundException;
 import com.ikn.ums.admin.model.UserLoginRequestModel;
@@ -49,16 +50,26 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-
+		int i = 1;
 		try {
 			UserLoginRequestModel creds = new ObjectMapper().readValue(request.getInputStream(),
 					UserLoginRequestModel.class);
 			UserVO loadedUser = service.getUser(creds.getEmail());
 			if(loadedUser != null) {
 				boolean isActive = loadedUser.isActive();
+				com.ikn.ums.admin.entity.User loginAttemptedUser = service.getUserDetailsByUsername(creds.getEmail());
+				//get user datails and update login attempts
+				loginAttemptedUser.setLoginAttempts(loginAttemptedUser.getLoginAttempts()+i);
+				com.ikn.ums.admin.entity.User updatedUserWithLogginAttempts = service.updateUser(loginAttemptedUser);
 				if(!isActive) {
 					throw new UserInactiveException(ErrorCodeMessages.ERR_USER_INACTIVE_CODE,
 							ErrorCodeMessages.ERR_USER_INACTIVE_MSG);
+				}
+				else if(isActive && updatedUserWithLogginAttempts.getLoginAttempts() >3 ){
+					updatedUserWithLogginAttempts.setActive(false);
+					service.updateUser(updatedUserWithLogginAttempts);
+					throw new LoginAttemptsExceededException(ErrorCodeMessages.ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_CODE,
+						ErrorCodeMessages.ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_MSG);
 				}
 			}
 			return getAuthenticationManager().authenticate(
@@ -78,6 +89,11 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		//get employee and their department details
 		UserVO loadedUser = service.getUser(userName);
 		log.info("UserAuthenticationFilter.successfulAuthentication() "+loadedUser);
+		
+		//on sucessful auth set login attempts to 0
+		com.ikn.ums.admin.entity.User loggedInUser = service.getUserDetailsByUsername(userName);
+		loggedInUser.setLoginAttempts(0);
+		service.updateUser(loggedInUser);
 		/*
 		if(loadedUser == null) {
 			throw new UserNotFoundException(ErrorCodeMessages.ERR_USER_NOT_FOUND_CODE, 

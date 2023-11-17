@@ -155,6 +155,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_USER_INACTIVE_CODE = "ERR_USER_INACTIVE_CODE-1043";
 	 public static final String ERR_USER_INACTIVE_MSG = "User is inactive - Cannot Login";
 	 
+	 public static final String ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_CODE = "ERR_USER_LOGIN_ATTEMPTS_CODE-1043";
+	 public static final String ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_MSG = "Login attempts exceeded moew than 3";
+	 
 	 
 	 
 	 //ORGANIZATION MODULE ERROR CODES

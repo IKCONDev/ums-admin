@@ -58,6 +58,9 @@ public class User{
 	@Column(name = "isActive")
 	private boolean isActive;
 	
+	@Column(name = "loginAttempts")
+	private int loginAttempts;
+	
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;
 	
