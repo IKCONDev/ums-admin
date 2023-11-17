@@ -17,10 +17,12 @@ com\ikn\ums\admin\controller\AuthenticationController.class
 com\ikn\ums\admin\service\OrgService.class
 com\ikn\ums\admin\exception\GlobalExceptionHandler.class
 com\ikn\ums\admin\service\RoleService.class
+com\ikn\ums\admin\exception\UserInactiveException.class
 com\ikn\ums\admin\repository\UserRepository.class
 com\ikn\ums\admin\exception\BusinessException.class
 com\ikn\ums\admin\repository\OrgRepository.class
 com\ikn\ums\admin\VO\DepartmentVO.class
+com\ikn\ums\admin\exception\LoginAttemptsExceededException.class
 com\ikn\ums\admin\controller\RoleController.class
 com\ikn\ums\admin\VO\UserVO.class
 com\ikn\ums\admin\entity\Role.class
@@ -30,7 +32,12 @@ com\ikn\ums\admin\entity\User.class
 com\ikn\ums\admin\utils\EmailService.class
 com\ikn\ums\admin\entity\Organization.class
 com\ikn\ums\admin\exception\EmptyInputException.class
+com\ikn\ums\admin\exception\RoleNameExistsException.class
 com\ikn\ums\admin\service\impl\RoleServiceImpl.class
+com\ikn\ums\admin\service\impl\UserServiceImpl$1.class
 com\ikn\ums\admin\model\UserLoginRequestModel.class
+com\ikn\ums\admin\utils\AdminConstants.class
 com\ikn\ums\admin\model\UserProfilePicDetailsRequestModel.class
+com\ikn\ums\admin\exception\UserNotFoundException.class
 com\ikn\ums\admin\model\ValidateOtpRequestModel.class
+com\ikn\ums\admin\VO\DesignationVO.class
