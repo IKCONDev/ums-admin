@@ -49,7 +49,6 @@ public class RoleServiceImpl implements RoleService {
 	}
 	
 	
-//	@Transactional (propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT )
 	@Transactional 
 	@Override
 	public Role updateRole(Role role) {
@@ -116,7 +115,7 @@ public class RoleServiceImpl implements RoleService {
 		rolesList = roleRepository.findAllRoles( AdminConstants.STATUS_ACTIVE );
 		if ( rolesList == null || rolesList.isEmpty() || rolesList.size() == 0 )
 			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_ROLE_ID_ALREADY_EXISTS_MSG);
+					ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_MSG);
 		log.info("getAllRoles() : Total Roles Count : " + rolesList.size());
 		log.info("getAllRoles() executed successfully");
 		return rolesList;

@@ -101,11 +101,12 @@ public class RoleController {
 			throw businessException;
 		} 
 		catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
-					ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_MSG);
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_MSG);
 			throw umsCE;
 		}
 	}
+	
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllRoles() {
 		log.info("RoleController.getAllRoles() ENTERED.");
@@ -121,8 +122,8 @@ public class RoleController {
 			// TODO: handle exception
 			log.info("RoleController.getAllRoles() exited with exception : Exception occured fetching roles list."
 					+ e.getMessage());
-			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_MSG);
 		}
 
 	}
