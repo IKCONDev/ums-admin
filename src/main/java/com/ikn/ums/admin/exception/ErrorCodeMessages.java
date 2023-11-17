@@ -152,13 +152,51 @@ public class ErrorCodeMessages {
 	 public static final String ERR_USER_NOT_FOUND_CODE = "ERR_USER_NOT_FOUND_CODE-1043";
 	 public static final String ERR_USER_NOT_FOUND_MSG = "User does not exists to Login";
 	 
-	 public static final String ERR_USER_INACTIVE_CODE = "ERR_USER_INACTIVE_CODE-1043";
+	 public static final String ERR_USER_INACTIVE_CODE = "ERR_USER_INACTIVE_CODE-1044";
 	 public static final String ERR_USER_INACTIVE_MSG = "User is inactive - Cannot Login";
 	 
-	 public static final String ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_CODE = "ERR_USER_LOGIN_ATTEMPTS_CODE-1043";
+	 public static final String ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_CODE = "ERR_USER_LOGIN_ATTEMPTS_CODE-1045";
 	 public static final String ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_MSG = "Login attempts exceeded moew than 3";
 	 
-	 
-	 
 	 //ORGANIZATION MODULE ERROR CODES
+	 
+	//PERMISSION MODULE ERROR CODES
+		 public static final String ERR_PERMISSION_ID_ALREADY_EXISTS_CODE = "PERMISSION_ID_ALREADY_EXISTS-1046";
+		 public static final String ERR_PERMISSION_ID_ALREADY_EXISTS_MSG = "Permission Id Already Exists."; 
+
+		 public static final String ERR_PERMISSION_VALUE_IS_NULL_CODE = "PERMISSION_VALUE_IS_NULL-1047";
+		 public static final String ERR_PERMISSION_VALUE_IS_NULL_MSG = "Permission Value is Null."; 
+		 
+		 public static final String PERMISSION_SAVE_SUCCESS_CODE = "PERMISSION_CREATE_SUCCESS_CODE-1048";
+		 public static final String PERMISSION_SAVE_SUCCESS_MSG = "Permission created Sucessfully."; 	 
+		 
+		 public static final String ERR_PERMISSION_LIST_IS_EMPTY_CODE = "PERMISSION_LIST_IS_EMPTY-1049";
+		 public static final String ERR_PERMISSION_LIST_IS_EMPTY_MSG = "Permission List Is Empty."; 	 
+
+		 public static final String ERR_PERMISSION_VALUE_IS_EMPTY_CODE = "PERMISSION_VALUE_IS_EMPTY-1050";
+		 public static final String ERR_PERMISSION_VALUE_IS_EMPTY_MSG = "Permission Value Is Empty."; 	 
+
+		 public static final String ERR_PERMISSION_ENTITY_IS_NULL_CODE = "PERMISSION_ENTITY_IS_NULL-1051";
+		 public static final String ERR_PERMISSION_ENTITY_IS_NULL_MSG = "Permission Entity is Null."; 
+		 
+		 public static final String ERR_PERMISSION_CREATE_UNSUCCESS_CODE = "PERMISSION_CREATE_UNSUCCESS_CODE-1052";
+		 public static final String ERR_PERMISSION_CREATE_UNSUCCESS_MSG = "Exception occured while creating Permission";
+		 
+		 public static final String ERR_PERMISSION_DELETE_UNSUCCESS_CODE = "PERMISSION_DELETE_UNSUCCESS_CODE-1053";
+		 public static final String ERR_PERMISSION_DELETE_UNSUCCESS_MSG = "Exception occured while deleting Permission";
+		 
+		 public static final String ERR_PERMISSION_UPDATE_UNSUCCESS_CODE = "PERMISSION_UPDATE_UNSUCCESS_CODE-1054";
+		 public static final String ERR_PERMISSION_UPDATE_UNSUCCESS_MSG = "Exception occured while updating Permission";
+
+		 public static final String ERR_PERMISSION_VALUE_EXISTS_CODE = "PERMISSION_VALUE_EXISTS_CODE-1055";
+		 public static final String ERR_PERMISSION_VALUE_EXISTS_MSG = "Permission Value Already Exists";
+		 
+		 public static final String ERR_PERMISSION_GET_UNSUCCESS_CODE = "ERR_PERMISSION_GET_UNSUCCESS_CODE-1056";
+		 public static final String ERR_PERMISSION_GET_UNSUCCESS_MSG = "Error while getting user Permission(s)";
+
+		 public static final String ERR_PERMISSION_ID_IS_EMPTY_CODE = "ERR_PERMISSION_ID_IS_EMPTY_CODE-1057";
+		 public static final String ERR_PERMISSION_ID_IS_EMPTY_MSG = "Permission Id is Empty !";
+
+		 public static final String ERR_PERMISSION_IS_IN_USAGE_CODE = "ERR_PERMISSION_IS_IN_USAGE_CODE-1058";
+		 public static final String ERR_PERMISSION_IS_IN_USAGE_MSG = "Permission is in Usage !";
 }
