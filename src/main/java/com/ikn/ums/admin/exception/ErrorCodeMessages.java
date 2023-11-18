@@ -199,4 +199,47 @@ public class ErrorCodeMessages {
 
 		 public static final String ERR_PERMISSION_IS_IN_USAGE_CODE = "ERR_PERMISSION_IS_IN_USAGE_CODE-1058";
 		 public static final String ERR_PERMISSION_IS_IN_USAGE_MSG = "Permission is in Usage !";
+		 
+		 //PERMISSION MODULE ERROR CODES 
+		 
+		//MENU ITEM MODULE ERROR CODES
+		 
+		 public static final String ERR_MENU_ITEM_ID_ALREADY_EXISTS_CODE = "MENU_ITEM_ID_ALREADY_EXISTS-1059";
+		 public static final String ERR_MENU_ITEM_ID_ALREADY_EXISTS_MSG = "Menu Item Id Already Exists."; 
+
+		 public static final String ERR_MENU_ITEM_NAME_IS_NULL_CODE = "MENU_ITEM_VALUE_IS_NULL-1060";
+		 public static final String ERR_MENU_ITEM_NAME_IS_NULL_MSG = "Menu Item Value is Null."; 
+		 
+		 public static final String MENU_ITEM_CREATE_SUCCESS_CODE = "MENU_ITEM_CREATE_SUCCESS_CODE-1061";
+		 public static final String MENU_ITEM_CREATE_SUCCESS_MSG = "Menu Item created Sucessfully."; 	 
+		 
+		 public static final String ERR_MENU_ITEM_LIST_IS_EMPTY_CODE = "MENU_ITEM_LIST_IS_EMPTY-1062";
+		 public static final String ERR_MENU_ITEM_LIST_IS_EMPTY_MSG = "Menu Item List Is Empty."; 	 
+
+		 public static final String ERR_MENU_ITEM_NAME_IS_EMPTY_CODE = "MENU_ITEM_NAME_IS_EMPTY-1063";
+		 public static final String ERR_MENU_ITEM_NAME_IS_EMPTY_MSG = "Menu Item Name Is Empty."; 	 
+
+		 public static final String ERR_MENU_ITEM_ENTITY_IS_NULL_CODE = "MENU_ITEM_ENTITY_IS_NULL-1064";
+		 public static final String ERR_MENU_ITEM_ENTITY_IS_NULL_MSG = "Menu Item Entity is Null."; 
+		 
+		 public static final String ERR_MENU_ITEM_CREATE_UNSUCCESS_CODE = "MENU_ITEM_CREATE_UNSUCCESS_CODE-1065";
+		 public static final String ERR_MENU_ITEM_CREATE_UNSUCCESS_MSG = "Exception occured while creating Menu Item";
+		 
+		 public static final String ERR_MENU_ITEM_DELETE_UNSUCCESS_CODE = "MENU_ITEM_DELETE_UNSUCCESS_CODE-1066";
+		 public static final String ERR_MENU_ITEM_DELETE_UNSUCCESS_MSG = "Exception occured while deleting Menu Item";
+		 
+		 public static final String ERR_MENU_ITEM_UPDATE_UNSUCCESS_CODE = "MENU_ITEM_UPDATE_UNSUCCESS_CODE-1067";
+		 public static final String ERR_MENU_ITEM_UPDATE_UNSUCCESS_MSG = "Exception occured while updating Menu Item";
+
+		 public static final String ERR_MENU_ITEM_NAME_EXISTS_CODE = "MENU_ITEM_Name_EXISTS_CODE-1068";
+		 public static final String ERR_MENU_ITEM_NAME_EXISTS_MSG = "Menu Item Name Already Exists";
+		 
+		 public static final String ERR_MENU_ITEM_GET_UNSUCCESS_CODE = "ERR_MENU_ITEM_GET_UNSUCCESS_CODE-1069";
+		 public static final String ERR_MENU_ITEM_GET_UNSUCCESS_MSG = "Error while getting user Menu Items(s)";
+
+		 public static final String ERR_MENU_ITEM_ID_IS_EMPTY_CODE = "ERR_MENU_ITEM_ID_IS_EMPTY_CODE-1070";
+		 public static final String ERR_MENU_ITEM_ID_IS_EMPTY_MSG = "Menu Item Id is Empty !";
+
+		 public static final String ERR_MENU_ITEM_IS_IN_USAGE_CODE = "ERR_MENU_ITEM_IS_IN_USAGE_CODE-1071";
+		 public static final String ERR_MENU_ITEM_IS_IN_USAGE_MSG = "Menu Item is in Usage !";
 }

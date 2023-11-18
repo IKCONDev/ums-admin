@@ -87,6 +87,8 @@ public class RoleServiceImpl implements RoleService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		} else {
+			
+			//TODO: If Role is already assgined to a particular user, it cannot be deleted. Need implementation.
 			optRole.get().setRoleStatus(AdminConstants.STATUS_IN_ACTIVE);
 			updateRole(optRole.get());
 			log.info("RoleServiceImpl.deleteRole() executed successfully");

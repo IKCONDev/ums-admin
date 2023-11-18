@@ -195,7 +195,7 @@ public class PermisssionServiceImpl implements PermissionService {
 		permissionList = permissionRepository.findAllPermissions(AdminConstants.STATUS_ACTIVE);
 		if ( permissionList == null || permissionList.isEmpty() || permissionList.size() == 0 )
 			throw new EmptyListException(ErrorCodeMessages.ERR_PERMISSION_LIST_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_PERMISSION_LIST_IS_EMPTY_CODE);
+					ErrorCodeMessages.ERR_PERMISSION_LIST_IS_EMPTY_MSG);
 		log.info("getAllPermissions() : Total Permissions Count : " + permissionList.size());
 		log.info("getAllPermissions() executed successfully");
 		return permissionList;
