@@ -42,7 +42,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 		log.info("MenuItemServiceImpl.createMenuItem() ENTERED");
 	
 		if (menuItemDTO == null) {
-			log.info("Permission Object is null .... ");
+			log.info("Menu Item Object is null .... ");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_MSG);
 		}
@@ -117,7 +117,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 
 		log.info("MenuItemServiceImpl.deleteMenuItemById() ENTERED ");
 		if (menuItemId <= 0) {
-			log.info("Permission Id cannot be empty permissionId : " + menuItemId);
+			log.info("Menu Item Id cannot be empty menuItemId : " + menuItemId);
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
@@ -137,7 +137,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 		Long rowsFound = menuItemRepository.countMenuItemUsage(menuItem.getMenuItemId());
 		if (rowsFound > 0) {
 			log.info("Menu Items are assigned to Role and cannot be deleted ! : " + rowsFound );
-			// permission cannot be deleted as they are already in use
+			// Menu Items cannot be deleted as they are already in use
 			throw new MenuItemInUsageException(ErrorCodeMessages.ERR_MENU_ITEM_IS_IN_USAGE_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_IS_IN_USAGE_MSG);
 		}
@@ -165,7 +165,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 				
 		List<MenuItem> menuItemList = menuItemRepository.findAllById(menuItemIds);
 		
-		//TODO: Need to implement the logic for each Permission Id, we have to check if the permission is in usage
+		//TODO: Need to implement the logic for each Permission Id, we have to check if the menu item is in usage
 		
 		if (menuItemList.size() > 0) {
 			menuItemList.forEach(menuItem -> {
