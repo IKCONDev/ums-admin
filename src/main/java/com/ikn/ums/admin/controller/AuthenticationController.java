@@ -212,12 +212,18 @@ public class AuthenticationController {
 	}
 	@DeleteMapping("/deleteProfilePic")
 	public ResponseEntity<?> deleteProfilePic(@RequestParam String email){
+		log.info("UserController.deleteProfilePic() is under execution...");
+		try {
 		User dbUser = userService.getUserDetailsByUsername(email);
 		dbUser.setProfilePic(null);
 		dbUser = userService.updateUserProfilePic(dbUser);	
-		return new ResponseEntity<>(HttpStatus.OK);
-		
-		
+		return new ResponseEntity<>(HttpStatus.OK);	
+	}catch (Exception e) {
+		// TODO: handle exception
+		log.error("UserController.deleteProfilePic() : Exception Occurred." + e.getMessage());
+		throw new ControllerException(ErrorCodeMessages.ERR_USER_IS_EMPTY_CODE,
+				ErrorCodeMessages.ERR_USER_IS_EMPTY_MSG);
 	}
 
+}
 }
