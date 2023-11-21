@@ -156,4 +156,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<String>("Permissions Are Assigned to Role and are in Usage.", HttpStatus.FOUND);
 	}
 	
+	/**
+	 * PermissionNameExistsException handles the exception when the Role Name is exists
+	 * @param permissionNameExistsException
+	 * @return
+	 */
+	@ExceptionHandler(MenuItemNameExistsException.class)
+	public ResponseEntity<String> handleMenuItemNameExistsException(MenuItemNameExistsException menuItemNameExistsException) {
+		log.info("GlobalExceptionHandler.handleRoleNameExistsException() ENTERED" + menuItemNameExistsException.getMessage());
+		return new ResponseEntity<String>("Menu item Name Already Exists.", HttpStatus.FOUND);
+	}
+	
 }

@@ -1,6 +1,7 @@
 package com.ikn.ums.admin.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,14 +38,14 @@ public class MenuItemServiceImpl implements MenuItemService{
 	
 	@Transactional
 	@Override
-	public MenuItem createMenuItem(MenuItemDTO menuItemDTO) {
+	public MenuItemDTO createMenuItem(MenuItemDTO menuItemDTO) {
 	
 		log.info("MenuItemServiceImpl.createMenuItem() ENTERED");
 	
 		if (menuItemDTO == null) {
 			log.info("Menu Item Object is null .... ");
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_MSG);
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG);
 		}
 		if (Strings.isNullOrEmpty(menuItemDTO.getMenuItemName())) {
 			log.info("Menu Item Name is null .... ");
@@ -53,7 +54,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 		}
 		if ( isMenuItemNameExists(menuItemDTO.getMenuItemName())) {
 			log.info("Menu Item Name, " + menuItemDTO.getMenuItemName() + " already exists.");
-			throw new PermissionNameExistsException(ErrorCodeMessages.ERR_MENU_ITEM_NAME_EXISTS_CODE,
+			throw new MenuItemNameExistsException(ErrorCodeMessages.ERR_MENU_ITEM_NAME_EXISTS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_NAME_EXISTS_MSG);
 		}
 	
@@ -64,17 +65,20 @@ public class MenuItemServiceImpl implements MenuItemService{
 		menuItem.setMenuItemName(menuItemDTO.getMenuItemName());
 		menuItem.setMenuItemPath(menuItemDTO.getMenuItemPath());
 		menuItem.setMenuItemDescription(menuItemDTO.getMenuItemDescription());
+		menuItem.setCreatedBy(menuItemDTO.getCreatedBy());
 		menuItem.setCreatedDateTime(LocalDateTime.now());
 		menuItem.setMenuItemStatus(AdminConstants.STATUS_ACTIVE);
 
 		MenuItem createdMenuItem = menuItemRepository.save(menuItem);
+		MenuItemDTO createdMenuItemDTO = new MenuItemDTO();
+		mapper.map(createdMenuItem, createdMenuItemDTO);
 		log.info("MenuItemServiceImpl.createMenuItem() executed successfully");
-		return createdMenuItem;
+		return createdMenuItemDTO;
 	}
 
 	@Transactional
 	@Override
-	public MenuItem updateMenuItem(MenuItemDTO menuItemDTO) {
+	public MenuItemDTO updateMenuItem(MenuItemDTO menuItemDTO) {
 		
 		log.info("MenuItemServiceImpl.updateMenuItem() ENTERED");
 		if (menuItemDTO == null) {
@@ -91,24 +95,29 @@ public class MenuItemServiceImpl implements MenuItemService{
 					"The menu item with the id = %s has not been found");
 		}
 
-		if (isMenuItemNameExists(menuItemDTO.getMenuItemName())) {
-			log.info("Exists already a menu item with the Value %s. Use another Value. "
-					+ menuItemDTO.getMenuItemName());
-			throw new MenuItemNameExistsException(ErrorCodeMessages.ERR_PERMISSION_VALUE_EXISTS_CODE,
-					ErrorCodeMessages.ERR_PERMISSION_VALUE_EXISTS_CODE);
-		}
+//		if (isMenuItemNameExists(menuItemDTO.getMenuItemName())) {
+//			log.info("Exists already a menu item with the Value %s. Use another Value. "
+//					+ menuItemDTO.getMenuItemName());
+//			throw new MenuItemNameExistsException(ErrorCodeMessages.ERR_PERMISSION_VALUE_EXISTS_CODE,
+//					ErrorCodeMessages.ERR_PERMISSION_VALUE_EXISTS_CODE);
+//		}
 		log.info("MenuItemServiceImpl.updateMenuItem() is under execution...");
 
-		MenuItem menuItem = new MenuItem();
-		menuItem.setMenuItemName(menuItemDTO.getMenuItemName());
-		menuItem.setMenuItemPath(menuItemDTO.getMenuItemPath());
-		menuItem.setMenuItemDescription(menuItemDTO.getMenuItemDescription());
-		menuItem.setModifiedDateTime(LocalDateTime.now());
-
-		MenuItem updatedMenuItem = menuItemRepository.save(menuItem);
+		MenuItem dbMenuItem = null;
+		if(optMenuItem.isPresent()) {
+			dbMenuItem = optMenuItem.get();
+		}
+		dbMenuItem.setMenuItemName(menuItemDTO.getMenuItemName());
+		dbMenuItem.setMenuItemPath(menuItemDTO.getMenuItemPath());
+		dbMenuItem.setMenuItemDescription(menuItemDTO.getMenuItemDescription());
+		dbMenuItem.setModifiedDateTime(LocalDateTime.now());
+		dbMenuItem.setModifiedBy(menuItemDTO.getModifiedBy());		
+		MenuItem updatedMenuItem = menuItemRepository.save(dbMenuItem);
+		MenuItemDTO updatedMenuItemDTO = new MenuItemDTO();
+		mapper.map(updatedMenuItem, updatedMenuItemDTO);
 		
 		log.info("MenuItemServiceImpl.updateMenuItem() executed successfully");
-		return updatedMenuItem;
+		return updatedMenuItemDTO;
 	}
 
 	@Transactional
@@ -176,7 +185,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 
 	@Transactional
 	@Override
-	public Optional<MenuItem> getMenuItemById(Long menuItemId) {
+	public MenuItemDTO getMenuItemById(Long menuItemId) {
 
 		log.info("MenuItemServiceImpl.getMenuItemById() ENTERED ");
 		
@@ -189,26 +198,33 @@ public class MenuItemServiceImpl implements MenuItemService{
 		Optional<MenuItem> optMenuItem = menuItemRepository.findById(menuItemId);
 		if (!optMenuItem.isPresent() || optMenuItem == null) {
 			log.info("Menu Item is not found for Menu ItemId id : " + menuItemId);
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_MSG);
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG,
+					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE);
 		}
-		return optMenuItem;
+		MenuItemDTO menuItemDTO = new MenuItemDTO();
+		mapper.map(optMenuItem.get(), menuItemDTO);
+		return menuItemDTO;
 	}
 
 	@Transactional
 	@Override
-	public List<MenuItem> getAllMenuItems() {
+	public List<MenuItemDTO> getAllMenuItems() {
 		log.info(" MenuItemServiceImpl.getAllMenuItems() ENTERED " );
 		List<MenuItem> menuItemList = null;
 		log.info("getAllMenuItems() is under execution...");
 		menuItemList = menuItemRepository.findAllMenuItems(AdminConstants.STATUS_ACTIVE);
-		
-		if ( menuItemList == null || menuItemList.isEmpty() || menuItemList.size() == 0 )
-			throw new EmptyListException(ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_MSG);
-		log.info("getAllMenuItems() : Total Menu Items Count : " + menuItemList.size());
+//		if ( menuItemList == null || menuItemList.isEmpty() || menuItemList.size() == 0 )
+//			throw new EmptyListException(ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_CODE,
+//					ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_MSG);
+		List<MenuItemDTO> menuItemDTOList = new ArrayList<>();
+		menuItemList.stream().forEach(menuItem -> {
+			MenuItemDTO menuItemDTO = new MenuItemDTO();
+			mapper.map(menuItem, menuItemDTO);
+			menuItemDTOList.add(menuItemDTO);
+		});
+		log.info("getAllMenuItems() : Total Menu Items Count : " + menuItemDTOList.size());
 		log.info("getAllMenuItems() executed successfully");
-		return menuItemList;
+		return menuItemDTOList;
 	}
 	
 	public boolean isMenuItemNameExists(String menuItemName) {

@@ -8,11 +8,11 @@ import com.ikn.ums.admin.entity.MenuItem;
 
 public interface MenuItemService {
 
-    public MenuItem createMenuItem(MenuItemDTO  menuItemDTO) ;
-    public MenuItem updateMenuItem(MenuItemDTO menuItemDTO);	       
+    public MenuItemDTO createMenuItem(MenuItemDTO  menuItemDTO) ;
+    public MenuItemDTO updateMenuItem(MenuItemDTO menuItemDTO);	       
     public void deleteMenuItemById(Long menuItemId) ;
     public void deleteSelectedMenuItemByIds(List<Long> menuItemIds);
-    public Optional<MenuItem> getMenuItemById(Long id);
-    public List<MenuItem> getAllMenuItems();
+    public MenuItemDTO getMenuItemById(Long id);
+    public List<MenuItemDTO> getAllMenuItems();
 
 }
