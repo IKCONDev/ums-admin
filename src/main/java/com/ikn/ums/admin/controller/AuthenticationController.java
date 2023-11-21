@@ -213,6 +213,10 @@ public class AuthenticationController {
 	@DeleteMapping("/deleteProfilePic")
 	public ResponseEntity<?> deleteProfilePic(@RequestParam String email){
 		log.info("UserController.deleteProfilePic() is under execution...");
+		if(email==null) {
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_MSG);
+		}
 		try {
 		User dbUser = userService.getUserDetailsByUsername(email);
 		dbUser.setProfilePic(null);
