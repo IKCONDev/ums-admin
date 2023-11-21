@@ -79,7 +79,8 @@ public class PermissionController {
 			throw permissionBusinessException;
 		}catch (Exception e) {
 			log.info("General Exception has encountered while updating Permission. " + e.getMessage());
-			ControllerException umsCE = new ControllerException(e.getCause().toString(), e.getMessage());
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_PERMISSION_UPDATE_UNSUCCESS_CODE, 
+					ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_MSG);
 			throw umsCE;
 		}
 	}
@@ -146,9 +147,11 @@ public class PermissionController {
 			log.info("PermissionController.getPermissionById() executed successfully");
 			return permission.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 		}catch (EmptyInputException businessException) {
+			log.info("PermissionController.getPermissionById() exited with exception : Business Exception occured while fetching permission.");
 			throw businessException;
 		}
 		catch (Exception e) {
+			log.info("PermissionController.getPermissionById() exited with general exception : Exception occured while fetching permission.");
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_PERMISSION_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_GET_UNSUCCESS_MSG);
 			throw umsCE;
