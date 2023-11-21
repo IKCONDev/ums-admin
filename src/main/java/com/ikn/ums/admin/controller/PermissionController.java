@@ -73,7 +73,7 @@ public class PermissionController {
 			log.info("PermissionController.updatePermission() is under execution.");
 			Permission updatedPermission = permissionService.updatePermission(permissionDTO);
 			log.info("PermissionController.updatePermission() is executed sucessfully.");
-			return new ResponseEntity<>(updatedPermission, HttpStatus.CREATED);
+			return new ResponseEntity<>(updatedPermission, HttpStatus.PARTIAL_CONTENT);
 		}catch (EntityNotFoundException permissionBusinessException) {
 			log.info("Permission Business Exception has encountered while updating Permission. " + permissionBusinessException.getMessage());
 			throw permissionBusinessException;

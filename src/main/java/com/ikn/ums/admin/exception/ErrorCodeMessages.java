@@ -57,6 +57,9 @@ public class ErrorCodeMessages {
 	 
 	 public static final String ERR_USER_UPDATE_UNSUCCESS_CODE = "USER_UPDATE_UNSUCCESS_CODE-1020";
 	 public static final String ERR_USER_UPDATE_UNSUCCESS_MSG = "Exception occured while updating user";
+	 
+	 public static final String ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_CODE = "USER_DELETE_UNSUCCESS_CODE-1021";
+	 public static final String ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_MSG = "Exception occured while deleting user profile pic";
  
 //ROLE MODULE ERROR CODES
 

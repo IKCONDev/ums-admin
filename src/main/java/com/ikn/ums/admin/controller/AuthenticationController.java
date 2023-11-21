@@ -56,14 +56,14 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/generate-otp/{email}/{pageType}")
-	public ResponseEntity<?> generateAndSendOtpToUser(@PathVariable String email,@PathVariable String pageType) {
+	public ResponseEntity<?> generateAndSendOtpToUser(@PathVariable String email, @PathVariable String pageType) {
 		log.info("UserController.generateAndSendOtpToUser() ENTERED : email : " + email);
 		try {
 			if (email.isBlank() || email.length() == 0)
 				throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 						ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 			log.info("UserController.generateAndSendOtpToUser() is under execution...");
-			Integer otp = userService.generateOtpForUser(email,pageType);
+			Integer otp = userService.generateOtpForUser(email, pageType);
 			if (otp <= 0)
 				throw new EmptyOTPException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE,
 						ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
@@ -71,7 +71,7 @@ public class AuthenticationController {
 			return new ResponseEntity<>(otp, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("UserController.generateAndSendOtpToUser() : Exception Occurred." + e.getMessage());
-			ControllerException umsCE = new ControllerException(e.getCause().toString() , e.getMessage());
+			ControllerException umsCE = new ControllerException(e.getCause().toString(), e.getMessage());
 			return new ResponseEntity<ControllerException>(umsCE, HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -114,7 +114,7 @@ public class AuthenticationController {
 
 	@GetMapping("/validate-email/{email}")
 	public ResponseEntity<?> verifyEmailAddress_ForOtp(@PathVariable String email) {
-		log.info("UserController.verifyEmailAddress_ForOtp() ENTERED with args :"+email);
+		log.info("UserController.verifyEmailAddress_ForOtp() ENTERED with args :" + email);
 		try {
 			log.info("UserController.verifyEmailAddress_ForOtp() is under execution...");
 			Integer value = userService.validateEmailAddress(email);
@@ -130,7 +130,7 @@ public class AuthenticationController {
 
 	@GetMapping("/user-profile/{username}")
 	public ResponseEntity<?> fetchUserProfile(@PathVariable String username) {
-		log.info("UserController.fetchUserProfile() ENTERED with args :"+username);
+		log.info("UserController.fetchUserProfile() ENTERED with args :" + username);
 		try {
 			log.info("UserController.fetchUserProfile() is under execution...");
 			UserVO userprofileDetails = userService.getUserProfile(username);
@@ -152,7 +152,7 @@ public class AuthenticationController {
 	@PatchMapping("/update-auth/{username}/{isOn}")
 	public ResponseEntity<?> updateUserTwofactorAuthentication(@PathVariable String username,
 			@PathVariable("isOn") boolean isTwoFactorSwitched) {
-		log.info("UserController.updateUserTwofactorAuthentication() ENTERED with args :"+username);
+		log.info("UserController.updateUserTwofactorAuthentication() ENTERED with args :" + username);
 		try {
 			log.info("UserController.updateUserTwofactorAuthentication() is under execution...");
 			Integer value = userService.updateUserTwoFactorAuthStatus(username, isTwoFactorSwitched);
@@ -167,34 +167,34 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/profile-pic")
-		public ResponseEntity<?> updateUserProfilePicture(@RequestParam("email") String userEmailId,
-				@RequestParam("profilePic") MultipartFile profilePicImage) throws ImageNotFoundException {
-		        log.info("UserController.updateUserProfilePicture() ENTERED with args :");
-				String contentType=profilePicImage.getContentType();
-				if(!contentType.startsWith("image/")) {
-					throw new ImageNotFoundException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
-							ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
-				 }
-			try {
-				log.info("UserController.updateUserProfilePicture() is under execution...");
-				User updatedUser = null;
-				if(contentType.startsWith("image/")) {
+	public ResponseEntity<?> updateUserProfilePicture(@RequestParam("email") String userEmailId,
+			@RequestParam("profilePic") MultipartFile profilePicImage) throws ImageNotFoundException {
+		log.info("UserController.updateUserProfilePicture() ENTERED with args :");
+		String contentType = profilePicImage.getContentType();
+		if (!contentType.startsWith("image/")) {
+			throw new ImageNotFoundException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
+					ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
+		}
+		try {
+			log.info("UserController.updateUserProfilePicture() is under execution...");
+			User updatedUser = null;
+			if (contentType.startsWith("image/")) {
 				User dbUser = userService.getUserDetailsByUsername(userEmailId);
 				dbUser.setProfilePic(profilePicImage.getBytes());
-				updatedUser = userService.updateUserProfilePic(dbUser);	
-				}
-				log.info("UserController.updateUserProfilePicture() executed successfully");
-				return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-			}catch (Exception e) {
-					//return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-				log.error("UserController.updateUserProfilePicture() : Exception Occurred." + e.getMessage());
-				throw new ControllerException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
-						ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
-			}	
+				updatedUser = userService.updateUserProfilePic(dbUser);
+			}
+			log.info("UserController.updateUserProfilePicture() executed successfully");
+			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+		} catch (Exception e) {
+			// return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			log.error("UserController.updateUserProfilePicture() : Exception Occurred." + e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
+					ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
 		}
-	
+	}
+
 	@GetMapping("/getEmail-list")
-	public ResponseEntity<?> getActiveUsersEmailIdList(){
+	public ResponseEntity<?> getActiveUsersEmailIdList() {
 		log.info("UserController.getActiveUsersEmailIdList() ENTERED with args :");
 		boolean isActive = true;
 		try {
@@ -202,32 +202,35 @@ public class AuthenticationController {
 			List<String> activeUserEmailIdList = userService.getActiveUsersEmailIdList(isActive);
 			log.info("UserController.getActiveUsersEmailIdList() executed successfully");
 			return new ResponseEntity<>(activeUserEmailIdList, HttpStatus.OK);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("UserController.getActiveUsersEmailIdList() : Exception Occurred." + e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_USER_LIST_IS_EMPTY_MSG);
 		}
-		
-	}
-	@DeleteMapping("/deleteProfilePic")
-	public ResponseEntity<?> deleteProfilePic(@RequestParam String email){
-		log.info("UserController.deleteProfilePic() is under execution...");
-		if(email==null) {
-			throw new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_CODE,
-					ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_MSG);
-		}
-		try {
-		User dbUser = userService.getUserDetailsByUsername(email);
-		dbUser.setProfilePic(null);
-		dbUser = userService.updateUserProfilePic(dbUser);	
-		return new ResponseEntity<>(HttpStatus.OK);	
-	}catch (Exception e) {
-		// TODO: handle exception
-		log.error("UserController.deleteProfilePic() : Exception Occurred." + e.getMessage());
-		throw new ControllerException(ErrorCodeMessages.ERR_USER_IS_EMPTY_CODE,
-				ErrorCodeMessages.ERR_USER_IS_EMPTY_MSG);
+
 	}
 
-}
+	@DeleteMapping("/deleteProfilePic")
+	public ResponseEntity<?> deleteProfilePic(@RequestParam String email) {
+		log.info("UserController.deleteProfilePic() is under execution...");
+		if (email == null || email.isBlank() || email.isEmpty()) {
+			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
+		}
+		try {
+			log.info("UserController.deleteProfilePic() is under execution...");
+			User dbUser = userService.getUserDetailsByUsername(email);
+			dbUser.setProfilePic(null);
+			dbUser = userService.updateUserProfilePic(dbUser);
+			log.info("UserController.deleteProfilePic() executed succesfully");
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("UserController.deleteProfilePic() : Exception Occurred." + e.getMessage());
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_MSG);
+		}
+
+	}
 }
