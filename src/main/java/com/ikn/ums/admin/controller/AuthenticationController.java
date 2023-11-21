@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -207,6 +208,15 @@ public class AuthenticationController {
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_USER_LIST_IS_EMPTY_MSG);
 		}
+		
+	}
+	@DeleteMapping("/deleteProfilePic")
+	public ResponseEntity<?> deleteProfilePic(@RequestParam String email){
+		User dbUser = userService.getUserDetailsByUsername(email);
+		dbUser.setProfilePic(null);
+		dbUser = userService.updateUserProfilePic(dbUser);	
+		return new ResponseEntity<>(HttpStatus.OK);
+		
 		
 	}
 
