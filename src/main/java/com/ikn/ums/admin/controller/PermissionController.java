@@ -132,7 +132,7 @@ public class PermissionController {
 
 	}
 
-	@GetMapping("/{roleId}")
+	@GetMapping("/{permissionId}")
 	public ResponseEntity<?> getPermissionById(@PathVariable Long permissionId) {
 	
 		if (permissionId <= 0) {
