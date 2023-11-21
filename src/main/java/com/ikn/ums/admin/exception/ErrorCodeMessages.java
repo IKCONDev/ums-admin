@@ -242,4 +242,7 @@ public class ErrorCodeMessages {
 
 		 public static final String ERR_MENU_ITEM_IS_IN_USAGE_CODE = "ERR_MENU_ITEM_IS_IN_USAGE_CODE-1071";
 		 public static final String ERR_MENU_ITEM_IS_IN_USAGE_MSG = "Menu Item is in Usage !";
+		 
+		 public static final String ERR_USER_IS_EMPTY_CODE = "ERR_USER_IS_NOT_PRESENT_CODE-1072";
+		 public static final String ERR_USER_IS_EMPTY_MSG = "User is not found to delete Profile Pic !";
 }
