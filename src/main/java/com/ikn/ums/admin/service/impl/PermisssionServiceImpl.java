@@ -88,19 +88,22 @@ public class PermisssionServiceImpl implements PermissionService {
 					"The permission with the id = %s has not been found");
 		}
 
-		if (isPermissionValueExists(permissionDTO.getPermissionValue())) {
-			log.info("Exists already a permission with the Value %s. Use another Value. "
-					+ permissionDTO.getPermissionValue());
-			throw new PermissionNameExistsException(ErrorCodeMessages.ERR_PERMISSION_VALUE_EXISTS_CODE,
-					ErrorCodeMessages.ERR_PERMISSION_VALUE_EXISTS_CODE);
-		}
+//		if (isPermissionValueExists(permissionDTO.getPermissionValue())) {
+//			log.info("Exists already a permission with the Value %s. Use another Value. "
+//					+ permissionDTO.getPermissionValue());
+//			throw new PermissionNameExistsException(ErrorCodeMessages.ERR_PERMISSION_VALUE_EXISTS_CODE,
+//					ErrorCodeMessages.ERR_PERMISSION_VALUE_EXISTS_CODE);
+//		}
 		log.info("PermisssionServiceImpl.updatePermission() is under execution...");
-
-		Permission permission = new Permission();
+    
+		Permission permission = null;
+		if(optPermission.isPresent()) {
+			permission = optPermission.get();
+		}
 		permission.setPermissionValue(permissionDTO.getPermissionValue());
 		permission.setPermissionDescription(permissionDTO.getPermissionDescription());
 		permission.setModifiedDateTime(LocalDateTime.now());
-
+        permission.setPermissionStatus(permissionDTO.getPermissionStatus());
 		Permission updatedPermission = permissionRepository.save(permission);
 		log.info("PermisssionServiceImpl.updatePermission() executed successfully");
 		return updatedPermission;
