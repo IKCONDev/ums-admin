@@ -15,4 +15,5 @@ public interface PermissionService {
     public Permission updatePermission(PermissionDTO permissionDTO);	       
     public void deletePermissionById(Long id) ;
     public void deleteSelectedPermissionsByIds(List<Long> ids);
+
 }

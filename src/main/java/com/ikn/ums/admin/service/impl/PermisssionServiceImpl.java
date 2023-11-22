@@ -6,11 +6,13 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Strings;
 import com.ikn.ums.admin.dto.PermissionDTO;
+import com.ikn.ums.admin.entity.MenuItem;
 import com.ikn.ums.admin.entity.Permission;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
@@ -103,7 +105,7 @@ public class PermisssionServiceImpl implements PermissionService {
 		permission.setPermissionValue(permissionDTO.getPermissionValue());
 		permission.setPermissionDescription(permissionDTO.getPermissionDescription());
 		permission.setModifiedDateTime(LocalDateTime.now());
-        permission.setPermissionStatus(permissionDTO.getPermissionStatus());
+        permission.setPermissionStatus(AdminConstants.STATUS_ACTIVE);
 		Permission updatedPermission = permissionRepository.save(permission);
 		log.info("PermisssionServiceImpl.updatePermission() executed successfully");
 		return updatedPermission;
@@ -132,17 +134,19 @@ public class PermisssionServiceImpl implements PermissionService {
 		Permission permission = optPermission.get();
 
 		//Check Permissions Usage
-		Long rowsFound = permissionRepository.countPermissionUsage(permission.getPermissionId());
-		if (rowsFound > 0) {
-			log.info("Permissions are assigned to Role and cannot be deleted ! : " + rowsFound );
-			// permission cannot be deleted as they are already in use
-			throw new PermissionInUsageException(ErrorCodeMessages.ERR_PERMISSION_IS_IN_USAGE_CODE,
-					ErrorCodeMessages.ERR_PERMISSION_IS_IN_USAGE_MSG);
-		}
-
-		PermissionDTO permissionDTO = new PermissionDTO();
-		permissionDTO.setPermissionStatus(AdminConstants.STATUS_IN_ACTIVE);
-		updatePermission(permissionDTO); //Calling Update method to set Status to In Active
+//		Long rowsFound = permissionRepository.countPermissionUsage(permission.getPermissionId());
+//		if (rowsFound > 0) {
+//			log.info("Permissions are assigned to Role and cannot be deleted ! : " + rowsFound );
+//			// permission cannot be deleted as they are already in use
+//			throw new PermissionInUsageException(ErrorCodeMessages.ERR_PERMISSION_IS_IN_USAGE_CODE,
+//					ErrorCodeMessages.ERR_PERMISSION_IS_IN_USAGE_MSG);
+//		}
+		
+		//TODO: Need to implement the logic for each Permission Id, we have to check if the menu item is in usage
+		//PermissionDTO permissionDTO = new PermissionDTO();
+		permission.setPermissionStatus(AdminConstants.STATUS_IN_ACTIVE);
+		permissionRepository.save(permission);
+		 //Calling Update method to set Status to In Active
 		log.info("PermisssionServiceImpl.deletePermissionById() executed successfully !");
 		
 	}
@@ -221,5 +225,5 @@ public class PermisssionServiceImpl implements PermissionService {
 		log.info("PermisssionServiceImpl.isPermissionValueExists() executed successfully");
 		return isPermissionNameExists;
 	}
-
+	
 }

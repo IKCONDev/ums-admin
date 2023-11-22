@@ -157,4 +157,28 @@ public class PermissionController {
 			throw umsCE;
 		}
 	}
+	
+	@DeleteMapping("/delete/{permissionId}")
+	public ResponseEntity<?> deleteUserByUserId(@PathVariable("permissionId") Long permissionId){
+		boolean isDeleted = false;
+		log.info("PermissionController.deleteUserByUserId() entered with args - emailId");
+		if(permissionId.equals("") || permissionId == null) {
+			log.info("PermissionController.deleteUserByUserId() EmptyInputException : userid/emailid is empty");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_MSG);
+		}
+		try {
+			log.info("PermissionController.deleteUserByUserId() is under execution...");
+			permissionService.deletePermissionById(permissionId);
+			isDeleted = true;
+			log.info("PermissionController.deleteUserByUserId() executed successfully");
+			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+		}catch (Exception e) {
+			log.info("PermissionController.deleteUserByUserId() exited with exception : Exception occured while deleting user.");
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_PERMISSION_DELETE_UNSUCCESS_CODE,
+			ErrorCodeMessages.ERR_PERMISSION_DELETE_UNSUCCESS_MSG);
+			throw umsCE;
+		}
+	}
+
 }
