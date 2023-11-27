@@ -33,11 +33,11 @@ public class MenuItem {
 	@Column(name = "menuItemStatus", nullable = false)
 	private String menuItemStatus;
 	
-	@Column(name = "createdDateTime")
-	private LocalDateTime createdDateTime;
-	
-	@Column(name = "modifiedDateTime", nullable = true)
-	private LocalDateTime modifiedDateTime;
+//	@Column(name = "createdDateTime")
+//	private LocalDateTime createdDateTime;
+//	
+//	@Column(name = "modifiedDateTime", nullable = true)
+//	private LocalDateTime modifiedDateTime;
 	
 	@Column(name = "createdBy")
 	private String createdBy;

@@ -1,7 +1,10 @@
 package com.ikn.ums.admin.controller;
 
+import java.text.StringCharacterIterator;
+import java.util.Iterator;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +18,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ikn.ums.admin.dto.MenuItemDTO;
+import com.ikn.ums.admin.dto.PermissionDTO;
+import com.ikn.ums.admin.dto.RoleDTO;
+import com.ikn.ums.admin.dto.UserDTO;
+import com.ikn.ums.admin.dto.UserRoleMenuItemPermissionMapDTO;
+import com.ikn.ums.admin.entity.MenuItem;
+import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.entity.User;
+import com.ikn.ums.admin.entity.UserRoleMenuItemPermissionMap;
 import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
+import com.ikn.ums.admin.service.UserRoleMenuItemPermissionMapService;
 import com.ikn.ums.admin.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +46,15 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private UserRoleMenuItemPermissionMapService userRoleMenuItemPermissionMapService;
+	
+	@Autowired
+	private ModelMapper mapper;
+	
 	@PostMapping("/save")
 	public ResponseEntity<?> createUser(@RequestBody User user) {
-		log.info("UserController.createUser() entered with args - user");
+		log.info("UserController.createUser() entered with args - user"+user);
 		if(user == null || user.equals(null)) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
@@ -42,13 +62,54 @@ public class UserController {
 		try {
 			log.info("UserController.createUser() is under execution...");
 			User savedUser = userService.saveUser(user);
+			UserDTO userDTO =  null;
+			if(savedUser != null) {
+				userDTO = new UserDTO();
+				mapper.map(savedUser, userDTO);
+				System.out.println(savedUser);
+				System.out.println(userDTO);
+				UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO = assignRoleMenuItemPermissionsToUser(userDTO);
+				userRoleMenuItemPermissionMapService.createUserRoleMenuItemPermissionMap(userRoleMenuItemPermissionMapDTO);
+			}
 			log.info("UserController.createUser() executed successfully.");
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 		} catch (Exception e) {
-			log.info("UserController.createUser() exited with exception : Exception occured while saving user.");
-			ControllerException umsCE = new ControllerException(e.getCause().toString() , e.getMessage());
+			e.printStackTrace();			
+			log.info("UserController.createUser() exited with exception : Exception occured while saving user. "+e.getMessage());
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_MSG);
 			throw umsCE;
 		}
+	}
+	
+	private UserRoleMenuItemPermissionMapDTO assignRoleMenuItemPermissionsToUser(UserDTO userDTO) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		RoleDTO roleDTO = null;
+		Iterator<RoleDTO> roleIterator = userDTO.getUserRoles().iterator();
+		while(roleIterator.hasNext()) {
+			roleDTO = roleIterator.next();
+		}
+		List<MenuItemDTO> menuItemList = roleDTO.getMenuItems();
+		//String menuItemListString = mapper.writeValueAsString(menuItemList);
+		StringBuilder menuItemBuilder = new StringBuilder();
+
+		for(int i= 0; i<menuItemList.size(); i++) {
+			menuItemBuilder.append(menuItemList.get(i).getMenuItemId());
+			if(i < menuItemList.size()-1) {
+				menuItemBuilder.append(",");
+			}
+		}
+		
+		PermissionDTO permissionDTO = roleDTO.getPermission();
+		System.out.println(permissionDTO+" Permission DTO");
+		System.out.println(menuItemList.size()+" Menu Item list size");
+		System.out.println(": Converted Menu Item String : "+menuItemBuilder.toString());
+		UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
+		userRoleMenuItemPermissionMapDTO.setEmail(userDTO.getEmail());
+		userRoleMenuItemPermissionMapDTO.setRoleId(roleDTO.getRoleId());
+		userRoleMenuItemPermissionMapDTO.setMenuItemIdList(menuItemBuilder.toString());
+		userRoleMenuItemPermissionMapDTO.setPermissionIdList(permissionDTO.getPermissionValue());
+		return userRoleMenuItemPermissionMapDTO;
 	}
 	
 	
@@ -87,6 +148,7 @@ public class UserController {
 		try {
 			log.info("UserController.deleteUserByUserId() is under execution...");
 			userService.deleteUserByUserId(emailId);
+			userRoleMenuItemPermissionMapService.deleteUserRoleMenuItemPermissionMapByUserId(emailId);
 			isDeleted = true;
 			log.info("UserController.deleteUserByUserId() executed successfully");
 			return new ResponseEntity<>(isDeleted, HttpStatus.OK);

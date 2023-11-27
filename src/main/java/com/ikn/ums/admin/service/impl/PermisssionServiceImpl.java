@@ -63,7 +63,7 @@ public class PermisssionServiceImpl implements PermissionService {
 		permission.setPermissionId(permissionDTO.getPermissionId());
 		permission.setPermissionValue(permissionDTO.getPermissionValue());
 		permission.setPermissionDescription(permissionDTO.getPermissionDescription());
-		permission.setCreatedDateTime(LocalDateTime.now());
+		//permission.setCreatedDateTime(LocalDateTime.now());
 		permission.setPermissionStatus(AdminConstants.STATUS_ACTIVE);
 
 		Permission createdPermission = permissionRepository.save(permission);
@@ -104,7 +104,7 @@ public class PermisssionServiceImpl implements PermissionService {
 		}
 		permission.setPermissionValue(permissionDTO.getPermissionValue());
 		permission.setPermissionDescription(permissionDTO.getPermissionDescription());
-		permission.setModifiedDateTime(LocalDateTime.now());
+		//permission.setModifiedDateTime(LocalDateTime.now());
         permission.setPermissionStatus(AdminConstants.STATUS_ACTIVE);
 		Permission updatedPermission = permissionRepository.save(permission);
 		log.info("PermisssionServiceImpl.updatePermission() executed successfully");

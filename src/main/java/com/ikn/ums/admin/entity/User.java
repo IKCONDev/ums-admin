@@ -37,7 +37,7 @@ public class User{
 	@Column(name="previousPassword",nullable=true, unique = false)
 	private String previousPassword;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST}, fetch = FetchType.EAGER)
 	@JoinTable(
 				name = "user_role_tab",
 				joinColumns = @JoinColumn(name = "user_id"),

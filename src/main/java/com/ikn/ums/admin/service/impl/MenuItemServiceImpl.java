@@ -66,7 +66,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 		menuItem.setMenuItemPath(menuItemDTO.getMenuItemPath());
 		menuItem.setMenuItemDescription(menuItemDTO.getMenuItemDescription());
 		menuItem.setCreatedBy(menuItemDTO.getCreatedBy());
-		menuItem.setCreatedDateTime(LocalDateTime.now());
+		//menuItem.setCreatedDateTime(LocalDateTime.now());
 		menuItem.setMenuItemStatus(AdminConstants.STATUS_ACTIVE);
 
 		MenuItem createdMenuItem = menuItemRepository.save(menuItem);
@@ -110,7 +110,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 		dbMenuItem.setMenuItemName(menuItemDTO.getMenuItemName());
 		dbMenuItem.setMenuItemPath(menuItemDTO.getMenuItemPath());
 		dbMenuItem.setMenuItemDescription(menuItemDTO.getMenuItemDescription());
-		dbMenuItem.setModifiedDateTime(LocalDateTime.now());
+		//dbMenuItem.setModifiedDateTime(LocalDateTime.now());
 		dbMenuItem.setModifiedBy(menuItemDTO.getModifiedBy());		
 		MenuItem updatedMenuItem = menuItemRepository.save(dbMenuItem);
 		MenuItemDTO updatedMenuItemDTO = new MenuItemDTO();

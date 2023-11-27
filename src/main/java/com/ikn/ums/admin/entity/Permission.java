@@ -27,11 +27,11 @@ public class Permission {
 	@Column(name = "permissionDescription")
 	private String permissionDescription;
 	
-	@Column(name = "createdDateTime")
-	private LocalDateTime createdDateTime;
-	
-	@Column(name = "modifiedDateTime", nullable = true)
-	private LocalDateTime modifiedDateTime;
+//	@Column(name = "createdDateTime")
+//	private LocalDateTime createdDateTime;
+//	
+//	@Column(name = "modifiedDateTime", nullable = true)
+//	private LocalDateTime modifiedDateTime;
 	
 	@Column(name = "createdBy")
 	private String createdBy;
