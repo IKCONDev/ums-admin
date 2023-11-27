@@ -10,6 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -318,7 +319,7 @@ public class UserServiceImpl implements UserService {
 		return updatedUser;
 	}
 
-	@Transactional
+	@Transactional(value = TxType.REQUIRED)
 	@Override
 	public void deleteUserByUserId(String emailId) {
 		log.info("UsersServiceImpl.deleteUser() entered with args - id");
