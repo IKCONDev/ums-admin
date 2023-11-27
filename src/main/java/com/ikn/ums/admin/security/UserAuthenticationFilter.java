@@ -12,6 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,12 +25,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ikn.ums.admin.VO.UserVO;
+import com.ikn.ums.admin.dto.UserDTO;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.LoginAttemptsExceededException;
 import com.ikn.ums.admin.exception.UserInactiveException;
 import com.ikn.ums.admin.exception.UserNotFoundException;
 import com.ikn.ums.admin.model.UserLoginRequestModel;
+import com.ikn.ums.admin.repository.UserRepository;
 import com.ikn.ums.admin.service.UserService;
 
 import io.jsonwebtoken.Jwts;
@@ -40,11 +45,17 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	private UserService service;
 
 	private Environment environment;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	private ModelMapper mapper = new ModelMapper();
 
 	public UserAuthenticationFilter(UserService service, Environment environment, AuthenticationManager authManager) {
 		this.service = service;
 		this.environment = environment;
 		super.setAuthenticationManager(authManager);
+		mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 	}
 
 	@Override
@@ -57,10 +68,12 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 			UserVO loadedUser = service.getUser(creds.getEmail());
 			if(loadedUser != null) {
 				boolean isActive = loadedUser.isActive();
-				com.ikn.ums.admin.entity.User loginAttemptedUser = service.getUserDetailsByUsername(creds.getEmail());
+				UserDTO loginAttemptedUser = service.getUserDetailsByUsername(creds.getEmail());
 				//get user datails and update login attempts
 				loginAttemptedUser.setLoginAttempts(loginAttemptedUser.getLoginAttempts()+i);
-				com.ikn.ums.admin.entity.User updatedUserWithLogginAttempts = service.updateUser(loginAttemptedUser);
+				com.ikn.ums.admin.entity.User user = new com.ikn.ums.admin.entity.User();
+				mapper.map(loginAttemptedUser, user);
+				com.ikn.ums.admin.entity.User updatedUserWithLogginAttempts = service.updateUser(user);
 				if(!isActive) {
 					throw new UserInactiveException(ErrorCodeMessages.ERR_USER_INACTIVE_CODE,
 							ErrorCodeMessages.ERR_USER_INACTIVE_MSG);
@@ -91,9 +104,11 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		log.info("UserAuthenticationFilter.successfulAuthentication() "+loadedUser);
 		
 		//on sucessful auth set login attempts to 0
-		com.ikn.ums.admin.entity.User loggedInUser = service.getUserDetailsByUsername(userName);
+		UserDTO loggedInUser = service.getUserDetailsByUsername(userName);
 		loggedInUser.setLoginAttempts(0);
-		service.updateUser(loggedInUser);
+	    com.ikn.ums.admin.entity.User user = new com.ikn.ums.admin.entity.User();
+	    mapper.map(loggedInUser, user);
+		service.updateUser(user);
 		/*
 		if(loadedUser == null) {
 			throw new UserNotFoundException(ErrorCodeMessages.ERR_USER_NOT_FOUND_CODE, 

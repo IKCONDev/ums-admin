@@ -204,7 +204,7 @@ public class UserController {
 		log.info("UserController.getSingleUserByEmailId() entered with args - emailid "+emailId);
 		try {
 			log.info("UserController.getSingleUserByEmailId() is under execution...");
-			User userObject = userService.getUserDetailsByUsername(emailId);
+			UserDTO userObject = userService.getUserDetailsByUsername(emailId);
 			log.info("UserController.getSingleUserByEmailId() executed successfully");
 			return new ResponseEntity<>(userObject,HttpStatus.OK);
 			

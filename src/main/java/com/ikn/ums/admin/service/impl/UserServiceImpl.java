@@ -1,5 +1,6 @@
 package com.ikn.ums.admin.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.TimerTask;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +22,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ikn.ums.admin.VO.EmployeeVO;
 import com.ikn.ums.admin.VO.UserVO;
+import com.ikn.ums.admin.dto.UserDTO;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
+import com.ikn.ums.admin.exception.ImageNotFoundException;
 import com.ikn.ums.admin.repository.UserRepository;
 import com.ikn.ums.admin.service.RoleService;
 import com.ikn.ums.admin.service.UserService;
@@ -61,8 +66,11 @@ public class UserServiceImpl implements UserService {
 	
 	TimerTask timerTask;
 	
+	@Autowired
+	private ModelMapper mapper;
+	
 	@Override
-	public User getUserDetailsByUsername(String email) {
+	public UserDTO getUserDetailsByUsername(String email) {
 		// old implementation UserDetailsEntity loadedUser =
 		log.info("UsersServiceImpl.getUserDetailsByUsername() entered");
 		log.info("UsersServiceImpl.getUserDetailsByUsername() is under execution");
@@ -72,7 +80,9 @@ public class UserServiceImpl implements UserService {
 
 		System.out.println("UsersServiceImpl.getUserDetailsByUsername() " + email + " " + loadedUser);
 		log.info("UsersServiceImpl.getUserDetailsByUsername() executed successfully");
-		return loadedUser;
+		UserDTO userDTO = new UserDTO();
+		mapper.map(loadedUser, userDTO);
+		return userDTO;
 	}
 
 	@Override
@@ -219,7 +229,7 @@ public class UserServiceImpl implements UserService {
 		}
 		log.info("UsersServiceImpl.getUserProfile() is under execution...");
 		// get user details
-		User dbLoggedInUser = getUserDetailsByUsername(emailId);
+		User dbLoggedInUser = userRepository.findByEmail(emailId);
 		/*
 		 * // communicate with Employee microservice and get the employee object
 		 * ResponseEntity<EmployeeVO> response = restTemplate
@@ -243,24 +253,26 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	@Override
-	@Transactional
-	public User updateProfilePicByEmail(String email) {
-		log.info("UsersServiceImpl.updateProfilePicByEmail() is entered with args - "+ email);
-		if (email != null) {
-			log.info("UsersServiceImpl.updateProfilePicByEmail() is under execution");
-			User updateUser = userRepository.save(getUserDetailsByUsername(email));
-			log.info("UsersServiceImpl.updateProfilePicByEmail() executed successfully");
-			return updateUser;
-		}
-		return null;
-	}
+//	@Override
+//	@Transactional
+//	public User updateProfilePicByEmail(String email) {
+//		log.info("UsersServiceImpl.updateProfilePicByEmail() is entered with args - "+ email);
+//		if (email != null) {
+//			log.info("UsersServiceImpl.updateProfilePicByEmail() is under execution");
+//			User updateUser = userRepository.save(getUserDetailsByUsername(email));
+//			log.info("UsersServiceImpl.updateProfilePicByEmail() executed successfully");
+//			return updateUser;
+//		}
+//		return null;
+//	}
 
 	@Override
-	public User updateUserProfilePic(User userDetails) {
+	public User updateUserProfilePic(String emailId, MultipartFile profilePicImage) throws IOException {
 		log.info("UsersServiceImpl.updateUserProfilePic() entered");
 		log.info("UsersServiceImpl.updateUserProfilePic() is under execution");
-		User updatedUser = userRepository.save(userDetails);
+		User dbUser = userRepository.findByEmail(emailId);
+		dbUser.setProfilePic(profilePicImage.getBytes());
+		User updatedUser = userRepository.save(dbUser);
 		log.info("UsersServiceImpl.updateUserProfilePic() executed successfully");
 		return updatedUser;
 	}
@@ -381,7 +393,7 @@ public class UserServiceImpl implements UserService {
 		}
 		log.info("UsersServiceImpl.getUserProfile() is under execution...");
 		// get user details
-		User dbLoggedInUser = getUserDetailsByUsername(username);
+		User dbLoggedInUser = userRepository.findByEmail(username);
 		// communicate with Employee microservice and get the employee object
 		ResponseEntity<EmployeeVO> response = restTemplate
 				.getForEntity("http://UMS-EMPLOYEE-SERVICE/employees/" + username, EmployeeVO.class);
@@ -400,6 +412,13 @@ public class UserServiceImpl implements UserService {
 		user.setActive(dbLoggedInUser.isActive());
 		log.info("UsersServiceImpl.getUserProfile() executed successfully");
 		return user;
+	}
+
+	@Override
+	public void deleteProfilePicOfUser(String emailId) {
+		User dbUser = userRepository.findByEmail(emailId);
+		dbUser.setProfilePic(null);
+		updateUser(dbUser);
 	}
 
 }

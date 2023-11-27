@@ -179,9 +179,9 @@ public class AuthenticationController {
 			log.info("UserController.updateUserProfilePicture() is under execution...");
 			User updatedUser = null;
 			if (contentType.startsWith("image/")) {
-				User dbUser = userService.getUserDetailsByUsername(userEmailId);
-				dbUser.setProfilePic(profilePicImage.getBytes());
-				updatedUser = userService.updateUserProfilePic(dbUser);
+//				User dbUser = userService.getUserDetailsByUsername(userEmailId);
+//				dbUser.setProfilePic(profilePicImage.getBytes());
+				updatedUser = userService.updateUserProfilePic(userEmailId, profilePicImage);
 			}
 			log.info("UserController.updateUserProfilePicture() executed successfully");
 			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
@@ -220,9 +220,7 @@ public class AuthenticationController {
 		}
 		try {
 			log.info("UserController.deleteProfilePic() is under execution...");
-			User dbUser = userService.getUserDetailsByUsername(email);
-			dbUser.setProfilePic(null);
-			dbUser = userService.updateUserProfilePic(dbUser);
+			userService.deleteProfilePicOfUser(email);
 			log.info("UserController.deleteProfilePic() executed succesfully");
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {

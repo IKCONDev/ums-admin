@@ -34,5 +34,6 @@ public class UserDTO implements Serializable {
 	private String modifiedBy;
 	private String createdByEmailId;
 	private String modifiedByEmailId;
+	private UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMap;
 
 }
