@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -39,15 +40,15 @@ public class Role {
 	private String roleName;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = {CascadeType.ALL})
 	@JoinTable(
 				name = "role_menuItems_tab",
-				joinColumns = @JoinColumn(name = "roleId"),
-				inverseJoinColumns = @JoinColumn(name = "menuItemId", unique = false)
+				joinColumns = @JoinColumn(name = "roleId", unique = false),
+				inverseJoinColumns = @JoinColumn(name = "menuItemId",unique = false)
 			)
-	private List<MenuItem> menuItems = new ArrayList<>();
+	private List<MenuItem> menuItems;
 	
-	@OneToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+	@OneToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE,CascadeType.MERGE}, fetch = FetchType.EAGER)
 	@JoinTable(
 				name = "role_permission_tab",
 				joinColumns = @JoinColumn(name = "roleId"),
