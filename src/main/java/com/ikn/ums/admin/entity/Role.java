@@ -43,7 +43,7 @@ public class Role {
 	@JoinTable(
 				name = "role_menuItems_tab",
 				joinColumns = @JoinColumn(name = "roleId"),
-				inverseJoinColumns = @JoinColumn(name = "menuItemId")
+				inverseJoinColumns = @JoinColumn(name = "menuItemId", unique = false)
 			)
 	private List<MenuItem> menuItems = new ArrayList<>();
 	

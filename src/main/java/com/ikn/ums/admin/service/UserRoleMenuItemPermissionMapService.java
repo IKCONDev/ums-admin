@@ -8,7 +8,7 @@ import com.ikn.ums.admin.entity.UserRoleMenuItemPermissionMap;
 public interface UserRoleMenuItemPermissionMapService {
 	
 	UserRoleMenuItemPermissionMapDTO createUserRoleMenuItemPermissionMap(UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO);
-	UserRoleMenuItemPermissionMap updateUserRoleMenuItemPermissionMap(UserRoleMenuItemPermissionMap userRoleMenuItemPermissionMap);
+	UserRoleMenuItemPermissionMapDTO updateUserRoleMenuItemPermissionMap(UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO);
 	List<UserRoleMenuItemPermissionMap> getAllUserRoleMenuItemPermissionMap();
 	UserRoleMenuItemPermissionMap getUserRoleMenuItemPermissionMapByUserId(String email);
 	void deleteUserRoleMenuItemPermissionMapByUserId(String email);

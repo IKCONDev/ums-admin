@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 	@Autowired
 	private ModelMapper mapper;
 
+	@Transactional(value = TxType.REQUIRED)
 	@Override
 	public UserRoleMenuItemPermissionMapDTO createUserRoleMenuItemPermissionMap(
 			UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO) {
@@ -34,17 +38,20 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 		return createdUserRoleMenuItemPermissionMapDTO;
 	}
 
+	@Transactional(value = TxType.REQUIRED)
 	@Override
-	public UserRoleMenuItemPermissionMap updateUserRoleMenuItemPermissionMap(
-			UserRoleMenuItemPermissionMap userRoleMenuItemPermissionMap) {
-		Optional<UserRoleMenuItemPermissionMap> optDbUserRoleMenuItemPermissionMap = userRoleMenuItemPermissionMapRepository.findById(userRoleMenuItemPermissionMap.getId());
+	public UserRoleMenuItemPermissionMapDTO updateUserRoleMenuItemPermissionMap(
+			UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO) {
+		Optional<UserRoleMenuItemPermissionMap> optDbUserRoleMenuItemPermissionMap = userRoleMenuItemPermissionMapRepository.findByEmail(userRoleMenuItemPermissionMapDTO.getEmail());
 		UserRoleMenuItemPermissionMap dbUserRoleMenuItemPermissionMap = optDbUserRoleMenuItemPermissionMap.get();
-		dbUserRoleMenuItemPermissionMap.setEmail(userRoleMenuItemPermissionMap.getEmail());
-		dbUserRoleMenuItemPermissionMap.setMenuItemIdList(userRoleMenuItemPermissionMap.getMenuItemIdList());
-		dbUserRoleMenuItemPermissionMap.setPermissionIdList(userRoleMenuItemPermissionMap.getPermissionIdList());
-		dbUserRoleMenuItemPermissionMap.setRoleId(userRoleMenuItemPermissionMap.getRoleId());
+		dbUserRoleMenuItemPermissionMap.setEmail(userRoleMenuItemPermissionMapDTO.getEmail());
+		dbUserRoleMenuItemPermissionMap.setMenuItemIdList(userRoleMenuItemPermissionMapDTO.getMenuItemIdList());
+		dbUserRoleMenuItemPermissionMap.setPermissionIdList(userRoleMenuItemPermissionMapDTO.getPermissionIdList());
+		dbUserRoleMenuItemPermissionMap.setRoleId(userRoleMenuItemPermissionMapDTO.getRoleId());
 		dbUserRoleMenuItemPermissionMap.setModifiedDateTime(LocalDateTime.now());
-		return dbUserRoleMenuItemPermissionMap;
+		UserRoleMenuItemPermissionMapDTO updateUserRolePermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
+		mapper.map(dbUserRoleMenuItemPermissionMap, updateUserRolePermissionMapDTO);
+		return updateUserRolePermissionMapDTO;
 	}
 
 	@Override
@@ -59,9 +66,9 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 		return null;
 	}
 
+	@Transactional(value = TxType.REQUIRED)
 	@Override
 	public void deleteUserRoleMenuItemPermissionMapByUserId(String email) {
-		// TODO Auto-generated method stub
 		
 	}
 

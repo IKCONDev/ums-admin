@@ -83,7 +83,6 @@ public class UserController {
 	}
 	
 	private UserRoleMenuItemPermissionMapDTO assignRoleMenuItemPermissionsToUser(UserDTO userDTO) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
 		RoleDTO roleDTO = null;
 		Iterator<RoleDTO> roleIterator = userDTO.getUserRoles().iterator();
 		while(roleIterator.hasNext()) {
@@ -108,7 +107,9 @@ public class UserController {
 		userRoleMenuItemPermissionMapDTO.setEmail(userDTO.getEmail());
 		userRoleMenuItemPermissionMapDTO.setRoleId(roleDTO.getRoleId());
 		userRoleMenuItemPermissionMapDTO.setMenuItemIdList(menuItemBuilder.toString());
+		System.out.println(menuItemBuilder.toString()+"---------");
 		userRoleMenuItemPermissionMapDTO.setPermissionIdList(permissionDTO.getPermissionValue());
+		menuItemBuilder = new StringBuilder();
 		return userRoleMenuItemPermissionMapDTO;
 	}
 	
@@ -124,10 +125,18 @@ public class UserController {
 		}
 		try {
 			log.info("UserController.updateUser() is under execution...");
-			User savedUser = userService.updateUser(user);
+			User updatedUser = userService.updateUser(user);
+			UserDTO userDTO = new UserDTO();
+			if(updatedUser != null) {
+				userDTO = new UserDTO();
+				mapper.map(updatedUser, userDTO);
+				System.out.println(updatedUser);
+				System.out.println(userDTO);
+				UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO = assignRoleMenuItemPermissionsToUser(userDTO);
+				userRoleMenuItemPermissionMapService.updateUserRoleMenuItemPermissionMap(userRoleMenuItemPermissionMapDTO);
+			}
 			log.info("UserController.updateUser() executed successfully.");
-
-			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+			return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
 		} catch (Exception e) {
 			log.info("UserController.updateUser() exited with exception : Exception occured while updating user.");
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_CODE,
