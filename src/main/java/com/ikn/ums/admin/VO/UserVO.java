@@ -3,6 +3,7 @@ package com.ikn.ums.admin.VO;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.ikn.ums.admin.dto.UserRoleMenuItemPermissionMapDTO;
 import com.ikn.ums.admin.entity.Role;
 
 import lombok.AllArgsConstructor;
@@ -29,4 +30,6 @@ public class UserVO {
 	private byte[] profilePic;
 	
 	private boolean isActive;
+	
+	private UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMap;
 }

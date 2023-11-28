@@ -61,9 +61,16 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 	}
 
 	@Override
-	public UserRoleMenuItemPermissionMap getUserRoleMenuItemPermissionMapByUserId(String email) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserRoleMenuItemPermissionMapDTO getUserRoleMenuItemPermissionMapByUserId(String email) {
+		UserRoleMenuItemPermissionMap userRoleMenuItemPermissionMap = null;
+		UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO = null;
+		Optional<UserRoleMenuItemPermissionMap> optUserRoleMenuItemPermissionMap = userRoleMenuItemPermissionMapRepository.findByEmail(email);
+		if(optUserRoleMenuItemPermissionMap.isPresent()) {
+			userRoleMenuItemPermissionMap = optUserRoleMenuItemPermissionMap.get();
+			userRoleMenuItemPermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
+		}
+		mapper.map(userRoleMenuItemPermissionMap, userRoleMenuItemPermissionMapDTO);
+		return userRoleMenuItemPermissionMapDTO;
 	}
 
 	@Transactional(value = TxType.REQUIRED)

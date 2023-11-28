@@ -47,7 +47,7 @@ public class Role {
 			)
 	private List<MenuItem> menuItems = new ArrayList<>();
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
 	@JoinTable(
 				name = "role_permission_tab",
 				joinColumns = @JoinColumn(name = "roleId"),

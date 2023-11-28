@@ -42,7 +42,7 @@ public class RoleServiceImpl implements RoleService {
 					ErrorCodeMessages.ERR_ROLE_NAME_EXISTS_MSG);
 		log.info("RoleServiceImpl.createRole() is under execution...");
 		role.setCreatedDateTime(LocalDateTime.now());
-		role.setRoleStatus(AdminConstants.STATUS_ACTIVE);
+		role.setRoleStatus(AdminConstants.STATUS_ACTIVE);	
 		Role savedRole = roleRepository.save(role);
 		log.info("RoleServiceImpl.createRole() executed successfully");
 		return savedRole;

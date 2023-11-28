@@ -27,14 +27,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ikn.ums.admin.VO.EmployeeVO;
 import com.ikn.ums.admin.VO.UserVO;
 import com.ikn.ums.admin.dto.UserDTO;
+import com.ikn.ums.admin.dto.UserRoleMenuItemPermissionMapDTO;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.entity.User;
+import com.ikn.ums.admin.entity.UserRoleMenuItemPermissionMap;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.ImageNotFoundException;
 import com.ikn.ums.admin.repository.UserRepository;
 import com.ikn.ums.admin.service.RoleService;
+import com.ikn.ums.admin.service.UserRoleMenuItemPermissionMapService;
 import com.ikn.ums.admin.service.UserService;
 import com.ikn.ums.admin.utils.AdminConstants;
 import com.ikn.ums.admin.utils.EmailService;
@@ -59,6 +62,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private UserRoleMenuItemPermissionMapService userRoleMenuItemPermissionMapService;
 
 	int otp = 0;
 	
@@ -82,6 +88,8 @@ public class UserServiceImpl implements UserService {
 		log.info("UsersServiceImpl.getUserDetailsByUsername() executed successfully");
 		UserDTO userDTO = new UserDTO();
 		mapper.map(loadedUser, userDTO);
+		UserRoleMenuItemPermissionMapDTO userRPMDTO = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapByUserId(email);
+		userDTO.setUserRoleMenuItemPermissionMap(userRPMDTO);
 		return userDTO;
 	}
 
@@ -249,6 +257,8 @@ public class UserServiceImpl implements UserService {
 		// user.setEmployee(employeeDetails);
 		user.setProfilePic(dbLoggedInUser.getProfilePic());
 		user.setActive(dbLoggedInUser.isActive());
+		UserRoleMenuItemPermissionMapDTO userRPMDTO = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapByUserId(dbLoggedInUser.getEmail());
+		user.setUserRoleMenuItemPermissionMap(userRPMDTO);
 		log.info("UsersServiceImpl.getUserProfile() executed successfully");
 		return user;
 	}
@@ -410,6 +420,10 @@ public class UserServiceImpl implements UserService {
 		user.setEmployee(employeeDetails);
 		user.setProfilePic(dbLoggedInUser.getProfilePic());
 		user.setActive(dbLoggedInUser.isActive());
+		UserRoleMenuItemPermissionMapDTO userRPMDTO = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapByUserId(username);
+//		UserRoleMenuItemPermissionMapDTO userRPMDTO = new UserRoleMenuItemPermissionMapDTO();
+//		mapper.map(userRPM, userRPMDTO);
+		user.setUserRoleMenuItemPermissionMap(userRPMDTO);
 		log.info("UsersServiceImpl.getUserProfile() executed successfully");
 		return user;
 	}

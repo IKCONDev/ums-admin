@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ikn.ums.admin.dto.PermissionDTO;
+import com.ikn.ums.admin.entity.Permission;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
@@ -22,6 +24,7 @@ import com.ikn.ums.admin.exception.EmptyListException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.RoleNameExistsException;
+import com.ikn.ums.admin.service.PermissionService;
 import com.ikn.ums.admin.service.RoleService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +36,9 @@ public class RoleController {
 
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private PermissionService permissionService;
 
 	@PostMapping("/create")
 	public ResponseEntity<Role> createRole(@RequestBody Role role) {
@@ -45,6 +51,10 @@ public class RoleController {
 		try {
 			log.info("RoleController.createRole() is under execution.");
 			log.info(":Role Object : " + role );
+			//assign the corresponding permission object to role
+			Optional<Permission> optPermission = permissionService.getPermissionById(role.getPermission().getPermissionId());
+			Permission permission = optPermission.get();
+			role.setPermission(permission);
 			Role createdRole = roleService.createRole(role);
 			log.info("RoleController.createRole() executed successfully.");
 			return new ResponseEntity<>(createdRole, HttpStatus.CREATED);

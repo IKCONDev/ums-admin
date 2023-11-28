@@ -10,7 +10,7 @@ public interface UserRoleMenuItemPermissionMapService {
 	UserRoleMenuItemPermissionMapDTO createUserRoleMenuItemPermissionMap(UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO);
 	UserRoleMenuItemPermissionMapDTO updateUserRoleMenuItemPermissionMap(UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO);
 	List<UserRoleMenuItemPermissionMap> getAllUserRoleMenuItemPermissionMap();
-	UserRoleMenuItemPermissionMap getUserRoleMenuItemPermissionMapByUserId(String email);
+	UserRoleMenuItemPermissionMapDTO getUserRoleMenuItemPermissionMapByUserId(String email);
 	void deleteUserRoleMenuItemPermissionMapByUserId(String email);
 	
 }
