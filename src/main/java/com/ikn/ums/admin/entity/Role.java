@@ -40,7 +40,7 @@ public class Role {
 	private String roleName;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(cascade = {CascadeType.ALL})
+	@ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
 	@JoinTable(
 				name = "role_menuItems_tab",
 				joinColumns = @JoinColumn(name = "roleId", unique = false),

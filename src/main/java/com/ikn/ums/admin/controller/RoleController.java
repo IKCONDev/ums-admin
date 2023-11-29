@@ -1,5 +1,6 @@
 package com.ikn.ums.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,8 @@ import com.ikn.ums.admin.exception.EmptyListException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.RoleNameExistsException;
+import com.ikn.ums.admin.repository.RoleRepository;
+import com.ikn.ums.admin.service.MenuItemService;
 import com.ikn.ums.admin.service.PermissionService;
 import com.ikn.ums.admin.service.RoleService;
 
@@ -39,6 +42,9 @@ public class RoleController {
 	
 	@Autowired
 	private PermissionService permissionService;
+	
+	@Autowired
+	private RoleRepository roleRepo;
 
 	@PostMapping("/create")
 	public ResponseEntity<Role> createRole(@RequestBody Role role) {
