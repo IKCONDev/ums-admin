@@ -30,5 +30,8 @@ public class UserRoleMenuItemPermissionMapDTO {
 	private String modifiedBy;
 	private String createdByEmailId;
 	private String modifiedByEmailId;
+	
+	//other properties
+	private MenuItemDTO menuItem;
 
 }
