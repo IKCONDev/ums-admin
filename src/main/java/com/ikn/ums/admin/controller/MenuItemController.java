@@ -78,7 +78,7 @@ public class MenuItemController {
 		}catch (Exception e) {
 			log.info("General Exception has encountered while updating MenuItem. " + e.getMessage());
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_CODE, 
-					ErrorCodeMessages.ERR_MENU_ITEM_CREATE_UNSUCCESS_MSG);
+					ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_MSG);
 			throw umsCE;
 		}
 	}
@@ -89,8 +89,8 @@ public class MenuItemController {
 		log.info("MenuItemController.deleteSelectedMenuItems() entered ");
 		if (menuItemIds == null || menuItemIds.size() <= 0 ) {
 			log.info("MenuItemController.deleteSelectedMenuItems() EmptyInputException : menuItem Id/Ids are empty");
-			throw new EmptyInputException(ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_MSG);
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
 		try {
 			log.info("MenuItemController.deleteSelectedMenuItems() is under execution...");
@@ -102,8 +102,8 @@ public class MenuItemController {
 		}catch (EmptyListException businessException) {
 			throw businessException;
 		} catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_PERMISSION_DELETE_UNSUCCESS_CODE,
-					ErrorCodeMessages.ERR_PERMISSION_DELETE_UNSUCCESS_MSG);
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_DELETE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MENU_ITEM_DELETE_UNSUCCESS_MSG);
 			throw umsCE;
 		}
 	}
@@ -129,18 +129,18 @@ public class MenuItemController {
 	}
 
 	@GetMapping("/{menuItemId}")
-	public ResponseEntity<?> getPermissionById(@PathVariable Long menuItemId) {
+	public ResponseEntity<?> getMenuItemById(@PathVariable Long menuItemId) {
 	
 		if (menuItemId <= 0) {
-			log.info("PermissionController.getPermissionById() permissionId <0 exception ");
-			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
+			log.info("MenuItemController.getMenuItemById() permissionId <0 exception ");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_MSG);
 		}
 		try {
-			log.info("PermissionController.getPermissionById() is under execution...");
-			log.info("PermissionController.getPermissionById() ENTERED : permissionId : " + menuItemId);
+			log.info("MenuItemController.getMenuItemById() is under execution...");
+			log.info("MenuItemController.getMenuItemById() ENTERED : menuItemId : " + menuItemId);
 			MenuItemDTO menuItem = menuItemService.getMenuItemById(menuItemId);
-			log.info("PermissionController.getPermissionById() executed successfully");
+			log.info("MenuItemController.getMenuItemById() executed successfully");
 			return new ResponseEntity<>(menuItem, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
 			throw businessException;
