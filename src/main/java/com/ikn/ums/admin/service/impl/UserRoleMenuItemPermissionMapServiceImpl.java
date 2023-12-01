@@ -1,6 +1,7 @@
 package com.ikn.ums.admin.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,9 @@ import com.ikn.ums.admin.entity.UserRoleMenuItemPermissionMap;
 import com.ikn.ums.admin.repository.UserRoleMenuItemPermissionMapRepository;
 import com.ikn.ums.admin.service.UserRoleMenuItemPermissionMapService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuItemPermissionMapService {
 	
@@ -42,16 +46,16 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 	@Override
 	public UserRoleMenuItemPermissionMapDTO updateUserRoleMenuItemPermissionMap(
 			UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO) {
-		Optional<UserRoleMenuItemPermissionMap> optDbUserRoleMenuItemPermissionMap = userRoleMenuItemPermissionMapRepository.findByEmail(userRoleMenuItemPermissionMapDTO.getEmail());
-		UserRoleMenuItemPermissionMap dbUserRoleMenuItemPermissionMap = optDbUserRoleMenuItemPermissionMap.get();
-		dbUserRoleMenuItemPermissionMap.setEmail(userRoleMenuItemPermissionMapDTO.getEmail());
-		dbUserRoleMenuItemPermissionMap.setMenuItemIdList(userRoleMenuItemPermissionMapDTO.getMenuItemIdList());
-		dbUserRoleMenuItemPermissionMap.setPermissionIdList(userRoleMenuItemPermissionMapDTO.getPermissionIdList());
-		dbUserRoleMenuItemPermissionMap.setRoleId(userRoleMenuItemPermissionMapDTO.getRoleId());
-		dbUserRoleMenuItemPermissionMap.setModifiedDateTime(LocalDateTime.now());
-		UserRoleMenuItemPermissionMapDTO updateUserRolePermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
-		mapper.map(dbUserRoleMenuItemPermissionMap, updateUserRolePermissionMapDTO);
-		return updateUserRolePermissionMapDTO;
+//		Optional<UserRoleMenuItemPermissionMap> optDbUserRoleMenuItemPermissionMap = userRoleMenuItemPermissionMapRepository.findByEmail(userRoleMenuItemPermissionMapDTO.getEmail());
+//		UserRoleMenuItemPermissionMap dbUserRoleMenuItemPermissionMap = optDbUserRoleMenuItemPermissionMap.get();
+//		dbUserRoleMenuItemPermissionMap.setEmail(userRoleMenuItemPermissionMapDTO.getEmail());
+//		dbUserRoleMenuItemPermissionMap.setMenuItemIdList(userRoleMenuItemPermissionMapDTO.getMenuItemIdList());
+//		dbUserRoleMenuItemPermissionMap.setPermissionIdList(userRoleMenuItemPermissionMapDTO.getPermissionIdList());
+//		dbUserRoleMenuItemPermissionMap.setRoleId(userRoleMenuItemPermissionMapDTO.getRoleId());
+//		dbUserRoleMenuItemPermissionMap.setModifiedDateTime(LocalDateTime.now());
+//		UserRoleMenuItemPermissionMapDTO updateUserRolePermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
+//		mapper.map(dbUserRoleMenuItemPermissionMap, updateUserRolePermissionMapDTO);
+		return null;
 	}
 
 	@Override
@@ -61,22 +65,66 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 	}
 
 	@Override
-	public UserRoleMenuItemPermissionMapDTO getUserRoleMenuItemPermissionMapByUserId(String email) {
-		UserRoleMenuItemPermissionMap userRoleMenuItemPermissionMap = null;
-		UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO = null;
-		Optional<UserRoleMenuItemPermissionMap> optUserRoleMenuItemPermissionMap = userRoleMenuItemPermissionMapRepository.findByEmail(email);
-		if(optUserRoleMenuItemPermissionMap.isPresent()) {
-			userRoleMenuItemPermissionMap = optUserRoleMenuItemPermissionMap.get();
-			userRoleMenuItemPermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
-		}
-		mapper.map(userRoleMenuItemPermissionMap, userRoleMenuItemPermissionMapDTO);
-		return userRoleMenuItemPermissionMapDTO;
+	public List<UserRoleMenuItemPermissionMapDTO> getUserRoleMenuItemPermissionMapsByUserId(String email) {
+		List<UserRoleMenuItemPermissionMap> userRoleMenuItemPermissionMapList = userRoleMenuItemPermissionMapRepository.findByEmail(email);
+		List<UserRoleMenuItemPermissionMapDTO> dtos = new ArrayList<>();
+			userRoleMenuItemPermissionMapList.forEach(entity -> {
+				UserRoleMenuItemPermissionMapDTO dto = new UserRoleMenuItemPermissionMapDTO();
+				mapper.map(entity, dto);
+				dtos.add(dto);
+			});
+		return dtos;
 	}
 
-	@Transactional(value = TxType.REQUIRED)
+	@Transactional
 	@Override
-	public void deleteUserRoleMenuItemPermissionMapByUserId(String email) {
-		
+	public void deleteAllUserRoleMenuItemPermissionMapByUserId(String email) {
+		log.info("deleteAllUserRoleMenuItemPermissionMapByUserId() entered with args : userId/emailId");
+		log.info("deleteAllUserRoleMenuItemPermissionMapByUserId() is under execution...");
+		userRoleMenuItemPermissionMapRepository.deleteByEmail(email);
+		log.info("deleteAllUserRoleMenuItemPermissionMapByUserId() executed succesfully");
+	}
+	
+	@Transactional
+	@Override
+	public List<UserRoleMenuItemPermissionMapDTO> saveAllUserRoleMenuItemPermissionMaps(
+			List<UserRoleMenuItemPermissionMapDTO> userRoleMenuItemPermissionMapDTOList) {
+		List<UserRoleMenuItemPermissionMap> entites = new ArrayList<>();
+		userRoleMenuItemPermissionMapDTOList.forEach(dto -> {
+			UserRoleMenuItemPermissionMap entity = new UserRoleMenuItemPermissionMap();
+			mapper.map(dto, entity);
+			entity.setCreatedDateTime(LocalDateTime.now());
+			entites.add(entity);
+		});
+		List<UserRoleMenuItemPermissionMap> savedEntities = userRoleMenuItemPermissionMapRepository.saveAll(entites);
+		List<UserRoleMenuItemPermissionMapDTO> dtos = new ArrayList<>();
+		savedEntities.forEach(entity -> {
+			UserRoleMenuItemPermissionMapDTO dto = new UserRoleMenuItemPermissionMapDTO();
+			mapper.map(entity, dto);
+			dtos.add(dto);
+		});
+		return dtos;
+	}
+
+	@Override
+	public List<UserRoleMenuItemPermissionMapDTO> updateAllUserRoleMenuItemPermissionMaps(
+			List<UserRoleMenuItemPermissionMapDTO> userRoleMenuItemPermissionMapDTOList) {
+		List<UserRoleMenuItemPermissionMap> entites = new ArrayList<>();
+		userRoleMenuItemPermissionMapDTOList.forEach(dto -> {
+			UserRoleMenuItemPermissionMap entity = new UserRoleMenuItemPermissionMap();
+			mapper.map(dto, entity);
+			entity.setModifiedDateTime(LocalDateTime.now());
+			entites.add(entity);
+		});
+		//userRoleMenuItemPermissionMapRepository.
+		List<UserRoleMenuItemPermissionMap> savedEntities = userRoleMenuItemPermissionMapRepository.saveAll(entites);
+		List<UserRoleMenuItemPermissionMapDTO> dtos = new ArrayList<>();
+		savedEntities.forEach(entity -> {
+			UserRoleMenuItemPermissionMapDTO dto = new UserRoleMenuItemPermissionMapDTO();
+			mapper.map(entity, dto);
+			dtos.add(dto);
+		});
+		return dtos;
 	}
 
 }

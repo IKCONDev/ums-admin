@@ -3,6 +3,7 @@ package com.ikn.ums.admin.service.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -24,8 +25,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ikn.ums.admin.VO.EmployeeVO;
 import com.ikn.ums.admin.VO.UserVO;
+import com.ikn.ums.admin.dto.MenuItemDTO;
+import com.ikn.ums.admin.dto.PermissionDTO;
+import com.ikn.ums.admin.dto.RoleDTO;
 import com.ikn.ums.admin.dto.UserDTO;
 import com.ikn.ums.admin.dto.UserRoleMenuItemPermissionMapDTO;
 import com.ikn.ums.admin.entity.Role;
@@ -88,8 +93,8 @@ public class UserServiceImpl implements UserService {
 		log.info("UsersServiceImpl.getUserDetailsByUsername() executed successfully");
 		UserDTO userDTO = new UserDTO();
 		mapper.map(loadedUser, userDTO);
-		UserRoleMenuItemPermissionMapDTO userRPMDTO = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapByUserId(email);
-		userDTO.setUserRoleMenuItemPermissionMap(userRPMDTO);
+		//UserRoleMenuItemPermissionMapDTO userRPMDTO = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapByUserId(email);
+		//userDTO.setUserRoleMenuItemPermissionMap(userRPMDTO);
 		return userDTO;
 	}
 
@@ -257,8 +262,8 @@ public class UserServiceImpl implements UserService {
 		// user.setEmployee(employeeDetails);
 		user.setProfilePic(dbLoggedInUser.getProfilePic());
 		user.setActive(dbLoggedInUser.isActive());
-		UserRoleMenuItemPermissionMapDTO userRPMDTO = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapByUserId(dbLoggedInUser.getEmail());
-		user.setUserRoleMenuItemPermissionMap(userRPMDTO);
+		//UserRoleMenuItemPermissionMapDTO userRPMDTO = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapByUserId(dbLoggedInUser.getEmail());
+		//user.setUserRoleMenuItemPermissionMap(userRPMDTO);
 		log.info("UsersServiceImpl.getUserProfile() executed successfully");
 		return user;
 	}
@@ -313,9 +318,67 @@ public class UserServiceImpl implements UserService {
 		user.setProfilePic(user.getProfilePic());
 		String email= user.getEmail();
 		User savedUser = userRepository.save(user);
+		UserDTO userDTO =  null;
+		if(savedUser != null) {
+			userDTO = new UserDTO();
+			mapper.map(savedUser, userDTO);
+			System.out.println(savedUser);
+			System.out.println(userDTO);
+			try {
+				List<UserRoleMenuItemPermissionMapDTO> userRoleMenuItemPermissionMapDTO = assignRoleMenuItemPermissionsToUser(userDTO);
+				userRoleMenuItemPermissionMapService.saveAllUserRoleMenuItemPermissionMaps(userRoleMenuItemPermissionMapDTO);
+			}catch (JsonProcessingException e) {
+				// TODO: handle exception
+			}
+		}
 		restTemplate.exchange("http://UMS-EMPLOYEE-SERVICE/employees/employeestatus-update/"+email,HttpMethod.PUT, null, boolean.class);
 		log.info("UsersServiceImpl.createUser() executed successfully.");
 		return savedUser;
+	}
+	
+
+    RoleDTO roleDTO = null;
+	private List<UserRoleMenuItemPermissionMapDTO> assignRoleMenuItemPermissionsToUser(UserDTO userDTO) throws JsonProcessingException {
+		//if()
+		Iterator<RoleDTO> roleIterator = userDTO.getUserRoles().iterator();
+		while(roleIterator.hasNext()) {
+			roleDTO = roleIterator.next();
+		}
+		List<MenuItemDTO> menuItemList = roleDTO.getMenuItems();
+		//String menuItemListString = mapper.writeValueAsString(menuItemList);
+//		StringBuilder menuItemBuilder = new StringBuilder();
+//
+//		for(int i= 0; i<menuItemList.size(); i++) {
+//			menuItemBuilder.append(menuItemList.get(i).getMenuItemId());
+//			if(i < menuItemList.size()-1) {
+//				menuItemBuilder.append(",");
+//			}
+//		}
+		
+		PermissionDTO permissionDTO = roleDTO.getPermission();
+		System.out.println(permissionDTO+" Permission DTO");
+		System.out.println(menuItemList.size()+" Menu Item list size");
+		//System.out.println(": Converted Menu Item String : "+menuItemBuilder.toString());
+		List<UserRoleMenuItemPermissionMapDTO> userRoleMenuItemPermissionMapDTOList = new ArrayList<>();
+		if(menuItemList.size() > 0) {
+			menuItemList.forEach(menuItem -> {
+				UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
+				userRoleMenuItemPermissionMapDTO.setEmail(userDTO.getEmail());
+				userRoleMenuItemPermissionMapDTO.setRoleId(roleDTO.getRoleId());
+				userRoleMenuItemPermissionMapDTO.setMenuItemIdList(menuItem.getMenuItemId().toString());
+				userRoleMenuItemPermissionMapDTO.setPermissionIdList(permissionDTO.getPermissionValue());
+				userRoleMenuItemPermissionMapDTOList.add(userRoleMenuItemPermissionMapDTO);
+			});
+		}else {
+			UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
+			userRoleMenuItemPermissionMapDTO.setEmail(userDTO.getEmail());
+			userRoleMenuItemPermissionMapDTO.setRoleId(roleDTO.getRoleId());
+			userRoleMenuItemPermissionMapDTO.setMenuItemIdList("0");
+			userRoleMenuItemPermissionMapDTO.setPermissionIdList(permissionDTO.getPermissionValue());
+			userRoleMenuItemPermissionMapDTOList.add(userRoleMenuItemPermissionMapDTO);
+		}
+		
+		return userRoleMenuItemPermissionMapDTOList;
 	}
 
 	@Transactional
@@ -328,15 +391,32 @@ public class UserServiceImpl implements UserService {
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
 		User dbUser = userRepository.findByEmail(user.getEmail());
+		Long uiRoleId = user.getUserRoles().iterator().next().getRoleId();
+		Long dbRoleId = dbUser.getUserRoles().iterator().next().getRoleId();
 		if (dbUser != null) {
 			dbUser.setActive(user.isActive());
 			dbUser.setTwoFactorAuthentication(user.isTwoFactorAuthentication());
 			dbUser.setUserRoles(user.getUserRoles());
 			dbUser.setLoginAttempts(user.getLoginAttempts());
 		}
-
 		log.info("UsersServiceImpl.updateUser() is under execution...");
 		User updatedUser = userRepository.save(dbUser);
+		UserDTO userDTO = new UserDTO();
+		if(updatedUser != null) {
+			userDTO = new UserDTO();
+			mapper.map(updatedUser, userDTO);
+			if(dbRoleId != uiRoleId) {
+				userRoleMenuItemPermissionMapService.deleteAllUserRoleMenuItemPermissionMapByUserId(dbUser.getEmail());
+				try {
+					List<UserRoleMenuItemPermissionMapDTO> userRoleMenuItemPermissionMapDTOList = assignRoleMenuItemPermissionsToUser(userDTO);
+					userRoleMenuItemPermissionMapService.saveAllUserRoleMenuItemPermissionMaps(userRoleMenuItemPermissionMapDTOList);
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+	
+			}
+			
+		}
 		log.info("UsersServiceImpl.updateUser() executed successfully.");
 		return updatedUser;
 	}
@@ -352,6 +432,7 @@ public class UserServiceImpl implements UserService {
 		}
 		log.info("UsersServiceImpl.deleteUser() is under execution...");
 		userRepository.deleteUserByUserId(emailId);
+		userRoleMenuItemPermissionMapService.deleteAllUserRoleMenuItemPermissionMapByUserId(emailId);
 		log.info("UsersServiceImpl.deleteUser() executed successfully");
 		restTemplate.exchange("http://UMS-EMPLOYEE-SERVICE/employees/status-update/"+emailId,HttpMethod.PUT, null, boolean.class);
 		log.info("UsersServiceImpl.createUser() executed successfully.");
@@ -420,10 +501,8 @@ public class UserServiceImpl implements UserService {
 		user.setEmployee(employeeDetails);
 		user.setProfilePic(dbLoggedInUser.getProfilePic());
 		user.setActive(dbLoggedInUser.isActive());
-		UserRoleMenuItemPermissionMapDTO userRPMDTO = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapByUserId(username);
-//		UserRoleMenuItemPermissionMapDTO userRPMDTO = new UserRoleMenuItemPermissionMapDTO();
-//		mapper.map(userRPM, userRPMDTO);
-		user.setUserRoleMenuItemPermissionMap(userRPMDTO);
+		//UserRoleMenuItemPermissionMapDTO userRPMDTO = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapByUserId(username);
+		//user.setUserRoleMenuItemPermissionMap(userRPMDTO);
 		log.info("UsersServiceImpl.getUserProfile() executed successfully");
 		return user;
 	}

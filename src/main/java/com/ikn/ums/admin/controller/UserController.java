@@ -62,15 +62,6 @@ public class UserController {
 		try {
 			log.info("UserController.createUser() is under execution...");
 			User savedUser = userService.saveUser(user);
-			UserDTO userDTO =  null;
-			if(savedUser != null) {
-				userDTO = new UserDTO();
-				mapper.map(savedUser, userDTO);
-				System.out.println(savedUser);
-				System.out.println(userDTO);
-				UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO = assignRoleMenuItemPermissionsToUser(userDTO);
-				userRoleMenuItemPermissionMapService.createUserRoleMenuItemPermissionMap(userRoleMenuItemPermissionMapDTO);
-			}
 			log.info("UserController.createUser() executed successfully.");
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -82,39 +73,6 @@ public class UserController {
 		}
 	}
 	
-	private UserRoleMenuItemPermissionMapDTO assignRoleMenuItemPermissionsToUser(UserDTO userDTO) throws JsonProcessingException {
-		RoleDTO roleDTO = null;
-		Iterator<RoleDTO> roleIterator = userDTO.getUserRoles().iterator();
-		while(roleIterator.hasNext()) {
-			roleDTO = roleIterator.next();
-		}
-		List<MenuItemDTO> menuItemList = roleDTO.getMenuItems();
-		//String menuItemListString = mapper.writeValueAsString(menuItemList);
-		StringBuilder menuItemBuilder = new StringBuilder();
-
-		for(int i= 0; i<menuItemList.size(); i++) {
-			menuItemBuilder.append(menuItemList.get(i).getMenuItemId());
-			if(i < menuItemList.size()-1) {
-				menuItemBuilder.append(",");
-			}
-		}
-		
-		PermissionDTO permissionDTO = roleDTO.getPermission();
-		System.out.println(permissionDTO+" Permission DTO");
-		System.out.println(menuItemList.size()+" Menu Item list size");
-		System.out.println(": Converted Menu Item String : "+menuItemBuilder.toString());
-		UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
-		userRoleMenuItemPermissionMapDTO.setEmail(userDTO.getEmail());
-		userRoleMenuItemPermissionMapDTO.setRoleId(roleDTO.getRoleId());
-		userRoleMenuItemPermissionMapDTO.setMenuItemIdList(menuItemBuilder.toString());
-		System.out.println(menuItemBuilder.toString()+"---------");
-		userRoleMenuItemPermissionMapDTO.setPermissionIdList(permissionDTO.getPermissionValue());
-		menuItemBuilder = new StringBuilder();
-		return userRoleMenuItemPermissionMapDTO;
-	}
-	
-	
-
 	@PutMapping("/update")
 	public ResponseEntity<?> updateUser(@RequestBody User user) {
 		log.info("AdminController.updateUser() entered with args - user");
@@ -126,15 +84,6 @@ public class UserController {
 		try {
 			log.info("UserController.updateUser() is under execution...");
 			User updatedUser = userService.updateUser(user);
-			UserDTO userDTO = new UserDTO();
-			if(updatedUser != null) {
-				userDTO = new UserDTO();
-				mapper.map(updatedUser, userDTO);
-				System.out.println(updatedUser);
-				System.out.println(userDTO);
-				UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO = assignRoleMenuItemPermissionsToUser(userDTO);
-				userRoleMenuItemPermissionMapService.updateUserRoleMenuItemPermissionMap(userRoleMenuItemPermissionMapDTO);
-			}
 			log.info("UserController.updateUser() executed successfully.");
 			return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -157,14 +106,13 @@ public class UserController {
 		try {
 			log.info("UserController.deleteUserByUserId() is under execution...");
 			userService.deleteUserByUserId(emailId);
-			userRoleMenuItemPermissionMapService.deleteUserRoleMenuItemPermissionMapByUserId(emailId);
 			isDeleted = true;
 			log.info("UserController.deleteUserByUserId() executed successfully");
 			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
 		}catch (Exception e) {
 			log.info("UserController.deleteUserByUserId() exited with exception : Exception occured while deleting user.");
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_CODE,
-			ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_MSG);
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_CODE,
+			ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_MSG);
 			throw umsCE;
 		}
 	}
