@@ -2,6 +2,7 @@ package com.ikn.ums.admin.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,9 +13,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ikn.ums.admin.dto.MenuItemDTO;
 import com.ikn.ums.admin.dto.UserRoleMenuItemPermissionMapDTO;
+import com.ikn.ums.admin.entity.MenuItem;
 import com.ikn.ums.admin.entity.UserRoleMenuItemPermissionMap;
 import com.ikn.ums.admin.repository.UserRoleMenuItemPermissionMapRepository;
+import com.ikn.ums.admin.service.MenuItemService;
 import com.ikn.ums.admin.service.UserRoleMenuItemPermissionMapService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +29,9 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 	
 	@Autowired
 	private UserRoleMenuItemPermissionMapRepository userRoleMenuItemPermissionMapRepository;
+	
+	@Autowired
+	private MenuItemService menuItemService;
 	
 	@Autowired
 	private ModelMapper mapper;
@@ -46,16 +53,16 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 	@Override
 	public UserRoleMenuItemPermissionMapDTO updateUserRoleMenuItemPermissionMap(
 			UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMapDTO) {
-//		Optional<UserRoleMenuItemPermissionMap> optDbUserRoleMenuItemPermissionMap = userRoleMenuItemPermissionMapRepository.findByEmail(userRoleMenuItemPermissionMapDTO.getEmail());
-//		UserRoleMenuItemPermissionMap dbUserRoleMenuItemPermissionMap = optDbUserRoleMenuItemPermissionMap.get();
-//		dbUserRoleMenuItemPermissionMap.setEmail(userRoleMenuItemPermissionMapDTO.getEmail());
-//		dbUserRoleMenuItemPermissionMap.setMenuItemIdList(userRoleMenuItemPermissionMapDTO.getMenuItemIdList());
-//		dbUserRoleMenuItemPermissionMap.setPermissionIdList(userRoleMenuItemPermissionMapDTO.getPermissionIdList());
-//		dbUserRoleMenuItemPermissionMap.setRoleId(userRoleMenuItemPermissionMapDTO.getRoleId());
-//		dbUserRoleMenuItemPermissionMap.setModifiedDateTime(LocalDateTime.now());
-//		UserRoleMenuItemPermissionMapDTO updateUserRolePermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
-//		mapper.map(dbUserRoleMenuItemPermissionMap, updateUserRolePermissionMapDTO);
-		return null;
+		Optional<UserRoleMenuItemPermissionMap> optDbUserRoleMenuItemPermissionMap = userRoleMenuItemPermissionMapRepository.findById(userRoleMenuItemPermissionMapDTO.getId());
+		UserRoleMenuItemPermissionMap dbUserRoleMenuItemPermissionMap = optDbUserRoleMenuItemPermissionMap.get();
+		dbUserRoleMenuItemPermissionMap.setEmail(userRoleMenuItemPermissionMapDTO.getEmail());
+		dbUserRoleMenuItemPermissionMap.setMenuItemIdList(userRoleMenuItemPermissionMapDTO.getMenuItemIdList());
+		dbUserRoleMenuItemPermissionMap.setPermissionIdList(userRoleMenuItemPermissionMapDTO.getPermissionIdList());
+		dbUserRoleMenuItemPermissionMap.setRoleId(userRoleMenuItemPermissionMapDTO.getRoleId());
+		dbUserRoleMenuItemPermissionMap.setModifiedDateTime(LocalDateTime.now());
+		UserRoleMenuItemPermissionMapDTO updatedUserRolePermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
+		mapper.map(dbUserRoleMenuItemPermissionMap, updatedUserRolePermissionMapDTO);
+		return updatedUserRolePermissionMapDTO;
 	}
 
 	@Override
@@ -71,7 +78,16 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 			userRoleMenuItemPermissionMapList.forEach(entity -> {
 				UserRoleMenuItemPermissionMapDTO dto = new UserRoleMenuItemPermissionMapDTO();
 				mapper.map(entity, dto);
+				MenuItemDTO menuItemDTO = menuItemService.getMenuItemById(Long.parseLong(dto.getMenuItemIdList()));
+				dto.setMenuItem(menuItemDTO);
 				dtos.add(dto);
+			});
+			//sort in ascending order using comparator
+			dtos.sort(new Comparator<UserRoleMenuItemPermissionMapDTO>() {
+				@Override
+				public int compare(UserRoleMenuItemPermissionMapDTO o1, UserRoleMenuItemPermissionMapDTO o2) {
+					return (int) (o1.getId() - o2.getId());
+				}
 			});
 		return dtos;
 	}

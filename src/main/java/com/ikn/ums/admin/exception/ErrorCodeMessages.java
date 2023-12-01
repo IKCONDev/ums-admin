@@ -248,4 +248,9 @@ public class ErrorCodeMessages {
 		 
 		 public static final String ERR_USER_IS_EMPTY_CODE = "ERR_USER_IS_NOT_PRESENT_CODE-1072";
 		 public static final String ERR_USER_IS_EMPTY_MSG = "User is not found to delete Profile Pic !";
+		 
+		 //Error codes for UserRoleMenuItemPermissionMap
+		 public static final String ERR_USER_RPM_IS_NULL_CODE = "ERR_USER_RPM_DTO_IS_NULL_CODE-1001";
+		 public static final String ERR_USER_RPM_IS_NULL_MSG = "User role menu item object is null / empty !";
+		 
 }
