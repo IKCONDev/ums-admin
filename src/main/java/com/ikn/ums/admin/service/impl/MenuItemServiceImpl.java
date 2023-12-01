@@ -1,6 +1,5 @@
 package com.ikn.ums.admin.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,6 @@ import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.MenuItemInUsageException;
 import com.ikn.ums.admin.exception.MenuItemNameExistsException;
-import com.ikn.ums.admin.exception.PermissionNameExistsException;
 import com.ikn.ums.admin.repository.MenuItemRepository;
 import com.ikn.ums.admin.service.MenuItemService;
 import com.ikn.ums.admin.utils.AdminConstants;
