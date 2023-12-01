@@ -1,6 +1,5 @@
 package com.ikn.ums.admin.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ikn.ums.admin.dto.PermissionDTO;
 import com.ikn.ums.admin.entity.Permission;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.exception.ControllerException;
@@ -26,9 +24,9 @@ import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.RoleNameExistsException;
 import com.ikn.ums.admin.repository.RoleRepository;
-import com.ikn.ums.admin.service.MenuItemService;
 import com.ikn.ums.admin.service.PermissionService;
 import com.ikn.ums.admin.service.RoleService;
+import com.ikn.ums.admin.service.impl.RoleServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -165,6 +163,24 @@ public class RoleController {
 		}
 	}
 
-
+//Testing
+	
+//	@GetMapping("/dynamicMenuItems")
+//	private String[] getDynamicAntMatchers() {
+//		// Fetch dynamic menu items based on the user's roles
+//		//RoleController roleController = new RoleController();
+//		
+//		RoleService roleService = new RoleServiceImpl();
+//		
+//		List<Role> roleList = roleService.getAllRoles();
+//	
+//		return roleList.stream().map(menuItem -> menuItem.getMenuItems()).toArray(String[]::new);
+//		
+//		//List<Role> dynamicMenuItems = roleController.getAllRoles();
+//
+//		// Convert dynamic menu items to antMatchers strings
+//		//return dynamicMenuItems.stream().map(menuItem -> "/v1/" + menuItem.getPath()) // Adjust the path as needed
+//				//.toArray(String[]::new);
+//	}
 
 }

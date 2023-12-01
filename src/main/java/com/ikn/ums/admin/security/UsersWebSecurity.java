@@ -1,5 +1,7 @@
 package com.ikn.ums.admin.security;
 
+import javax.servlet.Filter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.ikn.ums.admin.service.UserService;
 
@@ -143,5 +146,44 @@ public class UsersWebSecurity {
 		auth.setPasswordEncoder(encoder);
 		return auth;
 	}
+	
+	//TODO: Check to remove Override and this function need to be tested
+	//@Override
+	protected void configure(HttpSecurity http) throws Exception {
+	    http.authorizeRequests()
+	        .antMatchers("/public/**").permitAll()
+	        .antMatchers("/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
+	        .antMatchers("/user/**").hasAnyRole("USER", "MANAGER")
+	        .anyRequest().authenticated()
+	        .and()
+	        .formLogin().loginPage("/login").permitAll()
+	        .and()
+	        .logout().permitAll();
+
+	    // Dynamic menu items and permissions based on the user's roles
+	    http.addFilterBefore(menuItemsAndPermissionsFilter(), UsernamePasswordAuthenticationFilter.class);
+	}
+
+	@Bean
+    public Filter menuItemsAndPermissionsFilter() {
+        return new MenuItemsAndPermissionsFilter();
+    }
+//	
+//	private String[] getDynamicAntMatchers() {
+//		// Fetch dynamic menu items based on the user's roles
+//		//RoleController roleController = new RoleController();
+//		
+//		RoleService roleService = new RoleServiceImpl();
+//		
+//		List<Role> roleList = roleService.getAllRoles();
+//	
+//		return roleList.stream().map(menuItem -> menuItem.getMenuItems()).toArray(String[]::new);
+//		
+//		//List<Role> dynamicMenuItems = roleController.getAllRoles();
+//
+//		// Convert dynamic menu items to antMatchers strings
+//		//return dynamicMenuItems.stream().map(menuItem -> "/v1/" + menuItem.getPath()) // Adjust the path as needed
+//				//.toArray(String[]::new);
+//	}
 	
 }
