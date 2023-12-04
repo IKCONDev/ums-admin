@@ -45,25 +45,28 @@ public class UsersWebSecurity {
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-		//disable csrf 
-				http.cors().disable();
-				http.csrf().disable();
-				//provide authorization
-				http.authorizeRequests()
-				.antMatchers("/users/**")
-				.permitAll()
-				//.antMatchers("/users/login").permitAll()
+		// disable csrf
+		http.cors().disable();
+		http.csrf().disable();
+		// provide authorization
+		http.authorizeRequests()
+				.antMatchers("/users/**").permitAll()
+				//.hasAnyRole("USER", "MANAGER", "ADMIN", "SUPER_ADMIN")
+			//	.anyRequest().permitAll()
+				// .antMatchers("/users/login").permitAll()
 				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-				//register your custom authentication filter with spring security
-				.and()
-				.addFilter(getAuthenticationFilter(http));
-				
-				//working with IP, instead of permit all
-				//.hasIpAddress(env.getProperty("spring.cloud.gateway.ip"));
-				
-				//if you are using h2 as db, to view console
-				//http.headers().frameOptions().disable();
-				return http.build();
+				// register your custom authentication filter with spring security
+				.and().addFilter(getAuthenticationFilter(http));
+//			    // Dynamic menu items and permissions based on the user's roles
+			//	.addFilterBefore(menuItemsAndPermissionsFilter(), UsernamePasswordAuthenticationFilter.class);
+
+		// working with IP, instead of permit all
+		// .hasIpAddress(env.getProperty("spring.cloud.gateway.ip"));
+
+		// if you are using h2 as db, to view console
+		// http.headers().frameOptions().disable();
+		return http.build();
+			
 	}
 	
 
@@ -148,21 +151,21 @@ public class UsersWebSecurity {
 	}
 	
 	//TODO: Check to remove Override and this function need to be tested
-	//@Override
-	protected void configure(HttpSecurity http) throws Exception {
-	    http.authorizeRequests()
-	        .antMatchers("/public/**").permitAll()
-	        .antMatchers("/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
-	        .antMatchers("/user/**").hasAnyRole("USER", "MANAGER")
-	        .anyRequest().authenticated()
-	        .and()
-	        .formLogin().loginPage("/login").permitAll()
-	        .and()
-	        .logout().permitAll();
-
-	    // Dynamic menu items and permissions based on the user's roles
-	    http.addFilterBefore(menuItemsAndPermissionsFilter(), UsernamePasswordAuthenticationFilter.class);
-	}
+//	@Override
+//	protected void configure(HttpSecurity http) throws Exception {
+//	    http.authorizeRequests()
+//	        .antMatchers("/public/**").permitAll()
+//	  //      .antMatchers("/admin/**").hasAnyRole("MANAGER", "ADMIN", "SUPER_ADMIN")
+//	        .antMatchers("/user/**").hasAnyRole("USER","MANAGER", "ADMIN", "SUPER_ADMIN")
+//	        .anyRequest().authenticated()
+//	        .and()
+//	        .formLogin().loginPage("/login").permitAll()
+//	        .and()
+//	        .logout().permitAll();
+//
+//	    // Dynamic menu items and permissions based on the user's roles
+//	    http.addFilterBefore(menuItemsAndPermissionsFilter(), UsernamePasswordAuthenticationFilter.class);
+//	}
 
 	@Bean
     public Filter menuItemsAndPermissionsFilter() {
