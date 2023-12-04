@@ -167,10 +167,10 @@ public class UsersWebSecurity {
 //	    http.addFilterBefore(menuItemsAndPermissionsFilter(), UsernamePasswordAuthenticationFilter.class);
 //	}
 
-	@Bean
-    public Filter menuItemsAndPermissionsFilter() {
-        return new MenuItemsAndPermissionsFilter();
-    }
+//	@Bean
+//    public Filter menuItemsAndPermissionsFilter() {
+//        return new MenuItemsAndPermissionsFilter();
+//    }
 //	
 //	private String[] getDynamicAntMatchers() {
 //		// Fetch dynamic menu items based on the user's roles
