@@ -1,6 +1,7 @@
 package com.ikn.ums.admin.VO;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.ikn.ums.admin.dto.UserRoleMenuItemPermissionMapDTO;
@@ -31,5 +32,5 @@ public class UserVO {
 	
 	private boolean isActive;
 	
-	private UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMap;
+	private List<UserRoleMenuItemPermissionMapDTO> userRoleMenuItemPermissionMap;
 }

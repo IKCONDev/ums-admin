@@ -26,4 +26,5 @@ public interface MenuItemRepository extends JpaRepository<MenuItem, Long > {
     Long countMenuItemUsage(Long menuItemId);
 //
 //    void deleteByPermission(String permission);
+  
 }

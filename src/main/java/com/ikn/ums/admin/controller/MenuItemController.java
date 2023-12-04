@@ -133,13 +133,36 @@ public class MenuItemController {
 	
 		if (menuItemId <= 0) {
 			log.info("MenuItemController.getMenuItemById() permissionId <0 exception ");
-			throw new EmptyInputException(ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_MSG);
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
 		try {
 			log.info("MenuItemController.getMenuItemById() is under execution...");
 			log.info("MenuItemController.getMenuItemById() ENTERED : menuItemId : " + menuItemId);
 			MenuItemDTO menuItem = menuItemService.getMenuItemById(menuItemId);
+			log.info("MenuItemController.getMenuItemById() executed successfully");
+			return new ResponseEntity<>(menuItem, HttpStatus.OK);
+		}catch (EmptyInputException businessException) {
+			throw businessException;
+		}catch (Exception e) {
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);
+			throw umsCE;
+		}
+	}
+	
+	@GetMapping("/get/{menuItemName}")
+	public ResponseEntity<?> getMenuItemByName(@PathVariable String menuItemName) {
+	
+		if (menuItemName.isBlank()) {
+			log.info("MenuItemController.getMenuItemById() permissionId <0 exception ");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
+		}
+		try {
+			log.info("MenuItemController.getMenuItemById() is under execution...");
+			log.info("MenuItemController.getMenuItemById() ENTERED : menuItemId : " + menuItemName);
+			MenuItemDTO menuItem = menuItemService.getMenuItemByName(menuItemName);
 			log.info("MenuItemController.getMenuItemById() executed successfully");
 			return new ResponseEntity<>(menuItem, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {

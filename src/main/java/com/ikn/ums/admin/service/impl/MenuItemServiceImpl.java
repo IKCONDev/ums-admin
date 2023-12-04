@@ -26,20 +26,20 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class MenuItemServiceImpl implements MenuItemService{
-	
+public class MenuItemServiceImpl implements MenuItemService {
+
 	@Autowired
 	private MenuItemRepository menuItemRepository;
 
 	@Autowired
 	private ModelMapper mapper;
-	
+
 	@Transactional
 	@Override
 	public MenuItemDTO createMenuItem(MenuItemDTO menuItemDTO) {
-	
+
 		log.info("MenuItemServiceImpl.createMenuItem() ENTERED");
-	
+
 		if (menuItemDTO == null) {
 			log.info("Menu Item Object is null .... ");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE,
@@ -50,21 +50,21 @@ public class MenuItemServiceImpl implements MenuItemService{
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_NAME_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_NAME_IS_EMPTY_MSG);
 		}
-		if ( isMenuItemNameExists(menuItemDTO.getMenuItemName())) {
+		if (isMenuItemNameExists(menuItemDTO.getMenuItemName())) {
 			log.info("Menu Item Name, " + menuItemDTO.getMenuItemName() + " already exists.");
 			throw new MenuItemNameExistsException(ErrorCodeMessages.ERR_MENU_ITEM_NAME_EXISTS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_NAME_EXISTS_MSG);
 		}
-	
+
 		log.info("MenuItemServiceImpl.createMenuItem() is under execution...");
-	
+
 		MenuItem menuItem = new MenuItem();
 		menuItem.setMenuItemId(menuItemDTO.getMenuItemId());
 		menuItem.setMenuItemName(menuItemDTO.getMenuItemName());
 		menuItem.setMenuItemPath(menuItemDTO.getMenuItemPath());
 		menuItem.setMenuItemDescription(menuItemDTO.getMenuItemDescription());
 		menuItem.setCreatedBy(menuItemDTO.getCreatedBy());
-		//menuItem.setCreatedDateTime(LocalDateTime.now());
+		// menuItem.setCreatedDateTime(LocalDateTime.now());
 		menuItem.setMenuItemStatus(AdminConstants.STATUS_ACTIVE);
 
 		MenuItem createdMenuItem = menuItemRepository.save(menuItem);
@@ -77,7 +77,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 	@Transactional
 	@Override
 	public MenuItemDTO updateMenuItem(MenuItemDTO menuItemDTO) {
-		
+
 		log.info("MenuItemServiceImpl.updateMenuItem() ENTERED");
 		if (menuItemDTO == null) {
 			log.info("Menu Item data cannot be null !");
@@ -102,18 +102,18 @@ public class MenuItemServiceImpl implements MenuItemService{
 		log.info("MenuItemServiceImpl.updateMenuItem() is under execution...");
 
 		MenuItem dbMenuItem = null;
-		if(optMenuItem.isPresent()) {
+		if (optMenuItem.isPresent()) {
 			dbMenuItem = optMenuItem.get();
 		}
 		dbMenuItem.setMenuItemName(menuItemDTO.getMenuItemName());
 		dbMenuItem.setMenuItemPath(menuItemDTO.getMenuItemPath());
 		dbMenuItem.setMenuItemDescription(menuItemDTO.getMenuItemDescription());
-		//dbMenuItem.setModifiedDateTime(LocalDateTime.now());
-		dbMenuItem.setModifiedBy(menuItemDTO.getModifiedBy());		
+		// dbMenuItem.setModifiedDateTime(LocalDateTime.now());
+		dbMenuItem.setModifiedBy(menuItemDTO.getModifiedBy());
 		MenuItem updatedMenuItem = menuItemRepository.save(dbMenuItem);
 		MenuItemDTO updatedMenuItemDTO = new MenuItemDTO();
 		mapper.map(updatedMenuItem, updatedMenuItemDTO);
-		
+
 		log.info("MenuItemServiceImpl.updateMenuItem() executed successfully");
 		return updatedMenuItemDTO;
 	}
@@ -140,10 +140,10 @@ public class MenuItemServiceImpl implements MenuItemService{
 
 		MenuItem menuItem = optMenuItem.get();
 
-		//Check Permissions Usage
+		// Check Permissions Usage
 		Long rowsFound = menuItemRepository.countMenuItemUsage(menuItem.getMenuItemId());
 		if (rowsFound > 0) {
-			log.info("Menu Items are assigned to Role and cannot be deleted ! : " + rowsFound );
+			log.info("Menu Items are assigned to Role and cannot be deleted ! : " + rowsFound);
 			// Menu Items cannot be deleted as they are already in use
 			throw new MenuItemInUsageException(ErrorCodeMessages.ERR_MENU_ITEM_IS_IN_USAGE_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_IS_IN_USAGE_MSG);
@@ -151,32 +151,33 @@ public class MenuItemServiceImpl implements MenuItemService{
 
 		MenuItemDTO menuItemDTO = new MenuItemDTO();
 		menuItemDTO.setMenuItemStatus(AdminConstants.STATUS_IN_ACTIVE);
-		
-		updateMenuItem(menuItemDTO);//Calling Update method to set Status to In Active
-		
+
+		updateMenuItem(menuItemDTO);// Calling Update method to set Status to In Active
+
 		log.info("MenuItemServiceImpl.deleteMenuItemById() executed successfully !");
-		
+
 	}
 
 	@Transactional
 	@Override
 	public void deleteSelectedMenuItemByIds(List<Long> menuItemIds) {
-		
-		log.info("MenuItemServiceImpl.deleteSelectedMenuItemByIds() ENTERED " );
-		
-		if ( menuItemIds.size() <= 0 ) {
-			log.info(": menuItemIds Size : " + menuItemIds.size() );
+
+		log.info("MenuItemServiceImpl.deleteSelectedMenuItemByIds() ENTERED ");
+
+		if (menuItemIds.size() <= 0) {
+			log.info(": menuItemIds Size : " + menuItemIds.size());
 			throw new EmptyListException(ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_MSG);	
+					ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_MSG);
 		}
-				
+
 		List<MenuItem> menuItemList = menuItemRepository.findAllById(menuItemIds);
-		
-		//TODO: Need to implement the logic for each Permission Id, we have to check if the menu item is in usage
-		
+
+		// TODO: Need to implement the logic for each Permission Id, we have to check if
+		// the menu item is in usage
+
 		if (menuItemList.size() > 0) {
 			menuItemList.forEach(menuItem -> {
-				menuItem.setMenuItemStatus(AdminConstants.STATUS_IN_ACTIVE) ;
+				menuItem.setMenuItemStatus(AdminConstants.STATUS_IN_ACTIVE);
 			});
 		}
 	}
@@ -186,13 +187,13 @@ public class MenuItemServiceImpl implements MenuItemService{
 	public MenuItemDTO getMenuItemById(Long menuItemId) {
 
 		log.info("MenuItemServiceImpl.getMenuItemById() ENTERED ");
-		
+
 		if (menuItemId <= 0) {
 			log.info("Menu Item Id is null !");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
-		
+
 		Optional<MenuItem> optMenuItem = menuItemRepository.findById(menuItemId);
 		if (!optMenuItem.isPresent() || optMenuItem == null) {
 			log.info("Menu Item is not found for Menu ItemId id : " + menuItemId);
@@ -207,7 +208,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 	@Transactional
 	@Override
 	public List<MenuItemDTO> getAllMenuItems() {
-		log.info(" MenuItemServiceImpl.getAllMenuItems() ENTERED " );
+		log.info(" MenuItemServiceImpl.getAllMenuItems() ENTERED ");
 		List<MenuItem> menuItemList = null;
 		log.info("getAllMenuItems() is under execution...");
 		menuItemList = menuItemRepository.findAllMenuItems(AdminConstants.STATUS_ACTIVE);
@@ -224,7 +225,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 		log.info("getAllMenuItems() executed successfully");
 		return menuItemDTOList;
 	}
-	
+
 	public boolean isMenuItemNameExists(String menuItemName) {
 		boolean isMenuItemNameExists = false;
 
@@ -243,6 +244,25 @@ public class MenuItemServiceImpl implements MenuItemService{
 		return isMenuItemNameExists;
 	}
 
+	@Override
+	public MenuItemDTO getMenuItemByName(String menuItemName) {
+		log.info("MenuItemServiceImpl.getMenuItemById() ENTERED ");
 
+		if (menuItemName.isBlank()) {
+			log.info("Menu Item Id is null !");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
+		}
+
+		Optional<MenuItem> optMenuItem = menuItemRepository.findByMenuItemName(menuItemName);
+		if (!optMenuItem.isPresent() || optMenuItem == null) {
+			log.info("Menu Item is not found for Menu ItemName : " + menuItemName);
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG,
+					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE);
+		}
+		MenuItemDTO menuItemDTO = new MenuItemDTO();
+		mapper.map(optMenuItem.get(), menuItemDTO);
+		return menuItemDTO;
+	}
 
 }

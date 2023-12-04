@@ -143,7 +143,8 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				new Date(System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time")))
 						.toString());
 		System.out.println(userRoleMenuItemsPermissionMap.toString());
-		response.addHeader("userRoleMenuItemsPermissionMap", userRoleMenuItemsPermissionMap.toString()); //TODO: Check This one.
+		String userRoleMenuItemMapJsonString = new ObjectMapper().writeValueAsString(userRoleMenuItemsPermissionMap);
+		response.addHeader("userRoleMenuItemsPermissionMap", userRoleMenuItemMapJsonString); //TODO: Check This one.
 		
 		Map<String, String> tokenData = new HashMap<String, String>();
 		tokenData.put("token", webToken);
@@ -153,14 +154,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	}
 
 	public Map<String, String> getUserRoleMenuItemPermissions(UserDTO loggedInUser) {
-
-		Map<String, String> userRoleMenuItemPermissionMap = new HashMap<String, String>();
-		
-		//UserRoleMenuItemPermissionMapService userRoleMenuItemPermissionMapService = new UserRoleMenuItemPermissionMapServiceImpl();
-
-			//List<UserRoleMenuItemPermissionMapDTO> userRoleMenuItemPermissionMapDTOList = userRoleMenuItemPermissionMapService
-					//.getUserRoleMenuItemPermissionMapsByUserId(userName);
-			
+		Map<String, String> userRoleMenuItemPermissionMap = new HashMap<String, String>();			
 			loggedInUser.getUserRoleMenuItemPermissionMap().forEach(urmitDTO -> {
 				userRoleMenuItemPermissionMap.put(urmitDTO.getMenuItemIdList(), urmitDTO.getPermissionIdList());
 			});

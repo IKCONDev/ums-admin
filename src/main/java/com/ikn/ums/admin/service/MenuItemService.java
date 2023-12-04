@@ -14,5 +14,6 @@ public interface MenuItemService {
     public void deleteSelectedMenuItemByIds(List<Long> menuItemIds);
     public MenuItemDTO getMenuItemById(Long id);
     public List<MenuItemDTO> getAllMenuItems();
+    public MenuItemDTO getMenuItemByName(String menuItemName);
 
 }
