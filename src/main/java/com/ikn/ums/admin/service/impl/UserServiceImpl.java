@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService {
 		// old implementation UserDetailsEntity loadedUser =
 		log.info("UsersServiceImpl.getUserDetailsByUsername() entered");
 		log.info("UsersServiceImpl.getUserDetailsByUsername() is under execution");
+		email=email.toLowerCase();
 		User loadedUser = userRepository.findByEmail(email);
 		if (loadedUser == null)
 			throw new UsernameNotFoundException("User with " + email + " does not exist");
@@ -107,6 +108,7 @@ public class UserServiceImpl implements UserService {
 		 */
 		log.info("UsersServiceImpl.loadUserByUsername() entered");
 		log.info("UsersServiceImpl.loadUserByUsername() is under execution");
+		username=username.toLowerCase();
 		User userDetails = userRepository.findByEmail(username);
 		if (userDetails == null)
 			throw new UsernameNotFoundException("User does not exists");
@@ -242,6 +244,7 @@ public class UserServiceImpl implements UserService {
 		}
 		log.info("UsersServiceImpl.getUserProfile() is under execution...");
 		// get user details
+		emailId=emailId.toLowerCase();
 		User dbLoggedInUser = userRepository.findByEmail(emailId);
 		/*
 		 * // communicate with Employee microservice and get the employee object
@@ -484,6 +487,7 @@ public class UserServiceImpl implements UserService {
 		}
 		log.info("UsersServiceImpl.getUserProfile() is under execution...");
 		// get user details
+		username=username.toLowerCase();
 		User dbLoggedInUser = userRepository.findByEmail(username);
 		// communicate with Employee microservice and get the employee object
 		ResponseEntity<EmployeeVO> response = restTemplate
