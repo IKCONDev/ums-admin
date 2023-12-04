@@ -3,6 +3,7 @@ package com.ikn.ums.admin.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.ikn.ums.admin.entity.Role;
@@ -34,6 +35,6 @@ public class UserDTO implements Serializable {
 	private String modifiedBy;
 	private String createdByEmailId;
 	private String modifiedByEmailId;
-	private UserRoleMenuItemPermissionMapDTO userRoleMenuItemPermissionMap;
+	private List<UserRoleMenuItemPermissionMapDTO> userRoleMenuItemPermissionMap;
 
 }
