@@ -250,7 +250,17 @@ public class ErrorCodeMessages {
 		 public static final String ERR_USER_IS_EMPTY_MSG = "User is not found to delete Profile Pic !";
 		 
 		 //Error codes for UserRoleMenuItemPermissionMap
-		 public static final String ERR_USER_RPM_IS_NULL_CODE = "ERR_USER_RPM_DTO_IS_NULL_CODE-1001";
-		 public static final String ERR_USER_RPM_IS_NULL_MSG = "User role menu item object is null / empty !";
+		 public static final String ERR_USER_ROLE_MENU_PER_IS_NULL_CODE = "ERR_USER_ROLE_MENU_PERMISSION_ENTITY_IS_NULL_CODE-1001";
+		 public static final String ERR_USER_ROLE_MENU_PER_IS_NULL_MSG = "User role menu item object is null or empty !";
+		 
+		 public static final String ERR_USER_ROLE_MENU_PER_GET_UNSUCCESS_CODE = "ERR_USER_ROLE_MENU_PERMISSION_GET_UNSUCESS_CODE-1002";
+		 public static final String ERR_USER_ROLE_MENU_PER_GET_UNSUCCESS_MSG = "Error while getting user role menuitems permissions!";
+		 
+		 public static final String ERR_USER_ROLE_MENU_PER_EMAIL_ID_IS_NULL_CODE = "ERR_USER_ROLE_MENU_PERMISSION_EMAIL_ID_IS_NULL_CODE-1003";
+		 public static final String ERR_USER_ROLE_MENU_PER_EMAIL_ID_IS_NULL_MSG = "Error while getting user role menuitems permissions!";
+
+		 public static final String ERR_USER_ROLE_MENU_PER_LIST_IS_EMPTY_CODE = "ERR_USER_ROLE_MENU_PERMISSION_LIST_IS_EMPTY_CODE-1004";
+		 public static final String ERR_USER_ROLE_MENU_PER_LIST_IS_EMPTY_MSG = "User role menuitem permission list is empty !"; 	 
+
 		 
 }
