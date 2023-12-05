@@ -42,9 +42,11 @@ public class MenuItemsAndPermissionsFilter extends GenericFilterBean {
 			RoleService roleService = new RoleServiceImpl();
 			Optional<Role> optRole = roleService.getRoleByName(userName); // TODO: Change this method to getRoleById,
 																			// get userId
-
-			Role currentUserRole = optRole.get();
-
+			
+			Role currentUserRole = null;
+			if (optRole.isPresent()) {
+				currentUserRole = optRole.get();
+			}
 			// Fetch all the menu items and permissions based on the role
 			List<MenuItem> menuItems = currentUserRole.getMenuItems();
 			Permission permission = currentUserRole.getPermission();

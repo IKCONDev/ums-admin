@@ -60,7 +60,13 @@ public class ErrorCodeMessages {
 	 
 	 public static final String ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_CODE = "USER_DELETE_UNSUCCESS_CODE-1021";
 	 public static final String ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_MSG = "Exception occured while deleting user profile pic";
- 
+
+	 public static final String ERR_USER_EMAIL_ID_IS_EMPTY_CODE = "USER_EMAIL_ID_IS_EMPTY_CODE-1022";
+	 public static final String ERR_USER_EMAIL_ID_IS_EMPTY_MSG = "User Email Id is not found."; 	
+
+	 public static final String ERR_USER_DB_ENTITY_IS_NULL_CODE = "USER_ENTITY_RETREVIED_FROM_DATABASE_IS_NULL_CODE-1023";
+	 public static final String ERR_USER_DB_ENTITY_IS_NULL_MSG = "User Entity retrieved from database is null !."; 
+	 
 //ROLE MODULE ERROR CODES
 
 	 public static final String ERR_ROLE_ID_ALREADY_EXISTS_CODE = "ROLE-ID-ALREADY-EXISTS-1001";

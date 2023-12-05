@@ -46,6 +46,7 @@ import com.ikn.ums.admin.service.UserRoleMenuItemPermissionMapService;
 import com.ikn.ums.admin.service.UserService;
 import com.ikn.ums.admin.utils.AdminConstants;
 import com.ikn.ums.admin.utils.EmailService;
+import com.netflix.servo.util.Strings;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -511,11 +512,29 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Transactional
 	@Override
 	public void deleteProfilePicOfUser(String emailId) {
+		
+		log.info("UsersServiceImpl.deleteProfilePicOfUser() Entered !");
+		
+		if (Strings.isNullOrEmpty(emailId)) {
+			log.info("UsersServiceImpl.deleteProfilePicOfUser() email id is null !");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
+		}
 		User dbUser = userRepository.findByEmail(emailId);
+		
+		if (dbUser == null) {
+			log.info("UsersServiceImpl.deleteProfilePicOfUser() the user is not found in the database !");
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_DB_ENTITY_IS_NULL_CODE,
+					ErrorCodeMessages.ERR_USER_DB_ENTITY_IS_NULL_MSG);
+		}
+		
 		dbUser.setProfilePic(null);
+		log.info("UsersServiceImpl.deleteProfilePicOfUser() before execution !");
 		updateUser(dbUser);
+		log.info("UsersServiceImpl.deleteProfilePicOfUser() execution sucessfull !");
 	}
 
 }
