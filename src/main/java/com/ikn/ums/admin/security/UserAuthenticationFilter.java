@@ -130,7 +130,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().toString())
 				.compact();
 		//set a default buffer size
-		response.setBufferSize(500000);
+		//response.setBufferSize(10000);
 		response.addHeader("token", webToken);
 		response.addHeader("refreshToken", refreshToken);
 		Iterator<Role> itr = loadedUser.getUserRoles().iterator();
