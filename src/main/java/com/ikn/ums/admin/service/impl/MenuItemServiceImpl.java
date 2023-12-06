@@ -132,7 +132,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 		log.info("MenuItemServiceImpl.deleteMenuItemById() is under execution...");
 		Optional<MenuItem> optMenuItem = menuItemRepository.findById(menuItemId);
 
-		if (!optMenuItem.isPresent() || optMenuItem == null) {
+		if (!optMenuItem.isPresent()) {
 			log.info("Menu Item is not found");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG);
@@ -195,7 +195,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 		}
 
 		Optional<MenuItem> optMenuItem = menuItemRepository.findById(menuItemId);
-		if (!optMenuItem.isPresent() || optMenuItem == null) {
+		if (!optMenuItem.isPresent()) {
 			log.info("Menu Item is not found for Menu ItemId id : " + menuItemId);
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG,
 					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE);
@@ -255,7 +255,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 		}
 
 		Optional<MenuItem> optMenuItem = menuItemRepository.findByMenuItemName(menuItemName);
-		if (!optMenuItem.isPresent() || optMenuItem == null) {
+		if (!optMenuItem.isPresent()) {
 			log.info("Menu Item is not found for Menu ItemName : " + menuItemName);
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG,
 					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE);

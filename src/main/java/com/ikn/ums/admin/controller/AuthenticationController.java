@@ -179,8 +179,6 @@ public class AuthenticationController {
 			log.info("UserController.updateUserProfilePicture() is under execution...");
 			User updatedUser = null;
 			if (contentType.startsWith("image/")) {
-//				User dbUser = userService.getUserDetailsByUsername(userEmailId);
-//				dbUser.setProfilePic(profilePicImage.getBytes());
 				updatedUser = userService.updateUserProfilePic(userEmailId, profilePicImage);
 			}
 			log.info("UserController.updateUserProfilePicture() executed successfully");

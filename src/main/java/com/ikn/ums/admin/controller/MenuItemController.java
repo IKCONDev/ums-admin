@@ -37,7 +37,7 @@ public class MenuItemController {
 	public ResponseEntity<MenuItemDTO> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
 		
 		log.info("MenuItemController.createMenuItem() entered ");
-		if (menuItemDTO == null || menuItemDTO.equals(null)) {
+		if (menuItemDTO == null) {
 			log.info("Permission Entity Not Found Exception has encountered while creating MenuItem.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG);
@@ -62,7 +62,7 @@ public class MenuItemController {
 	@PutMapping("/update")
 	public ResponseEntity<MenuItemDTO> updateMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
 		log.info("MenuItemController.updateMenuItem() entered with args");
-		if (menuItemDTO == null || menuItemDTO.equals(null)) {
+		if (menuItemDTO == null) {
 			log.info("MenuItem Entity Not Found Exception has encountered while updating Role.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_MSG);
