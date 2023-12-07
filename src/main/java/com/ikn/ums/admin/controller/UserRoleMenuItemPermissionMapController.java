@@ -48,8 +48,8 @@ public class UserRoleMenuItemPermissionMapController {
 			dtoList = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapsByUserId(emailId);
 			log.info("getAllUserRoleMenuItemPermissionMaps() executed succesfully");
 		} catch (Exception e) {
-			log.info("General Exception has encountered while getting All User Role MenuItem Permissions Map. "
-					+ e.getMessage());
+			log.error("General Exception has encountered while getting All User Role MenuItem Permissions Map. "
+					+ e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_GET_UNSUCCESS_MSG);
 			throw umsCE;

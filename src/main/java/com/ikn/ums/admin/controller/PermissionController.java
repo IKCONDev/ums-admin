@@ -54,7 +54,7 @@ public class PermissionController {
 			log.info("Permission Business Exception has encountered while creating permission. " + permissionBusinessException.getMessage());
 			throw permissionBusinessException;
 		} catch (Exception e) {
-			log.info("General Exception has encountered while creating Permission. " + e.getMessage());
+			log.error("General Exception has encountered while creating Permission. " + e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_PERMISSION_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_CREATE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -75,10 +75,10 @@ public class PermissionController {
 			log.info("PermissionController.updatePermission() is executed sucessfully.");
 			return new ResponseEntity<>(updatedPermission, HttpStatus.PARTIAL_CONTENT);
 		}catch (EntityNotFoundException permissionBusinessException) {
-			log.info("Permission Business Exception has encountered while updating Permission. " + permissionBusinessException.getMessage());
+			log.error("Permission Business Exception has encountered while updating Permission. " + permissionBusinessException.getMessage(), permissionBusinessException);
 			throw permissionBusinessException;
 		}catch (Exception e) {
-			log.info("General Exception has encountered while updating Permission. " + e.getMessage());
+			log.error("General Exception has encountered while updating Permission. " + e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_PERMISSION_UPDATE_UNSUCCESS_CODE, 
 					ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -124,8 +124,8 @@ public class PermissionController {
 		} 
 		catch (Exception e) {
 			// TODO: handle exception
-			log.info("PermissionController.getAllPermissions() exited with exception : Exception occured fetching permissions list."
-					+ e.getMessage());
+			log.error("PermissionController.getAllPermissions() exited with exception : Exception occured fetching permissions list."
+					+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_PERMISSION_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_GET_UNSUCCESS_MSG);
 		}
@@ -147,11 +147,11 @@ public class PermissionController {
 			log.info("PermissionController.getPermissionById() executed successfully");
 			return permission.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 		}catch (EmptyInputException businessException) {
-			log.info("PermissionController.getPermissionById() exited with exception : Business Exception occured while fetching permission.");
+			log.error("PermissionController.getPermissionById() exited with exception : Business Exception occured while fetching permission."+ businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
-			log.info("PermissionController.getPermissionById() exited with general exception : Exception occured while fetching permission.");
+			log.error("PermissionController.getPermissionById() exited with general exception : Exception occured while fetching permission."+ e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_PERMISSION_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_GET_UNSUCCESS_MSG);
 			throw umsCE;
@@ -174,7 +174,7 @@ public class PermissionController {
 			log.info("PermissionController.deleteUserByUserId() executed successfully");
 			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
 		}catch (Exception e) {
-			log.info("PermissionController.deleteUserByUserId() exited with exception : Exception occured while deleting user.");
+			log.error("PermissionController.deleteUserByUserId() exited with exception : Exception occured while deleting user."+ e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_PERMISSION_DELETE_UNSUCCESS_CODE,
 			ErrorCodeMessages.ERR_PERMISSION_DELETE_UNSUCCESS_MSG);
 			throw umsCE;

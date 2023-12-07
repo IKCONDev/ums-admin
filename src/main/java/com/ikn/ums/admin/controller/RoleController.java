@@ -63,10 +63,10 @@ public class RoleController {
 			log.info("RoleController.createRole() executed successfully.");
 			return new ResponseEntity<>(createdRole, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | RoleNameExistsException roleBusinessException) {
-			log.info("Role Business Exception has encountered while creating Role. " + roleBusinessException.getMessage());
+			log.error("Role Business Exception has encountered while creating Role. " + roleBusinessException.getMessage(), roleBusinessException);
 			throw roleBusinessException;
 		} catch (Exception e) {
-			log.info("General Exception has encountered while creating Role. " + e.getMessage());
+			log.error("General Exception has encountered while creating Role. " + e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_CREATE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -87,10 +87,10 @@ public class RoleController {
 			log.info("RoleController.updateRole() executed successfully.");
 			return new ResponseEntity<>(updatedRole, HttpStatus.CREATED);
 		}catch (EntityNotFoundException roleBusinessException) {
-			log.info("Role Business Exception has encountered while updating Role. " + roleBusinessException.getMessage());
+			log.error("Role Business Exception has encountered while updating Role. " + roleBusinessException.getMessage(), roleBusinessException);
 			throw roleBusinessException;
 		}catch (Exception e) {
-			log.info("General Exception has encountered while updating Role. " + e.getMessage());
+			log.error("General Exception has encountered while updating Role. " + e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(e.getCause().toString(), e.getMessage());
 			throw umsCE;
 		}

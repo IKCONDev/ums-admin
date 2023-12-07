@@ -47,7 +47,7 @@ public class OrgController {
 			log.info("OrgController.createOrg() executed successfully.");
 			return new ResponseEntity<>(savedOrg, HttpStatus.CREATED);
 		} catch (Exception e) {
-			log.info("OrgController.createOrg() exited with exception : Exception occured while saving Organization.");
+			log.error("OrgController.createOrg() exited with exception : Exception occured while saving Organization."+ e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(e.getCause().toString() , e.getMessage());
 			throw umsCE;
 		}
@@ -68,7 +68,7 @@ public class OrgController {
 			log.info("OrgController.updateOrg() executed successfully.");
 			return new ResponseEntity<>(updateOrg, HttpStatus.CREATED);
 		} catch (Exception e) {
-			log.info("OrgController.updateOrg() exited with exception : Exception occured while updating Organization.");
+			log.error("OrgController.updateOrg() exited with exception : Exception occured while updating Organization."+ e.getMessage(),e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ORG_UPDATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ORG_UPDATE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -91,7 +91,7 @@ public class OrgController {
 			log.info("OrgController.deleteOrgByOrgId() executed successfully");
 			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
 		}catch (Exception e) {
-			log.info("OrgController.deleteOrgByOrgId() exited with exception : Exception occured while deleting organization.");
+			log.error("OrgController.deleteOrgByOrgId() exited with exception : Exception occured while deleting organization."+e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ORG_DELETE_UNSUCCESS_CODE,
 			ErrorCodeMessages.ERR_ORG_DELETE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -120,7 +120,7 @@ public class OrgController {
 			log.info("OrgController.getOrg() executed successfully");
 			return new ResponseEntity<>(org, HttpStatus.OK);
 		}catch (Exception e) {
-			log.info("OrgController.getOrg() exited with exception : Exception occured while getting organization details.");
+			log.error("OrgController.getOrg() exited with exception : Exception occured while getting organization details."+ e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ORG_GET_UNSUCCESS_CODE,
 			ErrorCodeMessages.ERR_ORG_GET_UNSUCCESS_MSG);
 			throw umsCE;
@@ -161,7 +161,7 @@ public class OrgController {
 				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (Exception e) {
 				// TODO: handle exception
-				log.error("UserController.deleteProfilePic() : Exception Occurred." + e.getMessage());
+				log.error("UserController.deleteProfilePic() : Exception Occurred." + e.getMessage(), e);
 				throw new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_CODE,
 						ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_MSG);
 			}
