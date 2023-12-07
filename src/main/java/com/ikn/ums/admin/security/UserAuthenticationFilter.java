@@ -120,14 +120,14 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				.setExpiration(new Date(
 						System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
 				.signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret"))
-				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().toString())
+				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().iterator().next().getRoleName())
 				.compact();
 
 		String refreshToken = Jwts.builder().setSubject(loadedUser.getEmail())
 				.setExpiration(new Date(
 						System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
 				.signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret"))
-				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().toString())
+				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().iterator().next().getRoleName())
 				.compact();
 		//set a default buffer size
 		//response.setBufferSize(10000);
@@ -146,8 +146,8 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 						.toString());
 		System.out.println(userRoleMenuItemsPermissionMap.toString());
 		//optional:
-		//String userRoleMenuItemMapJsonString = new ObjectMapper().writeValueAsString(userRoleMenuItemsPermissionMap);
-		//response.addHeader("userRoleMenuItemsPermissionMap", userRoleMenuItemMapJsonString); //TODO: Check This one.
+		String userRoleMenuItemMapJsonString = new ObjectMapper().writeValueAsString(userRoleMenuItemsPermissionMap);
+		response.addHeader("userRoleMenuItemsPermissionMap", userRoleMenuItemMapJsonString); //TODO: Check This one.
 		
 		Map<String, String> tokenData = new HashMap<String, String>();
 		tokenData.put("token", webToken);
