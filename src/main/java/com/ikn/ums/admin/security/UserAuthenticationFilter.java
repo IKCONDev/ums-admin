@@ -145,8 +145,9 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				new Date(System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time")))
 						.toString());
 		System.out.println(userRoleMenuItemsPermissionMap.toString());
-		String userRoleMenuItemMapJsonString = new ObjectMapper().writeValueAsString(userRoleMenuItemsPermissionMap);
-		response.addHeader("userRoleMenuItemsPermissionMap", userRoleMenuItemMapJsonString); //TODO: Check This one.
+		//optional:
+		//String userRoleMenuItemMapJsonString = new ObjectMapper().writeValueAsString(userRoleMenuItemsPermissionMap);
+		//response.addHeader("userRoleMenuItemsPermissionMap", userRoleMenuItemMapJsonString); //TODO: Check This one.
 		
 		Map<String, String> tokenData = new HashMap<String, String>();
 		tokenData.put("token", webToken);
