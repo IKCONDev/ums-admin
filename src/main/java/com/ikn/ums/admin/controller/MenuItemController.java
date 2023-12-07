@@ -49,6 +49,7 @@ public class MenuItemController {
 			log.info("MenuItemController.createMenuItem() executed successfully.");
 			return new ResponseEntity<>(createdMenuItem, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | MenuItemNameExistsException menuBusinessException) {
+			log.error("getMenuItemByName() : An error occurred: {}." + menuBusinessException.getMessage(), menuBusinessException);
 			log.info("MenuItem Business Exception has encountered while creating MenuItem. " + menuBusinessException.getMessage());
 			throw menuBusinessException;
 		} catch (Exception e) {
@@ -143,6 +144,7 @@ public class MenuItemController {
 			log.info("MenuItemController.getMenuItemById() executed successfully");
 			return new ResponseEntity<>(menuItem, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
+			log.error("getMenuItemByName() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
@@ -166,6 +168,7 @@ public class MenuItemController {
 			log.info("MenuItemController.getMenuItemById() executed successfully");
 			return new ResponseEntity<>(menuItem, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
+			log.error("getMenuItemByName() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,

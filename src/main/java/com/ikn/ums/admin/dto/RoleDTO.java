@@ -17,6 +17,7 @@ public class RoleDTO {
 	private String roleName;
 	private List<MenuItemDTO> menuItems = new ArrayList<>();
 	private PermissionDTO permission;
+	private String roleDescription;
 	private LocalDateTime createdDateTime;
 	private LocalDateTime modifiedDateTime;
 	private String createdBy;

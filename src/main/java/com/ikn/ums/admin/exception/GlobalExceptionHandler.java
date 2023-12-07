@@ -40,6 +40,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(EmptyInputException.class)
 	public ResponseEntity<String> handleEmptyInput(EmptyInputException emptyInputException) {
+		log.error("getMenuItemByName() : An error occurred: {}." + emptyInputException.getMessage(), emptyInputException);
 		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED" + emptyInputException.getMessage());
 		return new ResponseEntity<String>("Input field is empty. Please look into it.", HttpStatus.BAD_REQUEST);
 	}
