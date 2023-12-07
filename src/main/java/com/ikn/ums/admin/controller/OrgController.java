@@ -146,4 +146,26 @@ public class OrgController {
 		return new ResponseEntity<>(org, HttpStatus.OK);
 	}
 	
+	@DeleteMapping("/deleteOrgPic")
+	public ResponseEntity<?> deleteOrgPic(@RequestParam Integer orgId ){
+		log.info("OrgController.deleteOrgPic() entered with org - email");
+		if(orgId <= 0 || orgId == null) {
+			log.info("OrgController.deleteOrgPic() EmptyInputException : orgId is empty");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ORG_ID_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_ORG_ID_NOT_FOUND_MSG);
+		}
+			try {
+				log.info("OrgController.deleteOrgPic() is under execution...");
+				orgService.deleteOrgPic(orgId);
+				log.info("OrgController.deleteOrgPic() executed succesfully");
+				return new ResponseEntity<>(HttpStatus.OK);
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.error("UserController.deleteProfilePic() : Exception Occurred." + e.getMessage());
+				throw new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_CODE,
+						ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_MSG);
+			}
+		
+	}
+	
 }
