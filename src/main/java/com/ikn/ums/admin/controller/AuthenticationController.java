@@ -1,9 +1,7 @@
 package com.ikn.ums.admin.controller;
 
-import java.io.IOException;
 import java.util.List;
 
-import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +26,9 @@ import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.ImageNotFoundException;
 import com.ikn.ums.admin.model.UpdatePasswordRequestModel;
-import com.ikn.ums.admin.model.UserProfilePicDetailsRequestModel;
 import com.ikn.ums.admin.model.ValidateOtpRequestModel;
 import com.ikn.ums.admin.service.UserService;
+import com.netflix.servo.util.Strings;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,9 +43,6 @@ public class AuthenticationController {
 	@Autowired
 	private UserService userService;
 
-//	@Autowired
-//	private UserRepository userRepository;
-
 	@GetMapping // later we will change it to post
 	public ResponseEntity<String> authenticate() {
 		log.info("UserController.authenticate() ENTERED");
@@ -57,20 +52,23 @@ public class AuthenticationController {
 
 	@PostMapping("/generate-otp/{email}/{pageType}")
 	public ResponseEntity<?> generateAndSendOtpToUser(@PathVariable String email, @PathVariable String pageType) {
-		log.info("UserController.generateAndSendOtpToUser() ENTERED : email : " + email);
+		log.info("UserController.generateAndSendOtpToUser() ENTERED : email : " + email + " : and pageType :" + pageType);
 		try {
-			if (email.isBlank() || email.length() == 0)
+			if (email.isBlank() || email.length() == 0 || Strings.isNullOrEmpty(email) )
 				throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 						ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 			log.info("UserController.generateAndSendOtpToUser() is under execution...");
 			Integer otp = userService.generateOtpForUser(email, pageType);
-			if (otp <= 0)
+			if (otp <= 0) {
+				log.info("UserController.generateAndSendOtpToUser() otp is not generated ....");
 				throw new EmptyOTPException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE,
 						ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
+			}
+			log.info("UserController.generateAndSendOtpToUser() otp :" + otp);
 			log.info("UserController.generateAndSendOtpToUser() executed successfully");
 			return new ResponseEntity<>(otp, HttpStatus.OK);
 		} catch (Exception e) {
-			log.error("UserController.generateAndSendOtpToUser() : Exception Occurred." + e.getMessage());
+			log.error("generateAndSendOtpToUser() : An error occurred: {}." + e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(e.getCause().toString(), e.getMessage());
 			return new ResponseEntity<ControllerException>(umsCE, HttpStatus.BAD_REQUEST);
 		}
@@ -90,8 +88,7 @@ public class AuthenticationController {
 			log.info("UserController.validateUserOtp() executed successfully");
 			return new ResponseEntity<>(count, HttpStatus.OK);
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("UserController.validateUserOtp() : Exception Occurred." + e.getMessage());
+			log.error("validateUserOtp() : An error/exception occurred: {}." + e.getMessage(), e);
 			return new ResponseEntity<>(e.getStackTrace(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -106,8 +103,7 @@ public class AuthenticationController {
 			log.info("UserController.updatePassword() executed successfully");
 			return new ResponseEntity<>(updateStatus, HttpStatus.OK);
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("UserController.updatePassword() : Exception Occurred." + e.getMessage());
+			log.error("updatePassword() : An error/exception occurred: {}." + e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -121,7 +117,7 @@ public class AuthenticationController {
 			log.info("UserController.verifyEmailAddress_ForOtp() executed successfully");
 			return new ResponseEntity<Integer>(value, HttpStatus.OK);
 		} catch (Exception e) {
-			log.error("UserController.verifyEmailAddress_ForOtp() : Exception Occurred." + e.getMessage());
+			log.error("verifyEmailAddress_ForOtp() : An error/exception occurred: {}." + e.getMessage(), e);
 			return new ResponseEntity<>("Error while validating email, please try again",
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -138,8 +134,7 @@ public class AuthenticationController {
 			log.info("UserController.fetchUserProfile() executed successfully");
 			return new ResponseEntity<>(userprofileDetails, HttpStatus.OK);
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("UserController.fetchUserProfile() : Exception Occurred." + e.getMessage());
+			log.error("fetchUserProfile() : An error/exception occurred: {}." + e.getMessage(), e);
 			return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
 		}
 	}
@@ -159,8 +154,7 @@ public class AuthenticationController {
 			log.info("UserController.updateUserTwofactorAuthentication() executed successfully");
 			return new ResponseEntity<>(value, HttpStatus.OK);
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("UserController.updateUserTwofactorAuthentication() : Exception Occurred." + e.getMessage());
+			log.error("updateUserTwofactorAuthentication() : An error/exception occurred: {}." + e.getMessage(), e);
 			return new ResponseEntity<>("Error while updating two factor authentication status",
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -185,7 +179,7 @@ public class AuthenticationController {
 			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 		} catch (Exception e) {
 			// return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-			log.error("UserController.updateUserProfilePicture() : Exception Occurred." + e.getMessage());
+			log.error("updateUserProfilePicture() : An error/exception occurred: {}." + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
 					ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
 		}
@@ -201,8 +195,7 @@ public class AuthenticationController {
 			log.info("UserController.getActiveUsersEmailIdList() executed successfully");
 			return new ResponseEntity<>(activeUserEmailIdList, HttpStatus.OK);
 		} catch (Exception e) {
-			// TODO: handle exception
-			log.error("UserController.getActiveUsersEmailIdList() : Exception Occurred." + e.getMessage());
+			log.error("getActiveUsersEmailIdList() : An error/exception occurred: {}." + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_USER_LIST_IS_EMPTY_MSG);
 		}
@@ -222,8 +215,7 @@ public class AuthenticationController {
 			log.info("UserController.deleteProfilePic() executed succesfully");
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
-			// TODO: handle exception
-			log.error("UserController.deleteProfilePic() : Exception Occurred." + e.getMessage());
+			log.error("deleteProfilePic() : An error/exception occurred: {}." + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_MSG);
 		}
