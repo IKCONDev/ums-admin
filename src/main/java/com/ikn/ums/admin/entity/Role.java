@@ -56,6 +56,9 @@ public class Role {
 			)
 	private Permission permission;
 	
+	@Column(name = "roleDescription", unique = false)
+	private String roleDescription;
+	
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;
 	
