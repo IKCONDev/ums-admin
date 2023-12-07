@@ -66,7 +66,7 @@ public class UserController {
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();			
-			log.info("UserController.createUser() exited with exception : Exception occured while saving user. "+e.getMessage());
+			log.error("UserController.createUser() exited with exception : Exception occured while saving user. "+e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -87,7 +87,7 @@ public class UserController {
 			log.info("UserController.updateUser() executed successfully.");
 			return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
 		} catch (Exception e) {
-			log.info("UserController.updateUser() exited with exception : Exception occured while updating user.");
+			log.error("UserController.updateUser() exited with exception : Exception occured while updating user."+ e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -110,7 +110,7 @@ public class UserController {
 			log.info("UserController.deleteUserByUserId() executed successfully");
 			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
 		}catch (Exception e) {
-			log.info("UserController.deleteUserByUserId() exited with exception : Exception occured while deleting user.");
+			log.error("UserController.deleteUserByUserId() exited with exception : Exception occured while deleting user."+ e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_CODE,
 			ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -167,7 +167,7 @@ public class UserController {
 			
 		}catch (Exception e) {
 			// TODO: handle exception
-			log.info("UserController.getSingleUserByEmailId() exited with exception : Exception occured while fetching user.");
+			log.error("UserController.getSingleUserByEmailId() exited with exception : Exception occured while fetching user."+ e.getMessage(), e);
 			
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);

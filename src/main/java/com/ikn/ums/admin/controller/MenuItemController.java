@@ -49,10 +49,10 @@ public class MenuItemController {
 			log.info("MenuItemController.createMenuItem() executed successfully.");
 			return new ResponseEntity<>(createdMenuItem, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | MenuItemNameExistsException menuBusinessException) {
-			log.info("MenuItem Business Exception has encountered while creating MenuItem. " + menuBusinessException.getMessage());
+			log.error("MenuItem Business Exception has encountered while creating MenuItem. " + menuBusinessException.getMessage());
 			throw menuBusinessException;
 		} catch (Exception e) {
-			log.info("General Exception has encountered while creating MenuItem. " + e.getMessage());
+			log.error("General Exception has encountered while creating MenuItem. " + e.getMessage());
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_CREATE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -73,10 +73,10 @@ public class MenuItemController {
 			log.info("MenuItemController.updateMenuItem() is executed sucessfully.");
 			return new ResponseEntity<>(updatedMenuItemDTO, HttpStatus.PARTIAL_CONTENT);
 		}catch (EntityNotFoundException | MenuItemNameExistsException| EmptyInputException  menuItemBusinessException) {
-			log.info("MenuItem Business Exception has encountered while updating MenuItem. " + menuItemBusinessException.getMessage());
+			log.error("MenuItem Business Exception has encountered while updating MenuItem. " + menuItemBusinessException.getMessage());
 			throw menuItemBusinessException;
 		}catch (Exception e) {
-			log.info("General Exception has encountered while updating MenuItem. " + e.getMessage());
+			log.error("General Exception has encountered while updating MenuItem. " + e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_CODE, 
 					ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -120,8 +120,8 @@ public class MenuItemController {
 			throw businessException;
 		} 
 		catch (Exception e) {
-			log.info("MenuItemController.getAllMenuItems() exited with exception : Exception occured fetching menuitems list."
-					+ e.getMessage());
+			log.error("MenuItemController.getAllMenuItems() exited with exception : Exception occured fetching menuitems list."
+					+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);
 		}
