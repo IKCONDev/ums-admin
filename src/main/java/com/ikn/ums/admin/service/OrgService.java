@@ -15,5 +15,6 @@ public interface OrgService {
     public Organization createOrg(Organization org) ;
     public Organization updateOrg(Organization updatedOrg);	       
     public void deleteOrgById(Integer id) ;
+	public void deleteOrgPic(Integer orgId);
 
 }
