@@ -154,7 +154,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(PermissionInUsageException.class)
 	public ResponseEntity<String> handlePermissionInUsageException(PermissionInUsageException permissionInUsageException) {
 		log.info("GlobalExceptionHandler.handleRoleNameExistsException() ENTERED" + permissionInUsageException.getMessage());
-		return new ResponseEntity<String>("Permissions Are Assigned to Role and are in Usage.", HttpStatus.FOUND);
+		return new ResponseEntity<String>("Permissions Are Assigned to Role and are in Usage.", HttpStatus.IM_USED);
+	}
+	
+	/**
+	 * PermissionInUsageException handles the exception when the Role Name is exists
+	 * @param permissionInUsageException
+	 * @return
+	 */
+	@ExceptionHandler(MenuItemInUsageException.class)
+	public ResponseEntity<String> handleMenuItemInUsageException(MenuItemInUsageException menuItemInUsageException) {
+		log.info("GlobalExceptionHandler.handleRoleNameExistsException() ENTERED" + menuItemInUsageException.getMessage());
+		return new ResponseEntity<String>("Menu Items Are Assigned to Role and are in Usage.", HttpStatus.IM_USED);
 	}
 	
 	/**

@@ -22,6 +22,7 @@ import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
+import com.ikn.ums.admin.exception.PermissionInUsageException;
 import com.ikn.ums.admin.exception.PermissionNameExistsException;
 import com.ikn.ums.admin.service.PermissionService;
 
@@ -173,6 +174,9 @@ public class PermissionController {
 			isDeleted = true;
 			log.info("PermissionController.deleteUserByUserId() executed successfully");
 			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+		}catch (EmptyInputException | PermissionInUsageException businessException) {
+			log.error("PermissionController.getPermissionById() exited with exception : Business Exception occured while fetching permission."+ businessException.getMessage(), businessException);
+			throw businessException;
 		}catch (Exception e) {
 			log.error("PermissionController.deleteUserByUserId() exited with exception : Exception occured while deleting user."+ e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_PERMISSION_DELETE_UNSUCCESS_CODE,

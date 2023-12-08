@@ -22,7 +22,7 @@ public interface MenuItemRepository extends JpaRepository<MenuItem, Long > {
 	 * 
 	 */
 
-    @Query(value = "select count(*) from roles_menu_item where menu_item_id = ?1", nativeQuery = true)
+    @Query(value = "select count(*) from role_menu_items_tab where menu_item_id = ?1", nativeQuery = true)
     Long countMenuItemUsage(Long menuItemId);
 //
 //    void deleteByPermission(String permission);

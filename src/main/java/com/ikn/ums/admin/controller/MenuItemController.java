@@ -20,6 +20,7 @@ import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
+import com.ikn.ums.admin.exception.MenuItemInUsageException;
 import com.ikn.ums.admin.exception.MenuItemNameExistsException;
 import com.ikn.ums.admin.service.MenuItemService;
 
@@ -90,7 +91,7 @@ public class MenuItemController {
 		log.info("MenuItemController.deleteSelectedMenuItems() entered ");
 		if (menuItemIds == null || menuItemIds.size() <= 0 ) {
 			log.info("MenuItemController.deleteSelectedMenuItems() EmptyInputException : menuItem Id/Ids are empty");
-			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
+			throw new EmptyListException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
 		try {
@@ -100,7 +101,7 @@ public class MenuItemController {
 			isMenuItemDeleted = true;
 			log.info("MenuItemController.deleteSelectedMenuItems() executed successfully");
 			return new ResponseEntity<>(isMenuItemDeleted, HttpStatus.OK);
-		}catch (EmptyListException businessException) {
+		}catch (EmptyListException | MenuItemInUsageException businessException ) {
 			throw businessException;
 		} catch (Exception e) {
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_DELETE_UNSUCCESS_CODE,

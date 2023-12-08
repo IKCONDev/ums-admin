@@ -33,7 +33,7 @@ public interface PermissionRepository extends JpaRepository<Permission, Long>{
 		 * @return
 		 */
 
-	    @Query(value = "select count(*) from roles_permissions where permission_id = ?1", nativeQuery = true)
+	    @Query(value = "select count(*) from role_permission_tab where permission_id = ?1", nativeQuery = true)
 	    Long countPermissionUsage(Long permissionId);
 //
 //	    void deleteByPermission(String permission);

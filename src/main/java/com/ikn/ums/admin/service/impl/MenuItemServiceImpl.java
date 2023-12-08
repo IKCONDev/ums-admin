@@ -18,6 +18,7 @@ import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.MenuItemInUsageException;
 import com.ikn.ums.admin.exception.MenuItemNameExistsException;
+import com.ikn.ums.admin.exception.PermissionInUsageException;
 import com.ikn.ums.admin.repository.MenuItemRepository;
 import com.ikn.ums.admin.service.MenuItemService;
 import com.ikn.ums.admin.utils.AdminConstants;
@@ -170,10 +171,16 @@ public class MenuItemServiceImpl implements MenuItemService {
 					ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_MSG);
 		}
 
-		List<MenuItem> menuItemList = menuItemRepository.findAllById(menuItemIds);
-
-		// TODO: Need to implement the logic for each Permission Id, we have to check if
-		// the menu item is in usage
+		// TODO: Need to implement the logic for each menuitem Id, we have to check if
+				// the menu item is in usage
+		menuItemIds.forEach(id -> {
+			long rowsFound = menuItemRepository.countMenuItemUsage(id);
+			if(rowsFound > 0) {
+				throw new MenuItemInUsageException(ErrorCodeMessages.ERR_MENU_ITEM_IS_IN_USAGE_CODE, 
+						ErrorCodeMessages.ERR_MENU_ITEM_IS_IN_USAGE_MSG);
+			}
+		});
+		List<MenuItem> menuItemList = menuItemRepository.findAllById(menuItemIds);		
 
 		if (menuItemList.size() > 0) {
 			menuItemList.forEach(menuItem -> {

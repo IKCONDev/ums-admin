@@ -3,6 +3,7 @@ login:
     path: /users/login
 server:
   port: ${port:0}
+  max-http-header-size: 800KB
 spring:
   application:
     name: UMS-USERS-SERVICE

@@ -134,13 +134,13 @@ public class PermisssionServiceImpl implements PermissionService {
 		Permission permission = optPermission.get();
 
 		//Check Permissions Usage
-//		Long rowsFound = permissionRepository.countPermissionUsage(permission.getPermissionId());
-//		if (rowsFound > 0) {
-//			log.info("Permissions are assigned to Role and cannot be deleted ! : " + rowsFound );
-//			// permission cannot be deleted as they are already in use
-//			throw new PermissionInUsageException(ErrorCodeMessages.ERR_PERMISSION_IS_IN_USAGE_CODE,
-//					ErrorCodeMessages.ERR_PERMISSION_IS_IN_USAGE_MSG);
-//		}
+		Long rowsFound = permissionRepository.countPermissionUsage(permission.getPermissionId());
+		if (rowsFound > 0) {
+			log.info("Permissions are assigned to Role and cannot be deleted ! : " + rowsFound );
+			// permission cannot be deleted as they are already in use
+			throw new PermissionInUsageException(ErrorCodeMessages.ERR_PERMISSION_IS_IN_USAGE_CODE,
+					ErrorCodeMessages.ERR_PERMISSION_IS_IN_USAGE_MSG);
+		}
 		
 		//TODO: Need to implement the logic for each Permission Id, we have to check if the menu item is in usage
 		//PermissionDTO permissionDTO = new PermissionDTO();
@@ -153,9 +153,7 @@ public class PermisssionServiceImpl implements PermissionService {
 
 	@Override
 	public void deleteSelectedPermissionsByIds(List<Long> permissionIds) {
-		
 		log.info("PermisssionServiceImpl.deleteSelectedPermissionsByIds() ENTERED " );
-		
 		if ( permissionIds.size() <= 0 ) {
 			log.info(": permissionIds Size : " + permissionIds.size() );
 			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
@@ -164,7 +162,15 @@ public class PermisssionServiceImpl implements PermissionService {
 				
 		List<Permission> permissionList = permissionRepository.findAllById(permissionIds);
 		
-		//TODO: Need to implement the logic for each Permission Id, we have to check if the permission is in usage
+		permissionIds.forEach(id -> {
+			Long rowsFound = permissionRepository.countPermissionUsage(id);
+			if (rowsFound > 0) {
+				log.info("Permissions are assigned to Role and cannot be deleted ! : " + rowsFound );
+				// permission cannot be deleted as they are already in use
+				throw new PermissionInUsageException(ErrorCodeMessages.ERR_PERMISSION_IS_IN_USAGE_CODE,
+						ErrorCodeMessages.ERR_PERMISSION_IS_IN_USAGE_MSG);
+			}
+		});
 		
 		if (permissionList.size() > 0) {
 			permissionList.forEach(permission -> {
