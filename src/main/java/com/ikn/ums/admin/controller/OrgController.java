@@ -161,7 +161,7 @@ public class OrgController {
 				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (Exception e) {
 				// TODO: handle exception
-				log.error("UserController.deleteProfilePic() : Exception Occurred." + e.getMessage(), e);
+				log.error("OrgController.deleteProfilePic() : Exception Occurred." + e.getMessage(), e);
 				throw new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_CODE,
 						ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_MSG);
 			}

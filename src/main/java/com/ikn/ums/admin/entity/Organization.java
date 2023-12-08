@@ -93,6 +93,9 @@ public class Organization {
 	
 	@Column(name = "organizationImage")
 	private byte[] organizationImage;
+	
+	@Column(name= "orgCountryCode")
+	private String orgCountryCode;
 
 	
 
