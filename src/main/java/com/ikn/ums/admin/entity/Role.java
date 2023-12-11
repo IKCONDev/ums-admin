@@ -48,11 +48,11 @@ public class Role {
 			)
 	private List<MenuItem> menuItems;
 	
-	@OneToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE,CascadeType.MERGE}, fetch = FetchType.EAGER)
+	@OneToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
 	@JoinTable(
 				name = "role_permission_tab",
-				joinColumns = @JoinColumn(name = "roleId"),
-				inverseJoinColumns = @JoinColumn(name = "permissionId")
+				joinColumns = @JoinColumn(name = "roleId", unique = true),
+				inverseJoinColumns = @JoinColumn(name = "permissionId", unique = false)
 			)
 	private Permission permission;
 	
