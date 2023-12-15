@@ -16,6 +16,7 @@ import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
+import com.ikn.ums.admin.exception.RoleInUsageException;
 import com.ikn.ums.admin.exception.RoleNameExistsException;
 import com.ikn.ums.admin.repository.MenuItemRepository;
 import com.ikn.ums.admin.repository.RoleRepository;
@@ -101,12 +102,17 @@ public class RoleServiceImpl implements RoleService {
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		} else {
 			
-			//TODO: If Role is already assgined to a particular user, it cannot be deleted. Need implementation.
 			//optRole.get().setRoleStatus(AdminConstants.STATUS_IN_ACTIVE);
 			//updateRole(optRole.get());
+			// If Role is already assgined to a particular user, it cannot be deleted.
+			Long roleCount = roleRepository.findAssignedRoleCount(roleId);
+			if(roleCount > 0) {
+				throw new RoleInUsageException(ErrorCodeMessages.ERR_ROLE_IS_IN_USAGE_CODE, 
+						ErrorCodeMessages.ERR_ROLE_IS_IN_USAGE_MSG);
+			}
 			roleRepository.deleteById(roleId);
-			log.info("RoleServiceImpl.deleteRole() executed successfully");
 		}
+		log.info("RoleServiceImpl.deleteRole() executed successfully");
 	}
 
 	@Transactional 
@@ -122,7 +128,15 @@ public class RoleServiceImpl implements RoleService {
 //					role.setRoleStatus("InActive");
 //				});	
 //			}
-		 roleRepository.deleteAllById(roleIds);
+		//check if role is attached to user
+		roleIds.forEach(roleId -> {
+			Long roleCount = roleRepository.findAssignedRoleCount(roleId);
+			if(roleCount > 0) {
+				throw new RoleInUsageException(ErrorCodeMessages.ERR_ROLE_IS_IN_USAGE_CODE, 
+						ErrorCodeMessages.ERR_ROLE_IS_IN_USAGE_MSG);
+			}
+		});
+		roleRepository.deleteAllById(roleIds);
 	}
 	@Override
 	public List<Role> getAllRoles() {

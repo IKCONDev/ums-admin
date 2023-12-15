@@ -22,6 +22,7 @@ import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
+import com.ikn.ums.admin.exception.RoleInUsageException;
 import com.ikn.ums.admin.exception.RoleNameExistsException;
 import com.ikn.ums.admin.repository.RoleRepository;
 import com.ikn.ums.admin.service.PermissionService;
@@ -111,7 +112,7 @@ public class RoleController {
 			isRolesDeleted = true;
 			log.info("RoleController.deleteSelectedRoles() executed successfully");
 			return new ResponseEntity<>(isRolesDeleted, HttpStatus.OK);
-		}catch (EmptyListException businessException) {
+		}catch (EmptyListException | RoleInUsageException businessException) {
 			throw businessException;
 		} 
 		catch (Exception e) {

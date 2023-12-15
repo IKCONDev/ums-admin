@@ -108,6 +108,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ROLE_GET_UNSUCCESS_CODE = "ERR_ROLE_GET_UNSUCCESS_CODE-1012";
 	 public static final String ERR_ROLE_GET_UNSUCCESS_MSG = "Error while getting user role(s)";
 	 
+	 public static final String ERR_ROLE_IS_IN_USAGE_CODE = "ERR_ROLE_IS_IN_USAGE_CODE-1013";
+	 public static final String ERR_ROLE_IS_IN_USAGE_MSG = "Role is in Usage !";
+	 
 	 //ORGANIZATION MODULE ERROR CODES
 	 
 	 public static final String ERR_ORG_ENTITY_IS_NULL_CODE = "ORG-ENTITY-IS-NULL-1027";
