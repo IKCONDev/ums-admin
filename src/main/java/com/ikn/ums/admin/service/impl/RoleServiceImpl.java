@@ -102,8 +102,9 @@ public class RoleServiceImpl implements RoleService {
 		} else {
 			
 			//TODO: If Role is already assgined to a particular user, it cannot be deleted. Need implementation.
-			optRole.get().setRoleStatus(AdminConstants.STATUS_IN_ACTIVE);
-			updateRole(optRole.get());
+			//optRole.get().setRoleStatus(AdminConstants.STATUS_IN_ACTIVE);
+			//updateRole(optRole.get());
+			roleRepository.deleteById(roleId);
 			log.info("RoleServiceImpl.deleteRole() executed successfully");
 		}
 	}
@@ -115,12 +116,13 @@ public class RoleServiceImpl implements RoleService {
 		if ( roleIds.size() <= 0 )
 			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_MSG);		
-			List<Role> roleList = roleRepository.findAllById(roleIds);
-			if(roleList.size() > 0) {
-				roleList.forEach(role -> {
-					role.setRoleStatus("InActive");
-				});
-			}
+//			List<Role> roleList = roleRepository.findAllById(roleIds);
+//			if(roleList.size() > 0) {
+//				roleList.forEach(role -> {
+//					role.setRoleStatus("InActive");
+//				});	
+//			}
+		 roleRepository.deleteAllById(roleIds);
 	}
 	@Override
 	public List<Role> getAllRoles() {
