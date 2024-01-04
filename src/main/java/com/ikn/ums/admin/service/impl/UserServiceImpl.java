@@ -122,6 +122,11 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public Integer generateOtpForUser(String userName, String pageType) {
+		if(userName == null || userName == "") {
+			log.info("UsersServiceImpl.generateOtpForUser() EmptyInputException : userId / emailId is empaty.");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG, 
+					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
+		}
 		log.info("UsersServiceImpl.generateOtpForUser() is entered with args:");
 		otpExecutionCount = 1;
 		log.info("UsersServiceImpl.generateOtpForUser() : userName :" + userName);
