@@ -61,6 +61,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
+		log.info("attemptAuthentication() entered with args - HttpRequest and HttpResponse Objects.");
 		int i = 1;
 		try {
 			UserLoginRequestModel creds = new ObjectMapper().readValue(request.getInputStream(),
@@ -75,39 +76,40 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				mapper.map(loginAttemptedUser, user);
 				com.ikn.ums.admin.entity.User updatedUserWithLogginAttempts = service.updateUser(user);
 				if (!isActive) {
+					log.error(" attemptAuthentication() Error occured while attempting to Login , UserInactiveException : User is inactive - Cannot login");
 					throw new UserInactiveException(ErrorCodeMessages.ERR_USER_INACTIVE_CODE,
 							ErrorCodeMessages.ERR_USER_INACTIVE_MSG);
 				} else if (isActive && updatedUserWithLogginAttempts.getLoginAttempts() > 3) {
 					updatedUserWithLogginAttempts.setActive(false);
 					service.updateUser(updatedUserWithLogginAttempts);
+					log.error(" attemptAuthentication() Error occured while attempting to Login , LoginAttemptsExceededException : User login attempts exceeded more then 3.");
 					throw new LoginAttemptsExceededException(ErrorCodeMessages.ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_CODE,
 							ErrorCodeMessages.ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_MSG);
 				}
 			}
+			log.info("attemptAuthentication() excuted succesfully.");
 			return getAuthenticationManager().authenticate(
 					new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));
-		} // try
+		} 
 		catch (IOException ioe) {
+			log.error("attemptAuthentication() Exception occured while Login ."+ioe.getMessage(), ioe);
 			throw new RuntimeException(ioe);
-		} // catch
-
-	}// attemptAuth(req, res)
+		}
+	}
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
+		log.info("UserAuthenticationFilter.successfulAuthentication() entered with args - HttpRequest , HttpResponse , FilterChain & Authentication objects.");
 		String userName = ((User) authResult.getPrincipal()).getUsername();
-		log.info("UserAuthenticationFilter.successfulAuthentication()" + userName);
-		// get employee and their department details
 		UserVO loadedUser = service.getUser(userName);
-		log.info("UserAuthenticationFilter.successfulAuthentication() " + loadedUser);
-
 		// on sucessful auth set login attempts to 0
 		UserDTO loggedInUser = service.getUserDetailsByUsername(userName);
 		loggedInUser.setLoginAttempts(0);
 		com.ikn.ums.admin.entity.User user = new com.ikn.ums.admin.entity.User();
 		mapper.map(loggedInUser, user);
 		service.updateUser(user);
+		log.info("successfulAuthentication() : Login attempts reset to 0.");
 		
 		Map <String, String> userRoleMenuItemsPermissionMap = getUserRoleMenuItemPermissions(loggedInUser);
 		
@@ -129,6 +131,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				.signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret"))
 				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().iterator().next().getRoleName())
 				.compact();
+		log.info("successfulAuthentication() : Jwt Token created for the user "+userName);
 		//set a default buffer size
 		//response.setBufferSize(10000);
 		response.addHeader("token", webToken);
@@ -144,23 +147,27 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		response.addHeader("jwtExpiry",
 				new Date(System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time")))
 						.toString());
-		System.out.println(userRoleMenuItemsPermissionMap.toString());
 		//optional:
 		String userRoleMenuItemMapJsonString = new ObjectMapper().writeValueAsString(userRoleMenuItemsPermissionMap);
-		response.addHeader("userRoleMenuItemsPermissionMap", userRoleMenuItemMapJsonString); //TODO: Check This one.
-		
+		response.addHeader("userRoleMenuItemsPermissionMap", userRoleMenuItemMapJsonString);
+		log.info("successfulAuthentication() : User Role Menu Item Permission Map retrived for the user "+userName+" and returned in response object to client application.");
 		Map<String, String> tokenData = new HashMap<String, String>();
 		tokenData.put("token", webToken);
 		tokenData.put("refreshToken", refreshToken);
 		response.setContentType("application/json");
 		new ObjectMapper().writeValue(response.getOutputStream(), tokenData);
+		log.info("successfulAuthentication() executed successfully.");
+		log.info("successfulAuthentication() User Authentication sucessfull.");
 	}
 
 	public Map<String, String> getUserRoleMenuItemPermissions(UserDTO loggedInUser) {
+		log.info("getUserRoleMenuItemPermissions() entered with args - user object.");
 		Map<String, String> userRoleMenuItemPermissionMap = new HashMap<String, String>();			
 			loggedInUser.getUserRoleMenuItemPermissionMap().forEach(urmitDTO -> {
 				userRoleMenuItemPermissionMap.put(urmitDTO.getMenuItemIdList(), urmitDTO.getPermissionIdList());
 			});
+		log.info("getUserRoleMenuItemPermissions() - UserRoleMenuItemPermission Map object created.");
+		log.info("getUserRoleMenuItemPermissions() executed successfully.");
 		return userRoleMenuItemPermissionMap;
 	}
 
