@@ -37,7 +37,7 @@ public class OrgController {
 	@PostMapping("/save")
 	public ResponseEntity<Organization> createOrg(@RequestBody Organization org) {
 		log.info("OrgController.createOrg() entered with args - organization");
-		if(org == null || org.equals(null)) {
+		if(org == null) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_MSG);
 		}
