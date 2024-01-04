@@ -32,7 +32,7 @@ public class UMSAdminApplication {
 	
 	@Bean
 	public ModelMapper createMapper() {
-		ModelMapper mapper = new ModelMapper();
+		var mapper = new ModelMapper();
 		mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		return mapper;
 	}
