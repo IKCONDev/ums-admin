@@ -158,6 +158,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ORG_GET_UNSUCCESS_CODE = "ERR_ORG_GET_UNSUCCESS_CODE-1041";
 	 public static final String ERR_ORG_GET_UNSUCCESS_MSG = "Exception Occured while getting Organization details."; 
 	 
+	 public static final String ERR_ORG_PROFILE_UNSUCCESS_CODE = "ERR_ORG_PROFILE_UNSUCCESS_CODE-1073";
+	 public static final String ERR_ORG_PROFILE_UNSUCCESS_MSG = "Exception Occured while updating organization pic"; 
+	 
 	 public static final String ERR_USER_IMAGE_NOT_VALID_CODE = "IMAGE-IS-NOT-VALID-1042";
 	 public static final String ERR_USER_IMAGE_NOT_VALID_MSG = "THIS IS NOT A VALID IMAGE FILE";
 	 
