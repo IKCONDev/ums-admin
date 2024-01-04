@@ -135,7 +135,6 @@ public class AuthenticationController {
 		try {
 			log.info("UserController.fetchUserProfile() is under execution...");
 			UserVO userprofileDetails = userService.getUserProfile(username);
-			System.out.println(userprofileDetails);
 			log.info("UserController.fetchUserProfile() executed successfully");
 			return new ResponseEntity<>(userprofileDetails, HttpStatus.OK);
 		} catch (Exception e) {

@@ -40,7 +40,7 @@ public class PermissionController {
 	public ResponseEntity<Permission> createPermission(@RequestBody PermissionDTO permissionDTO) {
 		
 		log.info("PermissionController.createPermission() entered ");
-		if (permissionDTO == null || permissionDTO.equals(null)) {
+		if (permissionDTO == null) {
 			log.info("Permission Entity Not Found Exception has encountered while creating Role.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_MSG);
