@@ -67,6 +67,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_USER_DB_ENTITY_IS_NULL_CODE = "USER_ENTITY_RETREVIED_FROM_DATABASE_IS_NULL_CODE-1023";
 	 public static final String ERR_USER_DB_ENTITY_IS_NULL_MSG = "User Entity retrieved from database is null !."; 
 	 
+	 public static final String ERR_USER_IMAGE_NULL_CODE = "ERR_USER_IMAGE_NULL_CODE-1024";
+	 public static final String ERR_USER_IMAGE_NULL_MSG = "Image data is null";
+	 
 //ROLE MODULE ERROR CODES
 
 	 public static final String ERR_ROLE_ID_ALREADY_EXISTS_CODE = "ROLE-ID-ALREADY-EXISTS-1001";
