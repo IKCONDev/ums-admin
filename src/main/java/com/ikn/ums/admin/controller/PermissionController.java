@@ -87,7 +87,7 @@ public class PermissionController {
 	}
 
 	@DeleteMapping("/{ids}")
-	public ResponseEntity<?> deleteSelectedPermissions(@PathVariable("ids") List<Long> permissionIds) {
+	public ResponseEntity<Boolean> deleteSelectedPermissions(@PathVariable("ids") List<Long> permissionIds) {
 		boolean isPermissionsDeleted = false;
 		log.info("PermissionController.deleteSelectedPermissions() entered ");
 		if (permissionIds.equals(null) || permissionIds == null || permissionIds.size() <= 0 ) {
@@ -113,7 +113,7 @@ public class PermissionController {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllPermissions() {
+	public ResponseEntity<List<Permission>> getAllPermissions() {
 		log.info("PermissionController.getAllPermissions() ENTERED.");
 		try {
 			log.info("PermissionController.getAllPermissions() is under execution...");
@@ -134,7 +134,7 @@ public class PermissionController {
 	}
 
 	@GetMapping("/{permissionId}")
-	public ResponseEntity<?> getPermissionById(@PathVariable ("permissionId") Long permissionId) {
+	public ResponseEntity<Permission> getPermissionById(@PathVariable ("permissionId") Long permissionId) {
 	
 		if (permissionId <= 0) {
 			log.info("PermissionController.getPermissionById() permissionId <0 exception ");
@@ -160,7 +160,7 @@ public class PermissionController {
 	}
 	
 	@DeleteMapping("/delete/{permissionId}")
-	public ResponseEntity<?> deleteUserByUserId(@PathVariable("permissionId") Long permissionId){
+	public ResponseEntity<Boolean> deleteUserByUserId(@PathVariable("permissionId") Long permissionId){
 		boolean isDeleted = false;
 		log.info("PermissionController.deleteUserByUserId() entered with args - emailId");
 		if(permissionId.equals("") || permissionId == null) {

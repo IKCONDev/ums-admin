@@ -98,7 +98,7 @@ public class RoleController {
 	}
 
 	@DeleteMapping("/{ids}")
-	public ResponseEntity<?> deleteSelectedRoles(@PathVariable("ids") List<Long> roleIds) {
+	public ResponseEntity<Boolean> deleteSelectedRoles(@PathVariable("ids") List<Long> roleIds) {
 		boolean isRolesDeleted = false;
 		log.info("RoleController.deleteSelectedRoles() entered with args - ids : roleIds size (): " + roleIds.size());
 		if (roleIds.equals(null) || roleIds == null || roleIds.size() <= 0 ) {
@@ -123,7 +123,7 @@ public class RoleController {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllRoles() {
+	public ResponseEntity<List<Role>> getAllRoles() {
 		log.info("RoleController.getAllRoles() ENTERED.");
 		try {
 			log.info("RoleController.getAllRoles() is under execution...");
@@ -144,7 +144,7 @@ public class RoleController {
 	}
 
 	@GetMapping("/{roleId}")
-	public ResponseEntity<?> getRoleById(@PathVariable Long roleId) {
+	public ResponseEntity<Role> getRoleById(@PathVariable Long roleId) {
 		log.info("RoleController.getRoleById() ENTERED : roleId : " + roleId);
 		if (roleId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,

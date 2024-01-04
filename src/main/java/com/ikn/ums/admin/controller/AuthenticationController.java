@@ -51,7 +51,7 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/generate-otp/{email}/{pageType}")
-	public ResponseEntity<?> generateAndSendOtpToUser(@PathVariable String email, @PathVariable String pageType) {
+	public ResponseEntity<Integer> generateAndSendOtpToUser(@PathVariable String email, @PathVariable String pageType) {
 		log.info("UserController.generateAndSendOtpToUser() ENTERED : email : " + email + " : and pageType :" + pageType);
 		try {
 			if (email.isBlank() || email.length() == 0 || Strings.isNullOrEmpty(email) )
@@ -69,13 +69,14 @@ public class AuthenticationController {
 			return new ResponseEntity<>(otp, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("generateAndSendOtpToUser() : An error occurred: {}." + e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(e.getCause().toString(), e.getMessage());
-			return new ResponseEntity<ControllerException>(umsCE, HttpStatus.BAD_REQUEST);
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
+					ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
+			throw umsCE;
 		}
 	}
 
 	@PostMapping("/validate-otp")
-	public ResponseEntity<?> validateUserOtp(@RequestBody ValidateOtpRequestModel otpRequestModel) {
+	public ResponseEntity<Integer> validateUserOtp(@RequestBody ValidateOtpRequestModel otpRequestModel) {
 		log.info("UserController.validateUserOtp() ENTERED with args : otpRequestModel ");
 		if (otpRequestModel == null) {
 			log.info("UserController.validateUserOtp() ValidateOtpRequestModel Object in NULL");
@@ -89,12 +90,14 @@ public class AuthenticationController {
 			return new ResponseEntity<>(count, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("validateUserOtp() : An error/exception occurred: {}." + e.getMessage(), e);
-			return new ResponseEntity<>(e.getStackTrace(), HttpStatus.INTERNAL_SERVER_ERROR);
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
+					ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
+			throw umsCE;
 		}
 	}
 
 	@PostMapping("/reset-password")
-	public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequestModel updatePasswordModel) {
+	public ResponseEntity<Integer> updatePassword(@RequestBody UpdatePasswordRequestModel updatePasswordModel) {
 		log.info("UserController.updatePassword() ENTERED with args : updatePasswordModel");
 		try {
 			log.info("UserController.updatePassword() is under execution...");
@@ -104,7 +107,9 @@ public class AuthenticationController {
 			return new ResponseEntity<>(updateStatus, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("updatePassword() : An error/exception occurred: {}." + e.getMessage(), e);
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
+					ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
+			throw umsCE;
 		}
 	}
 
@@ -161,7 +166,7 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/profile-pic")
-	public ResponseEntity<?> updateUserProfilePicture(@RequestParam("email") String userEmailId,
+	public ResponseEntity<User> updateUserProfilePicture(@RequestParam("email") String userEmailId,
 			@RequestParam("profilePic") MultipartFile profilePicImage) throws ImageNotFoundException {
 		log.info("UserController.updateUserProfilePicture() ENTERED with args :");
 		String contentType = profilePicImage.getContentType();
@@ -186,7 +191,7 @@ public class AuthenticationController {
 	}
 
 	@GetMapping("/getEmail-list")
-	public ResponseEntity<?> getActiveUsersEmailIdList() {
+	public ResponseEntity<List<String>> getActiveUsersEmailIdList() {
 		log.info("UserController.getActiveUsersEmailIdList() ENTERED with args :");
 		boolean isActive = true;
 		try {
@@ -203,7 +208,7 @@ public class AuthenticationController {
 	}
 
 	@DeleteMapping("/deleteProfilePic")
-	public ResponseEntity<?> deleteProfilePic(@RequestParam String email) {
+	public ResponseEntity<Void> deleteProfilePic(@RequestParam String email) {
 		log.info("UserController.deleteProfilePic() is under execution...");
 		if (email == null || email.isBlank() || email.isEmpty()) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,

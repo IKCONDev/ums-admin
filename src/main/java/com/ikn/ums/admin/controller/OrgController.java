@@ -35,7 +35,7 @@ public class OrgController {
 	private OrgService orgService;
 	
 	@PostMapping("/save")
-	public ResponseEntity<?> createOrg(@RequestBody Organization org) {
+	public ResponseEntity<Organization> createOrg(@RequestBody Organization org) {
 		log.info("OrgController.createOrg() entered with args - organization");
 		if(org == null || org.equals(null)) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_CODE,
@@ -55,7 +55,7 @@ public class OrgController {
 	
 	
 	@PutMapping("/update")
-	public ResponseEntity<?> updateOrg(@RequestBody Organization org) {
+	public ResponseEntity<Organization> updateOrg(@RequestBody Organization org) {
 		log.info("OrgController.updateOrg() entered with args - org");
 		if(org == null || org.equals(null)) {
 			log.info("OrgController.updateOrg() EntityNotFoundException : Organization object is null ");
@@ -76,7 +76,7 @@ public class OrgController {
 	}
 	
 	@DeleteMapping("/delete/{orgId}")
-	public ResponseEntity<?> deleteOrg(@PathVariable("orgId") Integer orgId){
+	public ResponseEntity<Boolean> deleteOrg(@PathVariable("orgId") Integer orgId){
 		boolean isDeleted = false;
 		log.info("OrgController.deleteOrgByOrgId() entered with args - orgId");
 		if(orgId <= 0 || orgId == null) {
@@ -99,7 +99,7 @@ public class OrgController {
 	}
 	
 	@GetMapping("{orgId}")
-	public ResponseEntity<?> getOrg(@PathVariable("orgId") Integer orgId){
+	public ResponseEntity<Organization> getOrg(@PathVariable("orgId") Integer orgId){
 		log.info("OrgController.getOrg() entered with args - orgId");
 		if(orgId <= 0 || orgId == null) {
 			log.info("OrgController.getOrg() EmptyInputException : orgId is empty");
@@ -147,7 +147,7 @@ public class OrgController {
 	}
 	
 	@DeleteMapping("/deleteOrgPic")
-	public ResponseEntity<?> deleteOrgPic(@RequestParam Integer orgId ){
+	public ResponseEntity<Void> deleteOrgPic(@RequestParam Integer orgId ){
 		log.info("OrgController.deleteOrgPic() entered with org - email");
 		if(orgId <= 0 || orgId == null) {
 			log.info("OrgController.deleteOrgPic() EmptyInputException : orgId is empty");

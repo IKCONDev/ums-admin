@@ -33,7 +33,7 @@ public class UserRoleMenuItemPermissionMapController {
 	private UserRoleMenuItemPermissionMapService userRoleMenuItemPermissionMapService;
 	
 	@GetMapping("/all/{userId}")
-	public ResponseEntity<?> getAllUserRoleMenuItemPermissionMaps(@PathVariable("userId") String emailId){
+	public ResponseEntity<List<UserRoleMenuItemPermissionMapDTO>> getAllUserRoleMenuItemPermissionMaps(@PathVariable("userId") String emailId){
 		
 		log.info("getAllUserRoleMenuItemPermissionMaps() entered with args : userId/emailId - " + emailId);
 		log.info("getAllUserRoleMenuItemPermissionMaps() is under execution...");
@@ -58,7 +58,7 @@ public class UserRoleMenuItemPermissionMapController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<?> updateUserRoleMenuItemPermissionMap(@RequestBody UserRoleMenuItemPermissionMapDTO urmipDTO){
+	public ResponseEntity<UserRoleMenuItemPermissionMapDTO> updateUserRoleMenuItemPermissionMap(@RequestBody UserRoleMenuItemPermissionMapDTO urmipDTO){
 		log.info("updateUserRoleMenuItemPermissionMap() entered with args : userRoleMenuItemPermissionMapDTO");
 		
 		if(urmipDTO == null) {
@@ -72,7 +72,7 @@ public class UserRoleMenuItemPermissionMapController {
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity<?> createUserRoleMenuItemPermissionMap(@RequestBody UserRoleMenuItemPermissionMapDTO urmipDTO){
+	public ResponseEntity<UserRoleMenuItemPermissionMapDTO> createUserRoleMenuItemPermissionMap(@RequestBody UserRoleMenuItemPermissionMapDTO urmipDTO){
 		log.info("createUserRoleMenuItemPermissionMap() entered with args : userRoleMenuItemPermissionMapDTO");
 		if(urmipDTO == null) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_CODE, 

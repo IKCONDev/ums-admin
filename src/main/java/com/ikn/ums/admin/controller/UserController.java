@@ -53,7 +53,7 @@ public class UserController {
 	private ModelMapper mapper;
 	
 	@PostMapping("/save")
-	public ResponseEntity<?> createUser(@RequestBody User user) {
+	public ResponseEntity<User> createUser(@RequestBody User user) {
 		log.info("UserController.createUser() entered with args - user"+user);
 		if(user == null || user.equals(null)) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
@@ -74,7 +74,7 @@ public class UserController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<?> updateUser(@RequestBody User user) {
+	public ResponseEntity<User> updateUser(@RequestBody User user) {
 		log.info("AdminController.updateUser() entered with args - user");
 		if(user == null || user.equals(null)) {
 			log.info("UserController.updateUser() EntityNotFoundException : User object is null ");
@@ -95,7 +95,7 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/delete/{userId}")
-	public ResponseEntity<?> deleteUserByUserId(@PathVariable("userId") String emailId){
+	public ResponseEntity<Boolean> deleteUserByUserId(@PathVariable("userId") String emailId){
 		boolean isDeleted = false;
 		log.info("UserController.deleteUserByUserId() entered with args - emailId");
 		if(emailId.equals("") || emailId == null) {
@@ -119,7 +119,7 @@ public class UserController {
 
 	
 	@PatchMapping("/updateRole/{userId}")
-	public ResponseEntity<?> updateUserRole(@PathVariable("userId") String emailId){
+	public ResponseEntity<User> updateUserRole(@PathVariable("userId") String emailId){
 		log.info("AdminController.updateUserRole() entered with args - emailid/userid : "+emailId);
 		if(emailId.equals("") || emailId == null) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
@@ -138,7 +138,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllUser(){
+	public ResponseEntity<List<User>> getAllUser(){
 		
 		log.info("UserController.getAllUserDetails() is entered");
 		try {
@@ -157,7 +157,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/getUser/{emailId}")
-	public ResponseEntity<?> getSingleUserByEmailId(@PathVariable("emailId") String emailId){
+	public ResponseEntity<UserDTO> getSingleUserByEmailId(@PathVariable("emailId") String emailId){
 		log.info("UserController.getSingleUserByEmailId() entered with args - emailid "+emailId);
 		try {
 			log.info("UserController.getSingleUserByEmailId() is under execution...");

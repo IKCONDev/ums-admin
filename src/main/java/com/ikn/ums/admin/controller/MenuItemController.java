@@ -86,7 +86,7 @@ public class MenuItemController {
 	}
 
 	@DeleteMapping("/delete/{ids}")
-	public ResponseEntity<?> deleteSelectedMenuItems(@PathVariable("ids") List<Long> menuItemIds) {
+	public ResponseEntity<Boolean> deleteSelectedMenuItems(@PathVariable("ids") List<Long> menuItemIds) {
 		boolean isMenuItemDeleted = false;
 		log.info("MenuItemController.deleteSelectedMenuItems() entered ");
 		if (menuItemIds == null || menuItemIds.size() <= 0 ) {
@@ -111,7 +111,7 @@ public class MenuItemController {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllMenuItems() {
+	public ResponseEntity<List<MenuItemDTO>> getAllMenuItems() {
 		log.info("MenuItemController.getAllPermissions() ENTERED.");
 		try {
 			log.info("MenuItemController.getAllMenuItems() is under execution...");
@@ -131,7 +131,7 @@ public class MenuItemController {
 	}
 
 	@GetMapping("/{menuItemId}")
-	public ResponseEntity<?> getMenuItemById(@PathVariable Long menuItemId) {
+	public ResponseEntity<MenuItemDTO> getMenuItemById(@PathVariable Long menuItemId) {
 	
 		if (menuItemId <= 0) {
 			log.info("MenuItemController.getMenuItemById() permissionId <0 exception ");
@@ -155,7 +155,7 @@ public class MenuItemController {
 	}
 	
 	@GetMapping("/get/{menuItemName}")
-	public ResponseEntity<?> getMenuItemByName(@PathVariable String menuItemName) {
+	public ResponseEntity<MenuItemDTO> getMenuItemByName(@PathVariable String menuItemName) {
 	
 		if (menuItemName.isBlank()) {
 			log.info("MenuItemController.getMenuItemById() permissionId <0 exception ");
