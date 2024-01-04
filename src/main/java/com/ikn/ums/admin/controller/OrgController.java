@@ -128,7 +128,7 @@ public class OrgController {
 	}
 	
 	@PostMapping("/saveOrgPic")
-	public ResponseEntity<?> updateOrgPic(@RequestParam MultipartFile orgPic){
+	public ResponseEntity<Organization> updateOrgPic(@RequestParam MultipartFile orgPic){
 		log.info("OrgController.updateOrgPic() entered with args - orgpic");
 		Organization org = null;
 		try {
@@ -139,11 +139,13 @@ public class OrgController {
 		}
 		org.setOrganizationImage(orgPic.getBytes());
 		updateOrg(org);	
-	}catch (Exception e) {
-		// TODO: handle exception
-	} 
 		log.info("OrgController.updateOrgPic() executed successfully");
 		return new ResponseEntity<>(org, HttpStatus.OK);
+	}catch (Exception e) {
+		throw new ControllerException(ErrorCodeMessages.ERR_ORG_PROFILE_UNSUCCESS_CODE,
+				ErrorCodeMessages.ERR_ORG_PROFILE_UNSUCCESS_MSG); 
+	} 
+		
 	}
 	
 	@DeleteMapping("/deleteOrgPic")
