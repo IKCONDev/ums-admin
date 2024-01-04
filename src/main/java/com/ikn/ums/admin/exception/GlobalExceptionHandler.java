@@ -106,7 +106,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED " + ex.getMessage());
+		log.info("GlobalExceptionHandler.handleHttpRequestMethodNotSupported() ENTERED " + ex.getMessage());
 		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.NOT_FOUND);
 	}
 	
@@ -120,7 +120,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(UserInactiveException.class)
 	public ResponseEntity<Object> handleUserInactiveException(UserInactiveException uiae) {
-		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED " + uiae.getMessage());
+		log.info("GlobalExceptionHandler.handleUserInactiveException() ENTERED " + uiae.getMessage());
 		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.FORBIDDEN);
 	}
 
@@ -142,7 +142,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(PermissionNameExistsException.class)
 	public ResponseEntity<String> handlePermissionNameExistsException(PermissionNameExistsException permissionNameExistsException) {
-		log.info("GlobalExceptionHandler.handleRoleNameExistsException() ENTERED" + permissionNameExistsException.getMessage());
+		log.info("GlobalExceptionHandler.handlePermissionNameExistsException() ENTERED" + permissionNameExistsException.getMessage());
 		return new ResponseEntity<String>("Permission Name Already Exists.", HttpStatus.FOUND);
 	}
 
@@ -153,7 +153,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(PermissionInUsageException.class)
 	public ResponseEntity<String> handlePermissionInUsageException(PermissionInUsageException permissionInUsageException) {
-		log.info("GlobalExceptionHandler.handleRoleNameExistsException() ENTERED" + permissionInUsageException.getMessage());
+		log.info("GlobalExceptionHandler.handlePermissionInUsageException() ENTERED" + permissionInUsageException.getMessage());
 		return new ResponseEntity<String>("Permissions Are Assigned to Role and are in Usage.", HttpStatus.IM_USED);
 	}
 	
@@ -175,7 +175,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(MenuItemInUsageException.class)
 	public ResponseEntity<String> handleMenuItemInUsageException(MenuItemInUsageException menuItemInUsageException) {
-		log.info("GlobalExceptionHandler.handleRoleNameExistsException() ENTERED" + menuItemInUsageException.getMessage());
+		log.info("GlobalExceptionHandler.handleMenuItemInUsageException() ENTERED" + menuItemInUsageException.getMessage());
 		return new ResponseEntity<String>("Menu Items Are Assigned to Role and are in Usage.", HttpStatus.IM_USED);
 	}
 	
@@ -186,7 +186,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(MenuItemNameExistsException.class)
 	public ResponseEntity<String> handleMenuItemNameExistsException(MenuItemNameExistsException menuItemNameExistsException) {
-		log.info("GlobalExceptionHandler.handleRoleNameExistsException() ENTERED" + menuItemNameExistsException.getMessage());
+		log.info("GlobalExceptionHandler.handleMenuItemNameExistsException() ENTERED" + menuItemNameExistsException.getMessage());
 		return new ResponseEntity<String>("Menu item Name Already Exists.", HttpStatus.FOUND);
 	}
 	
