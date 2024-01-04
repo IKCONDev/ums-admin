@@ -170,7 +170,7 @@ public class AuthenticationController {
 			@RequestParam("profilePic") MultipartFile profilePicImage) throws ImageNotFoundException {
 		log.info("UserController.updateUserProfilePicture() ENTERED with args :");
 		String contentType = profilePicImage.getContentType();
-		if (!contentType.startsWith("image/")) {
+		if (contentType != null && !contentType.startsWith("image/")) {
 			throw new ImageNotFoundException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
 					ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
 		}
