@@ -275,7 +275,13 @@ public class ErrorCodeMessages {
 		 public static final String ERR_USER_ROLE_MENU_PER_EMAIL_ID_IS_NULL_MSG = "Error while getting user role menuitems permissions!";
 
 		 public static final String ERR_USER_ROLE_MENU_PER_LIST_IS_EMPTY_CODE = "ERR_USER_ROLE_MENU_PERMISSION_LIST_IS_EMPTY_CODE-1004";
-		 public static final String ERR_USER_ROLE_MENU_PER_LIST_IS_EMPTY_MSG = "User role menuitem permission list is empty !"; 	 
+		 public static final String ERR_USER_ROLE_MENU_PER_LIST_IS_EMPTY_MSG = "User role menuitem permission list is empty !"; 	
+		 
+		 public static final String ERR_USER_ROLE_MENU_PER_CREATE_UNSUCCESS_CODE = "ERR_USER_ROLE_MENU_PER_CREATE_UNSUCCESS_CODE-1005";
+		 public static final String ERR_USER_ROLE_MENU_PER_CREATE_UNSUCCESS_MSG = "Error while getting user role menuitems permissions!";
+		 
+		 public static final String ERR_USER_ROLE_MENU_PER_UPDATE_UNSUCCESS_CODE = "ERR_USER_ROLE_MENU_PER_UPDATE_UNSUCCESS_CODE-1006";
+		 public static final String ERR_USER_ROLE_MENU_PER_UPDATE_UNSUCCESS_MSG = "Error while getting user role menuitems permissions!";
 
 		 
 }

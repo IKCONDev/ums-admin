@@ -47,14 +47,19 @@ public class UserRoleMenuItemPermissionMapController {
 			}
 			dtoList = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapsByUserId(emailId);
 			log.info("getAllUserRoleMenuItemPermissionMaps() executed succesfully");
-		} catch (Exception e) {
+			return new ResponseEntity<>(dtoList, HttpStatus.OK);
+		}catch (EmptyInputException businessException) {
+			log.error("Business Exception has encountered while getting All User Role MenuItem Permissions Map. "
+					+ businessException.getMessage(), businessException);
+			throw businessException;
+		}
+		catch (Exception e) {
 			log.error("General Exception has encountered while getting All User Role MenuItem Permissions Map. "
 					+ e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_GET_UNSUCCESS_MSG);
 			throw umsCE;
 		}
-		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 	
 	@PutMapping("/update")
@@ -65,10 +70,24 @@ public class UserRoleMenuItemPermissionMapController {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_MSG);
 		}
-		log.info("updateUserRoleMenuItemPermissionMap() is under execution...");
-		UserRoleMenuItemPermissionMapDTO updatedDTO = userRoleMenuItemPermissionMapService.updateUserRoleMenuItemPermissionMap(urmipDTO);
-		log.info("updateUserRoleMenuItemPermissionMap() executed successfully.");
-		return new ResponseEntity<>(updatedDTO, HttpStatus.PARTIAL_CONTENT);
+		try {
+			log.info("updateUserRoleMenuItemPermissionMap() is under execution...");
+			UserRoleMenuItemPermissionMapDTO updatedDTO = userRoleMenuItemPermissionMapService.updateUserRoleMenuItemPermissionMap(urmipDTO);
+			log.info("updateUserRoleMenuItemPermissionMap() executed successfully.");
+			return new ResponseEntity<>(updatedDTO, HttpStatus.PARTIAL_CONTENT);
+		}
+		catch (EmptyInputException businessException) {
+			log.error("updateUserRoleMenuItemPermissionMap() Business Exception has encountered while getting All User Role MenuItem Permissions Map. "
+					+ businessException.getMessage(), businessException);
+			throw businessException;
+		}
+		catch (Exception e) {
+			log.error(" updateUserRoleMenuItemPermissionMap() General Exception has encountered while getting All User Role MenuItem Permissions Map. "
+					+ e.getMessage(), e);
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_UPDATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_UPDATE_UNSUCCESS_MSG);
+			throw umsCE;
+		}
 	}
 	
 	@PostMapping("/create")
@@ -78,10 +97,23 @@ public class UserRoleMenuItemPermissionMapController {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_MSG);
 		}
-		log.info("createUserRoleMenuItemPermissionMap() is under execution...");
-		UserRoleMenuItemPermissionMapDTO updatedDTO = userRoleMenuItemPermissionMapService.createUserRoleMenuItemPermissionMap(urmipDTO);
-		log.info("createUserRoleMenuItemPermissionMap() executed successfully.");
-		return new ResponseEntity<>(updatedDTO, HttpStatus.CREATED);
+		try {
+			log.info("createUserRoleMenuItemPermissionMap() is under execution...");
+			UserRoleMenuItemPermissionMapDTO updatedDTO = userRoleMenuItemPermissionMapService.createUserRoleMenuItemPermissionMap(urmipDTO);
+			log.info("createUserRoleMenuItemPermissionMap() executed successfully.");
+			return new ResponseEntity<>(updatedDTO, HttpStatus.CREATED);
+		}catch (EmptyInputException businessException) {
+			log.error("createUserRoleMenuItemPermissionMap() Business Exception has encountered while getting All User Role MenuItem Permissions Map. "
+					+ businessException.getMessage(), businessException);
+			throw businessException;
+		}
+		catch (Exception e) {
+			log.error(" createUserRoleMenuItemPermissionMap() General Exception has encountered while getting All User Role MenuItem Permissions Map. "
+					+ e.getMessage(), e);
+			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_CREATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_CREATE_UNSUCCESS_MSG);
+			throw umsCE;
+		}
 	}
 	
 }
