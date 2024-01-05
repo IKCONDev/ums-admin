@@ -73,9 +73,10 @@ public class AuthenticationController {
 		}
 		catch (Exception e) {
 			log.error("generateAndSendOtpToUser() : An error occurred: {}." + e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
+			//ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
+					//ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
 					ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
-			throw umsCE;
 		}
 	}
 
@@ -98,9 +99,10 @@ public class AuthenticationController {
 		}
 		catch (Exception e) {
 			log.error("validateUserOtp() : An error/exception occurred: {}." + e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
+			//ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
+				//	ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
+			throw  new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
 					ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
-			throw umsCE;
 		}
 	}
 
@@ -133,7 +135,7 @@ public class AuthenticationController {
 	@GetMapping("/validate-email/{email}")
 	public ResponseEntity<?> verifyEmailAddress_ForOtp(@PathVariable String email) {
 		log.info("UserController.verifyEmailAddress_ForOtp() ENTERED with args :" + email);
-		if(email == null || email == "" || email.isBlank()) {
+		if(email == null || email.equals("") || email.isBlank()) {
 			log.info("verifyEmailAddress_ForOtp() exited with exception EmptyInputException : userId / emailId is empty. ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
@@ -158,7 +160,7 @@ public class AuthenticationController {
 	@GetMapping("/user-profile/{username}")
 	public ResponseEntity<?> fetchUserProfile(@PathVariable String username) {
 		log.info("UserController.fetchUserProfile() ENTERED with args :" + username);
-		if(username == null || username == "" || username.isBlank()) {
+		if(username == null || username.equals("") || username.isBlank()) {
 			log.info("fetchUserProfile() exited with exception EmptyInputException : userId / emailId is empty. ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
@@ -178,18 +180,11 @@ public class AuthenticationController {
 		}
 	}
 
-	/*
-	@GetMapping("/demo")
-	public ResponseEntity<String> demo() {
-		return new ResponseEntity<>("OK", HttpStatus.OK);
-	}
-	*/
-
 	@PatchMapping("/update-auth/{username}/{isOn}")
 	public ResponseEntity<?> updateUserTwofactorAuthentication(@PathVariable String username,
 			@PathVariable("isOn") boolean isTwoFactorSwitched) {
 		log.info("UserController.updateUserTwofactorAuthentication() ENTERED with args :" + username);
-		if(username == null || username == "" || username.isBlank()) {
+		if(username == null || username.equals("") || username.isBlank()) {
 			log.info("fetchUserProfile() exited with exception EmptyInputException : userId / emailId is empty. ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
@@ -213,7 +208,7 @@ public class AuthenticationController {
 	public ResponseEntity<User> updateUserProfilePicture(@RequestParam("email") String emailId,
 			@RequestParam("profilePic") MultipartFile profilePicImage) throws ImageNotFoundException {
 		log.info("UserController.updateUserProfilePicture() ENTERED with args :");
-		if(emailId == null || emailId == "" || emailId.isBlank()) {
+		if(emailId == null || emailId.equals("") || emailId.isBlank()) {
 			log.info("updateUserProfilePicture() exited with exception EmptyInputException : userId / emailId is empty. ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);

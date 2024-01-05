@@ -55,9 +55,8 @@ public class MenuItemController {
 			throw menuBusinessException;
 		} catch (Exception e) {
 			log.error("General Exception has encountered while creating MenuItem. " + e.getMessage());
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_CREATE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_CREATE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 
@@ -79,9 +78,8 @@ public class MenuItemController {
 			throw menuItemBusinessException;
 		}catch (Exception e) {
 			log.error("General Exception has encountered while updating MenuItem. " + e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_CODE, 
+			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_CODE, 
 					ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 
@@ -104,9 +102,8 @@ public class MenuItemController {
 		}catch (EmptyListException | MenuItemInUsageException businessException ) {
 			throw businessException;
 		} catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_DELETE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_DELETE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
@@ -148,9 +145,8 @@ public class MenuItemController {
 			log.error("getMenuItemById() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
@@ -172,9 +168,8 @@ public class MenuItemController {
 			log.error("getMenuItemByName() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 }
