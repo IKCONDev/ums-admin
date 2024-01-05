@@ -24,10 +24,8 @@ import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.RoleInUsageException;
 import com.ikn.ums.admin.exception.RoleNameExistsException;
-import com.ikn.ums.admin.repository.RoleRepository;
 import com.ikn.ums.admin.service.PermissionService;
 import com.ikn.ums.admin.service.RoleService;
-import com.ikn.ums.admin.service.impl.RoleServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,9 +39,6 @@ public class RoleController {
 	
 	@Autowired
 	private PermissionService permissionService;
-	
-	@Autowired
-	private RoleRepository roleRepo;
 
 	@PostMapping("/create")
 	public ResponseEntity<Role> createRole(@RequestBody Role role) {
@@ -113,9 +108,13 @@ public class RoleController {
 			log.info("RoleController.deleteSelectedRoles() executed successfully");
 			return new ResponseEntity<>(isRolesDeleted, HttpStatus.OK);
 		}catch (EmptyListException | RoleInUsageException businessException) {
+			log.info("RoleController.deleteSelectedRoles() exited with Business exception : Exception occured fetching roles list."
+					+ businessException.getMessage(), businessException);
 			throw businessException;
 		} 
 		catch (Exception e) {
+			log.info("RoleController.deleteSelectedRoles() exited with exception : Exception occured fetching roles list."
+					+ e.getMessage(), e);
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_MSG);
 			throw umsCE;
@@ -131,10 +130,11 @@ public class RoleController {
 			log.info("RoleController.getAllRoles() executed successfully");
 			return new ResponseEntity<>(rolesList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
+			log.info("RoleController.getAllRoles() exited with exception : Exception occured fetching roles list."
+					+ businessException.getMessage(), businessException);
 			throw businessException;
 		} 
 		catch (Exception e) {
-			// TODO: handle exception
 			log.info("RoleController.getAllRoles() exited with exception : Exception occured fetching roles list."
 					+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
@@ -155,9 +155,13 @@ public class RoleController {
 			log.info("RoleController.getRoleById() executed successfully");
 			return role.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 		}catch (EmptyInputException businessException) {
+			log.info("RoleController.getRoleById() exited with exception : Exception occured fetching role."
+					+ businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
+			log.info("RoleController.getRoleById() exited with exception : Exception occured fetching roles list."
+					+ e.getMessage());
 			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_MSG);
 			throw umsCE;
