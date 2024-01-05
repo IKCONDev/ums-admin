@@ -45,6 +45,8 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	private Environment environment;
 
 	private ModelMapper mapper = new ModelMapper();
+	
+	private static final String TOKEN_EXPIRATION_PROPERTY = "token.expiration_time";
 
 	public UserAuthenticationFilter(UserService service, Environment environment, AuthenticationManager authManager) {
 		log.info("UserAuthenticationFilter() constructor entered with args - UserService,Environment and AuthenticationManager Objects.");
@@ -116,14 +118,14 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		 */
 		String webToken = Jwts.builder().setSubject(loadedUser.getEmail())
 				.setExpiration(new Date(
-						System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
+						System.currentTimeMillis() + Long.parseLong(environment.getProperty(TOKEN_EXPIRATION_PROPERTY))))
 				.signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret"))
 				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().iterator().next().getRoleName())
 				.compact();
 
 		String refreshToken = Jwts.builder().setSubject(loadedUser.getEmail())
 				.setExpiration(new Date(
-						System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
+						System.currentTimeMillis() + Long.parseLong(environment.getProperty(TOKEN_EXPIRATION_PROPERTY))))
 				.signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret"))
 				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().iterator().next().getRoleName())
 				.compact();
@@ -141,7 +143,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		response.addHeader("email", loadedUser.getEmail());
 		response.addHeader("twoFactorAuth", Boolean.toString(loadedUser.isTwoFactorAuthentication()));
 		response.addHeader("jwtExpiry",
-				new Date(System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time")))
+				new Date(System.currentTimeMillis() + Long.parseLong(environment.getProperty(TOKEN_EXPIRATION_PROPERTY)))
 						.toString());
 		//optional:
 		String userRoleMenuItemMapJsonString = new ObjectMapper().writeValueAsString(userRoleMenuItemsPermissionMap);
