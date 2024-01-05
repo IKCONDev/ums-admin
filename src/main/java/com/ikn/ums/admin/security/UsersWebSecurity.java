@@ -1,7 +1,5 @@
 package com.ikn.ums.admin.security;
 
-import javax.servlet.Filter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,12 +12,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.ikn.ums.admin.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
 @EnableWebSecurity
+@Slf4j
 public class UsersWebSecurity {
 	
 	private Environment environment;
@@ -65,6 +65,7 @@ public class UsersWebSecurity {
 
 		// if you are using h2 as db, to view console
 		// http.headers().frameOptions().disable();
+		log.info("filterChain() : SecurityFilterChain bean object created.");
 		return http.build();
 			
 	}
@@ -98,11 +99,13 @@ public class UsersWebSecurity {
 	
 	
 	public UserAuthenticationFilter getAuthenticationFilter(HttpSecurity http) throws Exception{
+		log.info("getAuthenticationFilter() entered with args HttpSecurity object");
 		//set authentication manager on your auth filter
 		UserAuthenticationFilter authenticationFilter = new UserAuthenticationFilter(service,environment,authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)));
 		//set authentication manager on your auth filter
 		//authenticationFilter.setAuthenticationManager(authenticationManager());
 		authenticationFilter.setFilterProcessesUrl(environment.getProperty("login.url.path"));
+		log.info("getAuthenticationFilter() executed successfully.");
 		return authenticationFilter;
 	}
 	
@@ -134,6 +137,7 @@ public class UsersWebSecurity {
 	@Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		log.info("getAuthenticationFilter() : AuthenticationManager bean object created.");
         return authenticationConfiguration.getAuthenticationManager();
     }
     
@@ -147,6 +151,7 @@ public class UsersWebSecurity {
 		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
 		auth.setUserDetailsService(service);
 		auth.setPasswordEncoder(encoder);
+		log.info("autheticationProvider() : DaoAuthenticationProvider bean object created.");
 		return auth;
 	}
 	

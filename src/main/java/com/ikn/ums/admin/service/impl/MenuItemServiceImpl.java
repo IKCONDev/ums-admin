@@ -18,7 +18,6 @@ import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.MenuItemInUsageException;
 import com.ikn.ums.admin.exception.MenuItemNameExistsException;
-import com.ikn.ums.admin.exception.PermissionInUsageException;
 import com.ikn.ums.admin.repository.MenuItemRepository;
 import com.ikn.ums.admin.service.MenuItemService;
 import com.ikn.ums.admin.utils.AdminConstants;

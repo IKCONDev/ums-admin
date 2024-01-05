@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ikn.ums.admin.entity.Permission;
-import com.ikn.ums.admin.entity.Role;
 
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission, Long>{

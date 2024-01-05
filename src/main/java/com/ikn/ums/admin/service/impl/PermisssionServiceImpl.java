@@ -1,18 +1,13 @@
 package com.ikn.ums.admin.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Strings;
 import com.ikn.ums.admin.dto.PermissionDTO;
-import com.ikn.ums.admin.entity.MenuItem;
 import com.ikn.ums.admin.entity.Permission;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
@@ -32,9 +27,6 @@ public class PermisssionServiceImpl implements PermissionService {
 
 	@Autowired
 	private PermissionRepository permissionRepository;
-
-	@Autowired
-	private ModelMapper mapper;
 
 	@Transactional
 	@Override

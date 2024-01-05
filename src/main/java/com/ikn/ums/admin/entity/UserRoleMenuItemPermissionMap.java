@@ -1,7 +1,6 @@
 package com.ikn.ums.admin.entity;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -8,14 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ikn.ums.admin.entity.Organization;
-import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.EmptyInputException;
-import com.ikn.ums.admin.exception.EmptyListException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.repository.OrgRepository;
 import com.ikn.ums.admin.service.OrgService;
-import com.netflix.servo.util.Strings;
 
 import lombok.extern.slf4j.Slf4j;
 

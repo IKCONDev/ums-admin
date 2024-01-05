@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.FilterChain;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,16 +25,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ikn.ums.admin.VO.UserVO;
 import com.ikn.ums.admin.dto.UserDTO;
-import com.ikn.ums.admin.dto.UserRoleMenuItemPermissionMapDTO;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.LoginAttemptsExceededException;
 import com.ikn.ums.admin.exception.UserInactiveException;
 import com.ikn.ums.admin.model.UserLoginRequestModel;
-import com.ikn.ums.admin.repository.UserRepository;
-import com.ikn.ums.admin.service.UserRoleMenuItemPermissionMapService;
 import com.ikn.ums.admin.service.UserService;
-import com.ikn.ums.admin.service.impl.UserRoleMenuItemPermissionMapServiceImpl;
+
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

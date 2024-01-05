@@ -2,9 +2,6 @@ package com.ikn.ums.admin.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
-
-import com.ikn.ums.admin.entity.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

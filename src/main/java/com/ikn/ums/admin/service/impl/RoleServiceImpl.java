@@ -1,7 +1,6 @@
 package com.ikn.ums.admin.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ikn.ums.admin.entity.MenuItem;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
@@ -18,7 +16,7 @@ import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.RoleInUsageException;
 import com.ikn.ums.admin.exception.RoleNameExistsException;
-import com.ikn.ums.admin.repository.MenuItemRepository;
+
 import com.ikn.ums.admin.repository.RoleRepository;
 import com.ikn.ums.admin.service.RoleService;
 import com.ikn.ums.admin.utils.AdminConstants;
@@ -31,9 +29,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
-    
-    @Autowired
-    private MenuItemRepository menuItemRepository;
     
     @Autowired
     private ModelMapper mapper;

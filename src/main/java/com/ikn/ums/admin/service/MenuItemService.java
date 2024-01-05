@@ -1,10 +1,8 @@
 package com.ikn.ums.admin.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.ikn.ums.admin.dto.MenuItemDTO;
-import com.ikn.ums.admin.entity.MenuItem;
 
 public interface MenuItemService {
 

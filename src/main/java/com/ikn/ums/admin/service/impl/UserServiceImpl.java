@@ -35,11 +35,9 @@ import com.ikn.ums.admin.dto.UserDTO;
 import com.ikn.ums.admin.dto.UserRoleMenuItemPermissionMapDTO;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.entity.User;
-import com.ikn.ums.admin.entity.UserRoleMenuItemPermissionMap;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
-import com.ikn.ums.admin.exception.ImageNotFoundException;
 import com.ikn.ums.admin.repository.UserRepository;
 import com.ikn.ums.admin.service.RoleService;
 import com.ikn.ums.admin.service.UserRoleMenuItemPermissionMapService;
@@ -132,13 +130,13 @@ public class UserServiceImpl implements UserService {
 		log.info("UsersServiceImpl.generateOtpForUser() : userName :" + userName);
 		Random r = new Random();
 		//Integer otp = 0;
-		String text = null;
+		//String text = null;
 		String mailHeading = null;
 		if (pageType.equals("TwoFactorAuth")) {
-			text = "One Time Password for Secure Login";
+			//text = "One Time Password for Secure Login";
 			mailHeading = "One Time Password for Secure Login ";
 		} else if (pageType.equals("ForgotPassword")) {
-			text = "your secret password reset code ";
+			//text = "your secret password reset code ";
 			mailHeading = "One Time Password for Secure Login";
 		}
 		try {
