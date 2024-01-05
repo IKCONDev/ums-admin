@@ -93,7 +93,7 @@ public class AuthenticationController {
 			log.info("UserController.validateUserOtp() executed successfully");
 			return new ResponseEntity<>(count, HttpStatus.OK);
 		} catch (EntityNotFoundException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("validateUserOtp() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
@@ -119,7 +119,7 @@ public class AuthenticationController {
 			log.info("UserController.updatePassword() executed successfully");
 			return new ResponseEntity<>(updateStatus, HttpStatus.OK);
 		} catch (EntityNotFoundException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("updatePassword() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
@@ -144,7 +144,7 @@ public class AuthenticationController {
 			log.info("verifyEmailAddress_ForOtp() executed successfully");
 			return new ResponseEntity<Integer>(value, HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("verifyEmailAddress_ForOtp() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
@@ -170,7 +170,7 @@ public class AuthenticationController {
 			return new ResponseEntity<>(userprofileDetails, HttpStatus.OK);
 		}
 		catch (EmptyInputException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("fetchUserProfile() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
 			log.error("fetchUserProfile() : An error/exception occurred: {}." + e.getMessage(), e);
@@ -200,7 +200,7 @@ public class AuthenticationController {
 			log.info("UserController.updateUserTwofactorAuthentication() executed successfully");
 			return new ResponseEntity<>(value, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("updateUserTwofactorAuthentication() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		} catch (Exception e) {
 			log.error("updateUserTwofactorAuthentication() : An error/exception occurred: {}." + e.getMessage(), e);
@@ -237,7 +237,7 @@ public class AuthenticationController {
 			log.info("UserController.updateUserProfilePicture() executed successfully");
 			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("updateUserProfilePicture() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
 			// return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -277,7 +277,7 @@ public class AuthenticationController {
 			log.info("UserController.deleteProfilePic() executed succesfully");
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("deleteProfilePic() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
 			log.error("deleteProfilePic() : An error/exception occurred: {}." + e.getMessage(), e);
