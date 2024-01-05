@@ -52,6 +52,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	private ModelMapper mapper = new ModelMapper();
 
 	public UserAuthenticationFilter(UserService service, Environment environment, AuthenticationManager authManager) {
+		log.info("UserAuthenticationFilter() constructor entered with args - UserService,Environment and AuthenticationManager Objects.");
 		this.service = service;
 		this.environment = environment;
 		super.setAuthenticationManager(authManager);

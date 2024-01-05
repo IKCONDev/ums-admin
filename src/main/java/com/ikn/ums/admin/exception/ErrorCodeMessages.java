@@ -70,6 +70,20 @@ public class ErrorCodeMessages {
 	 public static final String ERR_USER_IMAGE_NULL_CODE = "ERR_USER_IMAGE_NULL_CODE-1024";
 	 public static final String ERR_USER_IMAGE_NULL_MSG = "Image data is null";
 	 
+	 public static final String ERR_USER_NOT_FOUND_CODE = "ERR_USER_NOT_FOUND_CODE-1025";
+	 public static final String ERR_USER_NOT_FOUND_MSG = "User does not exists to Login";
+	 
+	 public static final String ERR_USER_INACTIVE_CODE = "ERR_USER_INACTIVE_CODE-1026";
+	 public static final String ERR_USER_INACTIVE_MSG = "User is inactive - Cannot Login";
+	 
+	 public static final String ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_CODE = "ERR_USER_LOGIN_ATTEMPTS_CODE-1027";
+	 public static final String ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_MSG = "Login attempts exceeded more than 3";
+	 
+	 public static final String ERR_USER_IMAGE_NOT_VALID_CODE = "IMAGE-IS-NOT-VALID-1028";
+	 public static final String ERR_USER_IMAGE_NOT_VALID_MSG = "THIS IS NOT A VALID IMAGE FILE";
+	 
+	 
+	 
 //ROLE MODULE ERROR CODES
 
 	 public static final String ERR_ROLE_ID_ALREADY_EXISTS_CODE = "ROLE-ID-ALREADY-EXISTS-1001";
@@ -161,20 +175,11 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ORG_GET_UNSUCCESS_CODE = "ERR_ORG_GET_UNSUCCESS_CODE-1041";
 	 public static final String ERR_ORG_GET_UNSUCCESS_MSG = "Exception Occured while getting Organization details."; 
 	 
-	 public static final String ERR_ORG_PROFILE_UNSUCCESS_CODE = "ERR_ORG_PROFILE_UNSUCCESS_CODE-1073";
-	 public static final String ERR_ORG_PROFILE_UNSUCCESS_MSG = "Exception Occured while updating organization pic"; 
+	 public static final String ERR_ORG_PROFILE_UPLOAD_UNSUCCESS_CODE = "ERR_ORG_PROFILE_UNSUCCESS_CODE-1042";
+	 public static final String ERR_ORG_PROFILE_UPLOAD_UNSUCCESS_MSG = "Exception Occured while updating organization pic"; 
 	 
-	 public static final String ERR_USER_IMAGE_NOT_VALID_CODE = "IMAGE-IS-NOT-VALID-1042";
-	 public static final String ERR_USER_IMAGE_NOT_VALID_MSG = "THIS IS NOT A VALID IMAGE FILE";
-	 
-	 public static final String ERR_USER_NOT_FOUND_CODE = "ERR_USER_NOT_FOUND_CODE-1043";
-	 public static final String ERR_USER_NOT_FOUND_MSG = "User does not exists to Login";
-	 
-	 public static final String ERR_USER_INACTIVE_CODE = "ERR_USER_INACTIVE_CODE-1044";
-	 public static final String ERR_USER_INACTIVE_MSG = "User is inactive - Cannot Login";
-	 
-	 public static final String ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_CODE = "ERR_USER_LOGIN_ATTEMPTS_CODE-1045";
-	 public static final String ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_MSG = "Login attempts exceeded moew than 3";
+	 public static final String ERR_ORG_IMAGE_NULL_CODE = "ERR_USER_IMAGE_NULL_CODE-1043";
+	 public static final String ERR_ORG_IMAGE_NULL_MSG = "Image data is null";
 	 
 	 //ORGANIZATION MODULE ERROR CODES
 	 

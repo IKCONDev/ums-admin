@@ -1,6 +1,6 @@
 package com.ikn.ums.admin.exception;
 
-public class ImageNotFoundException extends Exception {
+public class ImageNotFoundException extends RuntimeException {
 
 	/**
 	 * 
