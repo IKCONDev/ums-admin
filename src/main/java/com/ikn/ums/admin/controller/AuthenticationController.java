@@ -97,8 +97,6 @@ public class AuthenticationController {
 		}
 		catch (Exception e) {
 			log.error("validateUserOtp() : An error/exception occurred: {}." + e.getMessage(), e);
-			//ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
-				//	ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
 			throw  new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
 					ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
 		}
