@@ -117,8 +117,8 @@ public class UserController {
 			return new ResponseEntity<>(userList,HttpStatus.OK);
 		}catch (Exception e) {
 			log.error("UserController.getAllUserDetails() exited with exception :Exception occured while updating user. "+e.getMessage(), e);
-			throw new ControllerException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_USER_GET_UNSUCCESS_MSG);
 		}
 	}
 	
@@ -140,8 +140,8 @@ public class UserController {
 			throw businesException;
 		}catch (Exception e) {
 			log.error("UserController.getSingleUserByEmailId() exited with exception : Exception occured while fetching user."+ e.getMessage(), e);
-			throw new ControllerException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
-					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_GET_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_USER_GET_UNSUCCESS_MSG);
 		}
 	}
 }

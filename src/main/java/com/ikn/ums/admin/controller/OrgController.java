@@ -160,6 +160,9 @@ public class OrgController {
 			log.info("OrgController.updateOrgPic() executed successfully");
 			return new ResponseEntity<>(org, HttpStatus.OK);
 		} catch (Exception e) {
+			log.error(
+					"OrgController.updateOrgPic() exited with exception : Exception occured while updating Organization profile picture."
+							+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_ORG_PROFILE_UPLOAD_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ORG_PROFILE_UPLOAD_UNSUCCESS_MSG);
 		}

@@ -93,7 +93,7 @@ public class RoleController {
 	@DeleteMapping("/{ids}")
 	public ResponseEntity<Boolean> deleteSelectedRoles(@PathVariable("ids") List<Long> roleIds) {
 		log.info("RoleController.deleteSelectedRoles() entered with args - ids : roleIds size (): " + roleIds.size());
-		if (roleIds.equals(null) || roleIds == null || roleIds.size() <= 0 ) {
+		if (roleIds == null || roleIds.isEmpty() ) {
 			log.info("RoleController.deleteSelectedRoles() EmptyInputException : role Id is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
@@ -104,12 +104,12 @@ public class RoleController {
 			log.info("RoleController.deleteSelectedRoles() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (EmptyListException | RoleInUsageException businessException) {
-			log.info("RoleController.deleteSelectedRoles() exited with Business exception : Exception occured fetching roles list."
+			log.error("RoleController.deleteSelectedRoles() exited with Business exception : Exception occured fetching roles list."
 					+ businessException.getMessage(), businessException);
 			throw businessException;
 		} 
 		catch (Exception e) {
-			log.info("RoleController.deleteSelectedRoles() exited with exception : Exception occured fetching roles list."
+			log.error("RoleController.deleteSelectedRoles() exited with exception : Exception occured fetching roles list."
 					+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_MSG);
@@ -125,12 +125,12 @@ public class RoleController {
 			log.info("RoleController.getAllRoles() executed successfully");
 			return new ResponseEntity<>(rolesList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
-			log.info("RoleController.getAllRoles() exited with exception : Exception occured fetching roles list."
+			log.error("RoleController.getAllRoles() exited with exception : Exception occured fetching roles list."
 					+ businessException.getMessage(), businessException);
 			throw businessException;
 		} 
 		catch (Exception e) {
-			log.info("RoleController.getAllRoles() exited with exception : Exception occured fetching roles list."
+			log.error("RoleController.getAllRoles() exited with exception : Exception occured fetching roles list."
 					+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_MSG);
@@ -150,12 +150,12 @@ public class RoleController {
 			log.info("RoleController.getRoleById() executed successfully");
 			return new ResponseEntity<>(role, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
-			log.info("RoleController.getRoleById() exited with exception : Exception occured fetching role."
+			log.error("RoleController.getRoleById() exited with exception : Exception occured fetching role."
 					+ businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
-			log.info("RoleController.getRoleById() exited with exception : Exception occured fetching roles list."
+			log.error("RoleController.getRoleById() exited with exception : Exception occured fetching roles list."
 					+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_MSG);
