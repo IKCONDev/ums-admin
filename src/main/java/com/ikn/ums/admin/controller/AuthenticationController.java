@@ -122,9 +122,8 @@ public class AuthenticationController {
 		}
 		catch (Exception e) {
 			log.error("updatePassword() : An error/exception occurred: {}." + e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
 					ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
-			throw umsCE;
 		}
 	}
 
@@ -171,8 +170,8 @@ public class AuthenticationController {
 			log.error("fetchUserProfile() : An error occurred: " + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
-			log.error("fetchUserProfile() : An error/exception occurred: " + e.getMessage(), e);
-			return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_GET_UNSUCCESS_CODE, 
+					ErrorCodeMessages.ERR_USER_GET_UNSUCCESS_MSG);
 		}
 	}
 

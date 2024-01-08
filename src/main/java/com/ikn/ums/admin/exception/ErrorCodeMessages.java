@@ -83,7 +83,10 @@ public class ErrorCodeMessages {
 	 public static final String ERR_USER_IMAGE_NOT_VALID_MSG = "THIS IS NOT A VALID IMAGE FILE";
 	 
 	 public static final String ERR_USER_NEW_PASSWORD_IS_EMPTY_CODE = "ERR_USER_NEW_PASSWORD_IS_EMPTY_CODE-1029";
-	 public static final String ERR_USER_NEW_PASSWORD_IS_EMPTY_MSG = "New password from UI is empty."; 		 
+	 public static final String ERR_USER_NEW_PASSWORD_IS_EMPTY_MSG = "New password from UI is empty."; 	
+	 
+	 public static final String ERR_USER_GET_UNSUCCESS_CODE = "USER_GET_UNSUCCESS_CODE-1016";
+	 public static final String ERR_USER_GET_UNSUCCESS_MSG = "Error while fecthing user details.";
 	 
 	 
 //ROLE MODULE ERROR CODES
