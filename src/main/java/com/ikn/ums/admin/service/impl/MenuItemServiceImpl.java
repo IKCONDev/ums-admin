@@ -92,19 +92,14 @@ public class MenuItemServiceImpl implements MenuItemService {
 			throw new EntityNotFoundException(menuItemId.toString(),
 					"The menu item with the id = %s has not been found");
 		}
-
-//		if (isMenuItemNameExists(menuItemDTO.getMenuItemName())) {
-//			log.info("Exists already a menu item with the Value %s. Use another Value. "
-//					+ menuItemDTO.getMenuItemName());
-//			throw new MenuItemNameExistsException(ErrorCodeMessages.ERR_PERMISSION_VALUE_EXISTS_CODE,
-//					ErrorCodeMessages.ERR_PERMISSION_VALUE_EXISTS_CODE);
-//		}
 		log.info("MenuItemServiceImpl.updateMenuItem() is under execution...");
 
 		MenuItem dbMenuItem = null;
-		if (optMenuItem.isPresent()) {
-			dbMenuItem = optMenuItem.get();
+		if (optMenuItem.isEmpty()) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_DB_ENTITY_NOTFOUND_CODE, 
+					ErrorCodeMessages.ERR_MENU_ITEM_DB_ENTITY_NOTFOUND_MSG);
 		}
+		dbMenuItem = optMenuItem.get();
 		dbMenuItem.setMenuItemName(menuItemDTO.getMenuItemName());
 		dbMenuItem.setMenuItemPath(menuItemDTO.getMenuItemPath());
 		dbMenuItem.setMenuItemDescription(menuItemDTO.getMenuItemDescription());
@@ -137,9 +132,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG);
 		}
-
 		MenuItem menuItem = optMenuItem.get();
-
 		// Check Permissions Usage
 		Long rowsFound = menuItemRepository.countMenuItemUsage(menuItem.getMenuItemId());
 		if (rowsFound > 0) {
@@ -148,12 +141,9 @@ public class MenuItemServiceImpl implements MenuItemService {
 			throw new MenuItemInUsageException(ErrorCodeMessages.ERR_MENU_ITEM_IS_IN_USAGE_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_IS_IN_USAGE_MSG);
 		}
-
 		MenuItemDTO menuItemDTO = new MenuItemDTO();
 		menuItemDTO.setMenuItemStatus(AdminConstants.STATUS_IN_ACTIVE);
-
-		updateMenuItem(menuItemDTO);// Calling Update method to set Status to In Active
-
+		updateMenuItem(menuItemDTO);
 		log.info("MenuItemServiceImpl.deleteMenuItemById() executed successfully !");
 
 	}
@@ -161,31 +151,28 @@ public class MenuItemServiceImpl implements MenuItemService {
 	@Transactional
 	@Override
 	public void deleteSelectedMenuItemByIds(List<Long> menuItemIds) {
-
 		log.info("MenuItemServiceImpl.deleteSelectedMenuItemByIds() ENTERED ");
-
-		if (menuItemIds.size() <= 0) {
-			log.info(": menuItemIds Size : " + menuItemIds.size());
+		if (menuItemIds.isEmpty()) {
+			log.info("deleteSelectedMenuItemByIds() EmptyListException : menuItemids list is empty.");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_MSG);
 		}
-
-		// TODO: Need to implement the logic for each menuitem Id, we have to check if
-				// the menu item is in usage
+		log.info("deleteSelectedMenuItemByIds() is under execution...");
 		menuItemIds.forEach(id -> {
 			long rowsFound = menuItemRepository.countMenuItemUsage(id);
 			if(rowsFound > 0) {
+				log.info("deleteSelectedMenuItemByIds() MenuItemInUsageException :Menu item trying to delete is already in usage.");
 				throw new MenuItemInUsageException(ErrorCodeMessages.ERR_MENU_ITEM_IS_IN_USAGE_CODE, 
 						ErrorCodeMessages.ERR_MENU_ITEM_IS_IN_USAGE_MSG);
 			}
 		});
 		List<MenuItem> menuItemList = menuItemRepository.findAllById(menuItemIds);		
-
 		if (menuItemList.size() > 0) {
 			menuItemList.forEach(menuItem -> {
 				menuItem.setMenuItemStatus(AdminConstants.STATUS_IN_ACTIVE);
 			});
 		}
+		log.info("deleteSelectedMenuItemByIds() executed successfully.");
 	}
 
 	@Transactional
@@ -195,14 +182,13 @@ public class MenuItemServiceImpl implements MenuItemService {
 		log.info("MenuItemServiceImpl.getMenuItemById() ENTERED ");
 
 		if (menuItemId <= 0) {
-			log.info("Menu Item Id is null !");
+			log.info("getMenuItemById() EmptyInputException : Menu Item Id is null !");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
-
 		Optional<MenuItem> optMenuItem = menuItemRepository.findById(menuItemId);
 		if (!optMenuItem.isPresent()) {
-			log.info("Menu Item is not found for Menu ItemId id : " + menuItemId);
+			log.info("getMenuItemById() EntityNotFoundException : Menu Item is not found for Menu ItemId id : " + menuItemId);
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG,
 					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE);
 		}
@@ -218,9 +204,6 @@ public class MenuItemServiceImpl implements MenuItemService {
 		List<MenuItem> menuItemList = null;
 		log.info("getAllMenuItems() is under execution...");
 		menuItemList = menuItemRepository.findAllMenuItems(AdminConstants.STATUS_ACTIVE);
-//		if ( menuItemList == null || menuItemList.isEmpty() || menuItemList.size() == 0 )
-//			throw new EmptyListException(ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_CODE,
-//					ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_MSG);
 		List<MenuItemDTO> menuItemDTOList = new ArrayList<>();
 		menuItemList.stream().forEach(menuItem -> {
 			MenuItemDTO menuItemDTO = new MenuItemDTO();
@@ -233,9 +216,9 @@ public class MenuItemServiceImpl implements MenuItemService {
 	}
 
 	public boolean isMenuItemNameExists(String menuItemName) {
+		log.info("MenuItemServiceImpl.isMenuItemNameExists() entered with args - menuItemName");
 		boolean isMenuItemNameExists = false;
-
-		if (menuItemName == null || menuItemName.length() <= 0 || Strings.isNullOrEmpty(menuItemName)) {
+		if (Strings.isNullOrEmpty(menuItemName) || menuItemName.isEmpty()) {
 			log.info("MenuItemServiceImpl.isMenuItemNameExists() Menu Item Name is empty");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_NAME_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_NAME_IS_NULL_MSG);
@@ -253,21 +236,20 @@ public class MenuItemServiceImpl implements MenuItemService {
 	@Override
 	public MenuItemDTO getMenuItemByName(String menuItemName) {
 		log.info("MenuItemServiceImpl.getMenuItemById() ENTERED ");
-
-		if (menuItemName.isBlank()) {
+		if ( Strings.isNullOrEmpty(menuItemName) || menuItemName.isBlank()) {
 			log.info("Menu Item Id is null !");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
-
 		Optional<MenuItem> optMenuItem = menuItemRepository.findByMenuItemName(menuItemName);
 		if (!optMenuItem.isPresent()) {
 			log.info("Menu Item is not found for Menu ItemName : " + menuItemName);
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG,
-					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE);
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_DB_ENTITY_NOTFOUND_CODE,
+					ErrorCodeMessages.ERR_MENU_ITEM_DB_ENTITY_NOTFOUND_MSG);
 		}
 		MenuItemDTO menuItemDTO = new MenuItemDTO();
 		mapper.map(optMenuItem.get(), menuItemDTO);
+		log.info("MenuItemServiceImpl.getMenuItemById() executed successfully.");
 		return menuItemDTO;
 	}
 

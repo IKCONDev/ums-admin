@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ikn.ums.admin.dto.UserDTO;
-import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
@@ -34,7 +32,7 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping("/save")
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user) {
 		log.info("UserController.createUser() entered with args - user"+user);
 		if(user == null || user.equals(null)) {
 			log.info("updateUserRole() EntityNotFoundException : user object null");
@@ -43,7 +41,7 @@ public class UserController {
 		}
 		try {
 			log.info("UserController.createUser() is under execution...");
-			User savedUser = userService.saveUser(user);
+			UserDTO savedUser = userService.saveUser(user);
 			log.info("UserController.createUser() executed successfully.");
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 		} catch (EntityNotFoundException businesException) {
@@ -53,14 +51,13 @@ public class UserController {
 		catch (Exception e) {
 			e.printStackTrace();			
 			log.error("UserController.createUser() exited with exception : Exception occured while saving user. "+e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<User> updateUser(@RequestBody User user) {
+	public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO user) {
 		log.info("AdminController.updateUser() entered with args - user");
 		if(user == null || user.equals(null)) {
 			log.info("UserController.updateUser() EntityNotFoundException : User object is null ");
@@ -69,7 +66,7 @@ public class UserController {
 		}
 		try {
 			log.info("UserController.updateUser() is under execution...");
-			User updatedUser = userService.updateUser(user);
+			UserDTO updatedUser = userService.updateUser(user);
 			log.info("UserController.updateUser() executed successfully.");
 			return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
 		} 
@@ -78,9 +75,8 @@ public class UserController {
 			throw businesException;
 		}catch (Exception e) {
 			log.error("UserController.updateUser() exited with exception : Exception occured while updating user."+ e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
@@ -104,44 +100,19 @@ public class UserController {
 			throw businesException;
 		}catch (Exception e) {
 			log.error("UserController.deleteUserByUserId() exited with exception : Exception occured while deleting user."+ e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_CODE,
 			ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 
 	
-	@PatchMapping("/updateRole/{userId}")
-	public ResponseEntity<User> updateUserRole(@PathVariable("userId") String emailId){
-		log.info("AdminController.updateUserRole() entered with args - emailid/userid : "+emailId);
-		if(emailId.equals("") || emailId == null) {
-			log.info("updateUserRole() EmptyInputException : userId / emailId is empty or null");
-			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
-					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
-		}
-		try {
-			log.info("AdminController.updateUserRole() is under execution...");
-			User updatedUserWithNewRole = userService.updateUserRoleByUserId(emailId);
-			log.info("AdminController.updateUserRole() executed successfully");
-			return new ResponseEntity<>(updatedUserWithNewRole, HttpStatus.PARTIAL_CONTENT);
-		}catch (EmptyInputException businesException) {
-			log.error("UserController.updateUserRole() exited with exception :Business Exception occured while updating user. "+businesException.getMessage(), businesException);
-			throw businesException;
-		}catch (Exception e) {
-			log.error("UserController.updateUserRole() exited with exception :Exception occured while updating user. "+e.getMessage(), e);
-			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_UPDATE_UNSUCCESS_CODE,
-					ErrorCodeMessages.ERR_ROLE_UPDATE_UNSUCCESS_MSG);
-		}
-		
-	}
-	
 	@GetMapping("/all")
-	public ResponseEntity<List<User>> getAllUser(){
+	public ResponseEntity<List<UserDTO>> getAllUser(){
 		
 		log.info("UserController.getAllUserDetails() is entered");
 		try {
 			log.info("UserController.getAllUserDetails() is under execution");
-			List<User> userList = userService.getAllUsers();
+			List<UserDTO> userList = userService.getAllUsers();
 			log.info("UserController.getAllUserDetails() executed successfully");
 			return new ResponseEntity<>(userList,HttpStatus.OK);
 		}catch (Exception e) {
@@ -172,26 +143,5 @@ public class UserController {
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 		}
-		
 	}
-	
-
-//	@PatchMapping("/updateRole/{userId}")
-//	public ResponseEntity<User> updateUserRole(@PathVariable("userId") String emailId){
-//		log.info("UserController.updateUserRole() entered with args - emailid/userid : "+emailId);
-//		if(emailId.equals("") || emailId == null) {
-//			log.info("UserController.updateUserRole()");
-//			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
-//					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
-//		}
-//		try {
-//			User updatedUserWithNewRole = userService.updateUserRoleByUserId(emailId);
-//			return new ResponseEntity<>(updatedUserWithNewRole, HttpStatus.PARTIAL_CONTENT);
-//		}catch (Exception e) {
-//			throw new ControllerException(ErrorCodeMessages.USER_ROLE_UPDATE_UNSUCCESS_CODE,
-//					ErrorCodeMessages.USER_ROLE_UPDATE_UNSUCCESS_MSG);
-//		}
-//		
-//	}
-
 }

@@ -55,9 +55,8 @@ public class UserRoleMenuItemPermissionMapController {
 		catch (Exception e) {
 			log.error("General Exception has encountered while getting All User Role MenuItem Permissions Map. "
 					+ e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_GET_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_GET_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
@@ -83,9 +82,8 @@ public class UserRoleMenuItemPermissionMapController {
 		catch (Exception e) {
 			log.error(" updateUserRoleMenuItemPermissionMap() General Exception has encountered while getting All User Role MenuItem Permissions Map. "
 					+ e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_UPDATE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_UPDATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_UPDATE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
@@ -109,9 +107,8 @@ public class UserRoleMenuItemPermissionMapController {
 		catch (Exception e) {
 			log.error(" createUserRoleMenuItemPermissionMap() General Exception has encountered while getting All User Role MenuItem Permissions Map. "
 					+ e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_CREATE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_CREATE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	

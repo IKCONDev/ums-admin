@@ -1,6 +1,7 @@
 package com.ikn.ums.admin.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ikn.ums.admin.dto.MenuItemDTO;
+import com.ikn.ums.admin.dto.RoleDTO;
+import com.ikn.ums.admin.entity.MenuItem;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
@@ -20,6 +24,7 @@ import com.ikn.ums.admin.exception.RoleNameExistsException;
 import com.ikn.ums.admin.repository.RoleRepository;
 import com.ikn.ums.admin.service.RoleService;
 import com.ikn.ums.admin.utils.AdminConstants;
+import com.netflix.servo.util.Strings;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +39,7 @@ public class RoleServiceImpl implements RoleService {
     private ModelMapper mapper;
   
 	@Override
-	public Role createRole(Role role) {
+	public RoleDTO createRole(RoleDTO role) {
 		log.info("RoleServiceImpl.createRole() ENTERED");
 		if (role == null) 
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
@@ -45,40 +50,50 @@ public class RoleServiceImpl implements RoleService {
 		log.info("RoleServiceImpl.createRole() is under execution...");
 		role.setCreatedDateTime(LocalDateTime.now());
 		role.setRoleStatus(AdminConstants.STATUS_ACTIVE);	
-		Role savedRole = roleRepository.save(role);
+		Role entity = new Role();
+		mapper.map(role, entity);
+		Role savedRole = roleRepository.save(entity);
+		RoleDTO savedRoleDTO = new RoleDTO();
+		mapper.map(savedRole, savedRoleDTO);
 		log.info("RoleServiceImpl.createRole() executed successfully");
-		return savedRole;
+		return savedRoleDTO;
 	}
 	
 	
 	@Transactional 
 	@Override
-	public Role updateRole(Role role) {
+	public RoleDTO updateRole(RoleDTO role) {
 		log.info("RoleServiceImpl.updateRole() entered with args - role");
 		if(role == null || role.equals(null)) {
 			log.info("RoleServiceImpl.updateRole() EntityNotFoundException : user object is null");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		}
+		log.info("RoleServiceImpl.updateRole() is under execution...");
 		Optional<Role> optRole = roleRepository.findById(role.getRoleId());
 		Role dbRole = null;
-		if(optRole.isPresent()) {
-			dbRole = optRole.get();
+		if(optRole.isEmpty()) {
+			log.info("RoleServiceImpl.updateRole() EntityNotFoundException : DB user object is null");
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_CODE, 
+					ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_MSG);
 		}
+		dbRole = optRole.get();
 		//set modified date time
 		role.setModifiedDateTime(LocalDateTime.now());
 		mapper.map(role, dbRole);
-		dbRole.setMenuItems(role.getMenuItems());
-		log.info("RoleServiceImpl.updateRole() is under execution.");
-//		List<Long> menuItemIds = new ArrayList<>();
-//		role.getMenuItems().forEach(menuItem -> {
-//			menuItemIds.add(menuItem.getMenuItemId());
-//		});
-//		List<MenuItem> dbMenuItems = menuItemRepository.findAllById(menuItemIds);
-//		role.setMenuItems(dbMenuItems);
+		List<MenuItemDTO> menuItemsDTOList = role.getMenuItems();
+		List<MenuItem> menuItemList = new ArrayList<>();
+		menuItemsDTOList.forEach(mdto -> {
+			MenuItem mentity = new MenuItem();
+			mapper.map(mdto, mentity);
+			menuItemList.add(mentity);
+		});
+		dbRole.setMenuItems(menuItemList);
 		Role updatedRole =  roleRepository.save(dbRole);
+		RoleDTO updatedRoleDTO = new RoleDTO();
+		mapper.map(updatedRole, updatedRoleDTO);
 		log.info("RoleServiceImpl.updateRole() executed successfully.");
-		return updatedRole;
+		return updatedRoleDTO;
 	}
 
 	@Transactional 
@@ -93,13 +108,9 @@ public class RoleServiceImpl implements RoleService {
 		Optional<Role> optRole = roleRepository.findById(roleId);
 		
 		if ( !optRole.isPresent() || optRole == null ) {
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
-					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_CODE,
+					ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_MSG);
 		} else {
-			
-			//optRole.get().setRoleStatus(AdminConstants.STATUS_IN_ACTIVE);
-			//updateRole(optRole.get());
-			// If Role is already assgined to a particular user, it cannot be deleted.
 			Long roleCount = roleRepository.findAssignedRoleCount(roleId);
 			if(roleCount > 0) {
 				throw new RoleInUsageException(ErrorCodeMessages.ERR_ROLE_IS_IN_USAGE_CODE, 
@@ -117,12 +128,6 @@ public class RoleServiceImpl implements RoleService {
 		if ( roleIds.size() <= 0 )
 			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_MSG);		
-//			List<Role> roleList = roleRepository.findAllById(roleIds);
-//			if(roleList.size() > 0) {
-//				roleList.forEach(role -> {
-//					role.setRoleStatus("InActive");
-//				});	
-//			}
 		//check if role is attached to user
 		roleIds.forEach(roleId -> {
 			Long roleCount = roleRepository.findAssignedRoleCount(roleId);
@@ -134,46 +139,64 @@ public class RoleServiceImpl implements RoleService {
 		roleRepository.deleteAllById(roleIds);
 	}
 	@Override
-	public List<Role> getAllRoles() {
-		log.info("getAllRoles() ENTERED.");
-		List<Role> rolesList = null;
+	public List<RoleDTO> getAllRoles() {
+		log.info("getAllRoles() entered.");
+		List<Role> roleList = null;
 		log.info("getAllRoles() is under execution...");
-		rolesList = roleRepository.findAllRoles( AdminConstants.STATUS_ACTIVE );
-		if ( rolesList == null || rolesList.isEmpty() || rolesList.size() == 0 )
-			throw new EmptyListException(ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_CODE,
-					ErrorCodeMessages.ERR_ROLE_LIST_IS_EMPTY_MSG);
-		log.info("getAllRoles() : Total Roles Count : " + rolesList.size());
+		roleList = roleRepository.findAllRoles( AdminConstants.STATUS_ACTIVE );
+		List<RoleDTO> roleDTOList = new ArrayList<>();
+		roleList.forEach(role -> {
+			RoleDTO dto = new RoleDTO();
+			mapper.map(role, dto);
+			roleDTOList.add(dto);
+		});
 		log.info("getAllRoles() executed successfully");
-		return rolesList;
+		return roleDTOList;
 	}
 
 	@Override
-	public Optional<Role> getRoleById(Long roleId) {
+	public RoleDTO getRoleById(Long roleId) {
 		log.info("RoleServiceImpl.getRoleById() ENTERED : roleId : " + roleId);
-		log.info("RoleServiceImpl.getRoleById() is under execution...");
-		if (roleId <= 0)
+		if (roleId <= 0) {
+			log.info("RoleServiceImpl.getRoleById() EmptyInputException : roleId is empty or zero.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
+		}
+		log.info("RoleServiceImpl.getRoleById() is under execution...");
 		log.info("RoleServiceImpl.getRoleById() executed successfully");
-		return roleRepository.findById(roleId);
+		Optional<Role> optRole = roleRepository.findById(roleId);
+	    Role role = optRole.orElseThrow(() -> new EntityNotFoundException(
+	            ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_CODE,
+	            ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_MSG));
+	    RoleDTO roleDTO = new RoleDTO();
+	    mapper.map(role, roleDTO);
+	    return roleDTO;
 	}
 
 	@Override
-	public Optional<Role> getRoleByName(String roleName) {
+	public RoleDTO getRoleByName(String roleName) {
 		log.info("RoleServiceImpl.getRoleByName() ENTERED : roleName : " + roleName);
 		log.info("RoleServiceImpl.getRoleByName() is under execution...");
-		if (roleName == null || roleName.isEmpty() || roleName.length() == 0)
+		if ( Strings.isNullOrEmpty(roleName)|| roleName.isEmpty()) {
+		    log.info("RoleServiceImpl.getRoleByName() EmptyInputException : roleName is empty or null.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_NAME_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_NAME_IS_EMPTY_MSG);
+		}
 		log.info("RoleServiceImpl.getRoleByName() executed successfully");
-		return roleRepository.findByRoleName(roleName);
+		Optional<Role> optRole = roleRepository.findByRoleName(roleName);
+	    Role role = optRole.orElseThrow(() -> new EntityNotFoundException(
+	            ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_CODE,
+	            ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_MSG));
+	    RoleDTO roleDTO = new RoleDTO();
+	    mapper.map(role, roleDTO);
+	    return roleDTO;
 	}
 
-	public boolean isRoleNameExists(Role role) {
+	public boolean isRoleNameExists(RoleDTO role) {
 		log.info("RoleServiceImpl.isRoleExists() ENTERED : role : " );
-		boolean isRoleNameExists = false;
-		
+		boolean isRoleNameExists = false;	
 		if (role == null) {
+			  log.info("RoleServiceImpl.getRoleByName() EmptyInputException : role object is null.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		} else {

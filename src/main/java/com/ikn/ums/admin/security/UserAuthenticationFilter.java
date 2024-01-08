@@ -68,9 +68,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				UserDTO loginAttemptedUser = service.getUserDetailsByUsername(creds.getEmail());
 				// get user datails and update login attempts
 				loginAttemptedUser.setLoginAttempts(loginAttemptedUser.getLoginAttempts() + i);
-				com.ikn.ums.admin.entity.User user = new com.ikn.ums.admin.entity.User();
-				mapper.map(loginAttemptedUser, user);
-				com.ikn.ums.admin.entity.User updatedUserWithLogginAttempts = service.updateUser(user);
+				UserDTO updatedUserWithLogginAttempts = service.updateUser(loginAttemptedUser);
 				if (!isActive) {
 					log.error(" attemptAuthentication() Error occured while attempting to Login , UserInactiveException : User is inactive - Cannot login");
 					throw new UserInactiveException(ErrorCodeMessages.ERR_USER_INACTIVE_CODE,
@@ -102,18 +100,10 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		// on sucessful auth set login attempts to 0
 		UserDTO loggedInUser = service.getUserDetailsByUsername(userName);
 		loggedInUser.setLoginAttempts(0);
-		com.ikn.ums.admin.entity.User user = new com.ikn.ums.admin.entity.User();
-		mapper.map(loggedInUser, user);
-		service.updateUser(user);
-		log.info("successfulAuthentication() : Login attempts reset to 0.");
+		service.updateUser(loggedInUser);
+		log.info("successfulAuthentication() : Login attempts reset to 0 on successful login.");
 		
 		Map <String, String> userRoleMenuItemsPermissionMap = getUserRoleMenuItemPermissions(loggedInUser);
-		
-		/*
-		 * if(loadedUser == null) { throw new
-		 * UserNotFoundException(ErrorCodeMessages.ERR_USER_NOT_FOUND_CODE,
-		 * ErrorCodeMessages.ERR_USER_NOT_FOUND_MSG); }
-		 */
 		String webToken = Jwts.builder().setSubject(loadedUser.getEmail())
 				.setExpiration(new Date(
 						System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
@@ -128,8 +118,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				.setIssuer(request.getRequestURL().toString()).claim("role", loadedUser.getUserRoles().iterator().next().getRoleName())
 				.compact();
 		log.info("successfulAuthentication() : Jwt Token created for the user "+userName);
-		//set a default buffer size
-		//response.setBufferSize(10000);
+		log.info("successfulAuthentication() JWT TOKEN: "+webToken);
 		response.addHeader("token", webToken);
 		response.addHeader("refreshToken", refreshToken);
 		Iterator<Role> itr = loadedUser.getUserRoles().iterator();
@@ -166,5 +155,4 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		log.info("getUserRoleMenuItemPermissions() executed successfully.");
 		return userRoleMenuItemPermissionMap;
 	}
-
-}// class
+}

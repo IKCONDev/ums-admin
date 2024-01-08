@@ -1,7 +1,6 @@
 package com.ikn.ums.admin.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ikn.ums.admin.entity.Permission;
-import com.ikn.ums.admin.entity.Role;
+import com.ikn.ums.admin.dto.PermissionDTO;
+import com.ikn.ums.admin.dto.RoleDTO;
 import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
@@ -41,7 +40,7 @@ public class RoleController {
 	private PermissionService permissionService;
 
 	@PostMapping("/create")
-	public ResponseEntity<Role> createRole(@RequestBody Role role) {
+	public ResponseEntity<RoleDTO> createRole(@RequestBody RoleDTO role) {
 		log.info("RoleController.createRole() entered with args - role");
 		if (role == null || role.equals(null)) {
 			log.info("Role Entity Not Found Exception has encountered while creating Role.");
@@ -52,10 +51,10 @@ public class RoleController {
 			log.info("RoleController.createRole() is under execution.");
 			log.info(":Role Object : " + role );
 			//assign the corresponding permission object to role
-			Optional<Permission> optPermission = permissionService.getPermissionById(role.getPermission().getPermissionId());
-			Permission permission = optPermission.get();
+			PermissionDTO permission = permissionService.getPermissionById(role.getPermission().getPermissionId());
+			//Permission permission = optPermission.isPresent()?optPermission.get(): null;
 			role.setPermission(permission);
-			Role createdRole = roleService.createRole(role);
+			RoleDTO createdRole = roleService.createRole(role);
 			log.info("RoleController.createRole() executed successfully.");
 			return new ResponseEntity<>(createdRole, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | RoleNameExistsException roleBusinessException) {
@@ -63,14 +62,13 @@ public class RoleController {
 			throw roleBusinessException;
 		} catch (Exception e) {
 			log.error("General Exception has encountered while creating Role. " + e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_CREATE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_CREATE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 
 	@PutMapping("/update")
-	public ResponseEntity<Role> updateRole(@RequestBody Role role) {
+	public ResponseEntity<RoleDTO> updateRole(@RequestBody RoleDTO role) {
 		log.info("RoleController.updateRole() entered with args - role");
 		if (role == null || role.equals(null)) {
 			log.info("Role Entity Not Found Exception has encountered while updating Role.");
@@ -79,7 +77,7 @@ public class RoleController {
 		}
 		try {
 			log.info("RoleController.updateRole() is under execution...");
-			Role updatedRole = roleService.updateRole(role);
+			RoleDTO updatedRole = roleService.updateRole(role);
 			log.info("RoleController.updateRole() executed successfully.");
 			return new ResponseEntity<>(updatedRole, HttpStatus.CREATED);
 		}catch (EntityNotFoundException roleBusinessException) {
@@ -87,14 +85,13 @@ public class RoleController {
 			throw roleBusinessException;
 		}catch (Exception e) {
 			log.error("General Exception has encountered while updating Role. " + e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(e.getCause().toString(), e.getMessage());
-			throw umsCE;
+			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_UPDATE_UNSUCCESS_CODE, 
+					ErrorCodeMessages.ERR_ROLE_UPDATE_UNSUCCESS_MSG);
 		}
 	}
 
 	@DeleteMapping("/{ids}")
 	public ResponseEntity<Boolean> deleteSelectedRoles(@PathVariable("ids") List<Long> roleIds) {
-		boolean isRolesDeleted = false;
 		log.info("RoleController.deleteSelectedRoles() entered with args - ids : roleIds size (): " + roleIds.size());
 		if (roleIds.equals(null) || roleIds == null || roleIds.size() <= 0 ) {
 			log.info("RoleController.deleteSelectedRoles() EmptyInputException : role Id is empty");
@@ -104,9 +101,8 @@ public class RoleController {
 		try {
 			log.info("RoleController.deleteSelectedRoles() is under execution...");
 			roleService.deleteSelectedRolesByIds(roleIds);
-			isRolesDeleted = true;
 			log.info("RoleController.deleteSelectedRoles() executed successfully");
-			return new ResponseEntity<>(isRolesDeleted, HttpStatus.OK);
+			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (EmptyListException | RoleInUsageException businessException) {
 			log.info("RoleController.deleteSelectedRoles() exited with Business exception : Exception occured fetching roles list."
 					+ businessException.getMessage(), businessException);
@@ -115,18 +111,17 @@ public class RoleController {
 		catch (Exception e) {
 			log.info("RoleController.deleteSelectedRoles() exited with exception : Exception occured fetching roles list."
 					+ e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<Role>> getAllRoles() {
+	public ResponseEntity<List<RoleDTO>> getAllRoles() {
 		log.info("RoleController.getAllRoles() ENTERED.");
 		try {
 			log.info("RoleController.getAllRoles() is under execution...");
-			List<Role> rolesList = roleService.getAllRoles();
+			List<RoleDTO> rolesList = roleService.getAllRoles();
 			log.info("RoleController.getAllRoles() executed successfully");
 			return new ResponseEntity<>(rolesList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
@@ -144,16 +139,16 @@ public class RoleController {
 	}
 
 	@GetMapping("/{roleId}")
-	public ResponseEntity<Role> getRoleById(@PathVariable Long roleId) {
+	public ResponseEntity<RoleDTO> getRoleById(@PathVariable Long roleId) {
 		log.info("RoleController.getRoleById() ENTERED : roleId : " + roleId);
 		if (roleId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
 		try {
 			log.info("RoleController.getRoleById() is under execution...");
-			Optional<Role> role = roleService.getRoleById(roleId);
+			RoleDTO role = roleService.getRoleById(roleId);
 			log.info("RoleController.getRoleById() executed successfully");
-			return role.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+			return new ResponseEntity<>(role, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
 			log.info("RoleController.getRoleById() exited with exception : Exception occured fetching role."
 					+ businessException.getMessage(), businessException);
@@ -162,30 +157,9 @@ public class RoleController {
 		catch (Exception e) {
 			log.info("RoleController.getRoleById() exited with exception : Exception occured fetching roles list."
 					+ e.getMessage());
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
-
-//Testing
-	
-//	@GetMapping("/dynamicMenuItems")
-//	private String[] getDynamicAntMatchers() {
-//		// Fetch dynamic menu items based on the user's roles
-//		//RoleController roleController = new RoleController();
-//		
-//		RoleService roleService = new RoleServiceImpl();
-//		
-//		List<Role> roleList = roleService.getAllRoles();
-//	
-//		return roleList.stream().map(menuItem -> menuItem.getMenuItems()).toArray(String[]::new);
-//		
-//		//List<Role> dynamicMenuItems = roleController.getAllRoles();
-//
-//		// Convert dynamic menu items to antMatchers strings
-//		//return dynamicMenuItems.stream().map(menuItem -> "/v1/" + menuItem.getPath()) // Adjust the path as needed
-//				//.toArray(String[]::new);
-//	}
 
 }

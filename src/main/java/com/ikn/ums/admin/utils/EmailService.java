@@ -21,7 +21,7 @@ public class EmailService {
 		MimeMessage message = sender.createMimeMessage();
 		//set data to message using helper
 		try {
-			MimeMessageHelper helper = new MimeMessageHelper(message, file!=null?true:false);
+			MimeMessageHelper helper = new MimeMessageHelper(message, file!=null);
 			helper.setTo(to);
 			helper.setSubject(subject);
 			helper.setText(textBody);

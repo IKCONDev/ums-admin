@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,12 +14,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserDTO implements Serializable {
 	
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String email;
+	private String encryptedPassword;
+	private String previousPassword1;
+	private String previousPassword2;
+	private String previousPassword;
 	private Set<RoleDTO> userRoles = new HashSet<>();
 	private int otpCode;
 	private boolean twoFactorAuthentication;	

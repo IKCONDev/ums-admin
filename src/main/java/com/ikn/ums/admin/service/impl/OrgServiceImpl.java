@@ -1,5 +1,6 @@
 package com.ikn.ums.admin.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ikn.ums.admin.dto.OrganizationDTO;
 import com.ikn.ums.admin.entity.Organization;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
@@ -27,17 +29,23 @@ public class OrgServiceImpl implements OrgService {
     private ModelMapper mapper;
 
 	@Override
-	public List<Organization> getAllOrgs() {
+	public List<OrganizationDTO> getAllOrgs() {
+		List<OrganizationDTO> orgDTOList = new ArrayList<>();
 		log.info("OrgServiceImpl.getAllOrgs() ENTERED.");
 		log.info("OrgServiceImpl.getAllOrgs() is under execution...");
 		List<Organization> orgsList = null;
 		orgsList = orgRepository.findAll();
+		orgsList.forEach(entity -> {
+			OrganizationDTO dto = new OrganizationDTO();
+			mapper.map(entity, dto);
+			orgDTOList.add(dto);
+		});
 		log.info("OrgServiceImpl.getAllOrgs() executed successfully");
-		return orgsList;
+		return orgDTOList;
 	}
 
 	@Override
-	public Organization getOrgById(Integer orgId) {
+	public OrganizationDTO getOrgById(Integer orgId) {
 		log.info("OrgServiceImpl.getOrgById() ENTERED : orgId : " + orgId);
 		if (orgId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ORG_ID_IS_EMPTY_CODE,
@@ -45,38 +53,50 @@ public class OrgServiceImpl implements OrgService {
 		log.info("OrgServiceImpl.getOrgById() is under execution..");
 		Optional<Organization> optOrg = orgRepository.findById(orgId);
 		Organization org = null;
-		if(optOrg.isPresent()) {
-			org = optOrg.get();
+		if(optOrg.isEmpty()) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ORG_DB_ENTITY_NOTFOUND_CODE, 
+					ErrorCodeMessages.ERR_ORG_DB_ENTITY_NOTFOUND_MSG);
 		}
+		org = optOrg.get();
+		OrganizationDTO orgDTO = new OrganizationDTO();
+		mapper.map(org, orgDTO);
 		log.info("OrgServiceImpl.getOrgById() executed successfully");
-		return org;
+		return orgDTO;
 	}
 
 	@Override
-	public Organization createOrg(Organization org) {
+	public OrganizationDTO createOrg(OrganizationDTO org) {
 		log.info("OrgServiceImpl.createOrg() ENTERED");
 		if (org == null) 
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_MSG);
 		log.info("OrgServiceImpl.createOrg() is under execution...");
-		Organization savedOrg = orgRepository.save(org);
+		Organization entity = new Organization();
+		mapper.map(org, entity);
+		Organization savedOrg = orgRepository.save(entity);
+		OrganizationDTO savedOrgDTO = new OrganizationDTO();
+		mapper.map(savedOrg, savedOrgDTO);
 		log.info("OrgServiceImpl.createOrg() exected successfully");
-		return savedOrg;
+		return savedOrgDTO;
 	}
 
 	@Override
-	public Organization updateOrg(Organization org) {
+	public OrganizationDTO updateOrg(OrganizationDTO org) {
 		log.info("OrgServiceImpl.updateOrg() ENTERED with args - org");
 		log.info("OrgServiceImpl.updateOrg() is under execution...");
 		Optional<Organization> optOrg = orgRepository.findById(org.getOrgId());
 		Organization dbOrg = null;
-		if(optOrg.isPresent()) {
-			dbOrg = optOrg.get();
+		if(optOrg.isEmpty()) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ORG_DB_ENTITY_NOTFOUND_CODE, 
+					ErrorCodeMessages.ERR_ORG_DB_ENTITY_NOTFOUND_MSG);
 		}
+		dbOrg = optOrg.get();
 		mapper.map(org, dbOrg);
 		Organization updatedOrg = orgRepository.save(dbOrg);
+		OrganizationDTO orgDTO = new OrganizationDTO();
+		mapper.map(updatedOrg, orgDTO);
 		log.info("OrgServiceImpl.updateOrg() exected successfully");
-		return updatedOrg;
+		return orgDTO;
 	}
 
 	@Override
@@ -100,9 +120,10 @@ public class OrgServiceImpl implements OrgService {
 					ErrorCodeMessages.ERR_USER_DB_ENTITY_IS_NULL_MSG);
 		}
 		dbUser.setOrganizationImage(null);
-		
+		OrganizationDTO dto = new OrganizationDTO();
+		mapper.map(dbUser, dto);
 		log.info("OrgServiceImpl.deleteOrgPic() before execution !");
-		updateOrg(dbUser);
+		updateOrg(dto);
 		log.info("OrgServiceImpl.deleteOrgPic() execution sucessfull !");
 	}
 }

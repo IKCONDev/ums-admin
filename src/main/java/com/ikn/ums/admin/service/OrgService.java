@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ikn.ums.admin.entity.Organization;
+import com.ikn.ums.admin.dto.OrganizationDTO;
 
 @Service
 public interface OrgService {
 
-    public List<Organization> getAllOrgs();
-    public Organization getOrgById(Integer orgId);
-    public Organization createOrg(Organization org) ;
-    public Organization updateOrg(Organization updatedOrg);	       
+    public List<OrganizationDTO> getAllOrgs();
+    public OrganizationDTO getOrgById(Integer orgId);
+    public OrganizationDTO createOrg(OrganizationDTO org) ;
+    public OrganizationDTO updateOrg(OrganizationDTO updatedOrg);	       
     public void deleteOrgById(Integer id) ;
 	public void deleteOrgPic(Integer orgId);
 

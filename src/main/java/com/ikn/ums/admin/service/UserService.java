@@ -19,17 +19,12 @@ public interface UserService extends UserDetailsService {
 	Integer updateUserTwoFactorAuthStatus(String email, boolean isOn);
 	UserVO getUser(String username);
 	UserVO getUserProfile(String username);
-//	User updateProfilePicByEmail(String email);
 	User updateUserProfilePic(String emailId, MultipartFile profilePicImage) throws IOException;
 	List<String> getActiveUsersEmailIdList(boolean isActive);
-	
-	//Admin Operations on user
-	User saveUser(User user);
-	User updateUser(User user);
+
+	UserDTO saveUser(UserDTO user);
+	UserDTO updateUser(UserDTO user);
 	void deleteUserByUserId(String emailId);
-	List<User> getAllUsers();
+	List<UserDTO> getAllUsers();
 	void deleteProfilePicOfUser(String emailId);
-	
-	//admin operation on user roles
-	User updateUserRoleByUserId(String emailId);
 }

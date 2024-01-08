@@ -2,7 +2,6 @@ package com.ikn.ums.admin.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,6 +80,10 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 		}
 		
 		Optional<UserRoleMenuItemPermissionMap> optDbUserRoleMenuItemPermissionMap = userRoleMenuItemPermissionMapRepository.findById(userRoleMenuItemPermissionMapDTO.getId());
+		if(optDbUserRoleMenuItemPermissionMap.isEmpty()) {
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_DB_USERRMP_ENTITY_NOTFOUND_CODE, 
+					ErrorCodeMessages.ERR_ROLE_DB_USERRMP_ENTITY_NOTFOUND_MSG);
+		}
 		UserRoleMenuItemPermissionMap dbUserRoleMenuItemPermissionMap = optDbUserRoleMenuItemPermissionMap.get();
 		
 		if (dbUserRoleMenuItemPermissionMap == null) {
@@ -105,24 +108,30 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 	}
 
 	@Override
-	public List<UserRoleMenuItemPermissionMap> getAllUserRoleMenuItemPermissionMap() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<UserRoleMenuItemPermissionMapDTO> getAllUserRoleMenuItemPermissionMap() {
+		log.info("getAllUserRoleMenuItemPermissionMap() entered with no args");
+		log.info("getAllUserRoleMenuItemPermissionMap() is under execution...");
+		List<UserRoleMenuItemPermissionMapDTO> userRPMDTOMap = new ArrayList<>();
+		List<UserRoleMenuItemPermissionMap> userRPMEntityMap = userRoleMenuItemPermissionMapRepository.findAll();
+		userRPMEntityMap.forEach(entity -> {
+			UserRoleMenuItemPermissionMapDTO  dto = new UserRoleMenuItemPermissionMapDTO();
+			mapper.map(entity, dto);
+			userRPMDTOMap.add(dto);
+		});
+		log.info("getAllUserRoleMenuItemPermissionMap() executed successfully.");
+		return userRPMDTOMap;
 	}
 
 	@Override
 	public List<UserRoleMenuItemPermissionMapDTO> getUserRoleMenuItemPermissionMapsByUserId(String email) {
-		
-		if (Strings.isNullOrEmpty(email) || email.length() <= 0) {
+		log.info("getUserRoleMenuItemPermissionMapsByUserId() Entered : email : " + email);
+		if (Strings.isNullOrEmpty(email) || email.isEmpty()) {
 			log.info("getUserRoleMenuItemPermissionMapsByUserId() : The email is null or empty !");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_EMAIL_ID_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_EMAIL_ID_IS_NULL_MSG);
 		}
-		log.info("getUserRoleMenuItemPermissionMapsByUserId() Entered : email : " + email);
-		
 		List<UserRoleMenuItemPermissionMap> userRoleMenuItemPermissionMapList = userRoleMenuItemPermissionMapRepository.findByEmail(email);
 		log.info(" getUserRoleMenuItemPermissionMapsByUserId() : userRoleMenuItemPermissionMapList Size : " + userRoleMenuItemPermissionMapList.size());
-		
 		List<UserRoleMenuItemPermissionMapDTO> dtos = new ArrayList<>();
 			userRoleMenuItemPermissionMapList.forEach(entity -> {
 				UserRoleMenuItemPermissionMapDTO dto = new UserRoleMenuItemPermissionMapDTO();
@@ -132,12 +141,7 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 				dtos.add(dto);
 			});
 			//sort in ascending order using comparator
-			dtos.sort(new Comparator<UserRoleMenuItemPermissionMapDTO>() {
-				@Override
-				public int compare(UserRoleMenuItemPermissionMapDTO o1, UserRoleMenuItemPermissionMapDTO o2) {
-					return (int) (o1.getId() - o2.getId());
-				}
-			});
+			dtos.sort((o1, o2) -> (int) (o1.getId() - o2.getId()));
 		return dtos;
 	}
 
@@ -145,7 +149,7 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 	@Override
 	public void deleteAllUserRoleMenuItemPermissionMapByUserId(String email) {
 		
-		if (Strings.isNullOrEmpty(email) || email.length() <= 0) {
+		if (Strings.isNullOrEmpty(email) || email.isEmpty()) {
 			log.info("deleteAllUserRoleMenuItemPermissionMapByUserId() : The email is null or empty !");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_EMAIL_ID_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_EMAIL_ID_IS_NULL_MSG);
@@ -181,23 +185,20 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 		
 		log.info("saveAllUserRoleMenuItemPermissionMaps() is under execution...");
 		List<UserRoleMenuItemPermissionMap> savedEntities = userRoleMenuItemPermissionMapRepository.saveAll(entites);
-		log.info("saveAllUserRoleMenuItemPermissionMaps() executed succesfully");
-		
 		List<UserRoleMenuItemPermissionMapDTO> dtos = new ArrayList<>();
 		savedEntities.forEach(entity -> {
 			UserRoleMenuItemPermissionMapDTO dto = new UserRoleMenuItemPermissionMapDTO();
 			mapper.map(entity, dto);
 			dtos.add(dto);
 		});
+		log.info("saveAllUserRoleMenuItemPermissionMaps() executed succesfully");
 		return dtos;
 	}
 
 	@Override
 	public List<UserRoleMenuItemPermissionMapDTO> updateAllUserRoleMenuItemPermissionMaps(
 			List<UserRoleMenuItemPermissionMapDTO> userRoleMenuItemPermissionMapDTOList) {
-		
 		log.info(" updateAllUserRoleMenuItemPermissionMaps() Entered !");
-
 		if (userRoleMenuItemPermissionMapDTOList.size() == 0) {
 			log.info(" updateAllUserRoleMenuItemPermissionMaps() : userRoleMenuItemPermissionMapDTOList - List is empty !");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_LIST_IS_EMPTY_CODE,
@@ -205,7 +206,6 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 		}
 
 		log.info(" updateAllUserRoleMenuItemPermissionMaps() Size : " + userRoleMenuItemPermissionMapDTOList.size());
-		
 		List<UserRoleMenuItemPermissionMap> entites = new ArrayList<>();
 		userRoleMenuItemPermissionMapDTOList.forEach(dto -> {
 			UserRoleMenuItemPermissionMap entity = new UserRoleMenuItemPermissionMap();
@@ -215,15 +215,14 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 		});
 		log.info("updateAllUserRoleMenuItemPermissionMaps() is under execution...");
 		//userRoleMenuItemPermissionMapRepository.
-		List<UserRoleMenuItemPermissionMap> savedEntities = userRoleMenuItemPermissionMapRepository.saveAll(entites);
-		log.info("updateAllUserRoleMenuItemPermissionMaps() executed succesfully");
-		
+		List<UserRoleMenuItemPermissionMap> savedEntities = userRoleMenuItemPermissionMapRepository.saveAll(entites);		
 		List<UserRoleMenuItemPermissionMapDTO> dtos = new ArrayList<>();
 		savedEntities.forEach(entity -> {
 			UserRoleMenuItemPermissionMapDTO dto = new UserRoleMenuItemPermissionMapDTO();
 			mapper.map(entity, dto);
 			dtos.add(dto);
 		});
+		log.info("updateAllUserRoleMenuItemPermissionMaps() executed succesfully");
 		return dtos;
 	}
 

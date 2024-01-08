@@ -23,6 +23,7 @@ import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.MenuItemInUsageException;
 import com.ikn.ums.admin.exception.MenuItemNameExistsException;
 import com.ikn.ums.admin.service.MenuItemService;
+import com.netflix.servo.util.Strings;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,9 +56,8 @@ public class MenuItemController {
 			throw menuBusinessException;
 		} catch (Exception e) {
 			log.error("General Exception has encountered while creating MenuItem. " + e.getMessage());
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_CREATE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_CREATE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 
@@ -79,17 +79,15 @@ public class MenuItemController {
 			throw menuItemBusinessException;
 		}catch (Exception e) {
 			log.error("General Exception has encountered while updating MenuItem. " + e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_CODE, 
+			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_CODE, 
 					ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 
 	@DeleteMapping("/delete/{ids}")
 	public ResponseEntity<Boolean> deleteSelectedMenuItems(@PathVariable("ids") List<Long> menuItemIds) {
-		boolean isMenuItemDeleted = false;
 		log.info("MenuItemController.deleteSelectedMenuItems() entered ");
-		if (menuItemIds == null || menuItemIds.size() <= 0 ) {
+		if (menuItemIds == null || menuItemIds.isEmpty() ) {
 			log.info("MenuItemController.deleteSelectedMenuItems() EmptyInputException : menuItem Id/Ids are empty");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
@@ -98,15 +96,13 @@ public class MenuItemController {
 			log.info("MenuItemController.deleteSelectedMenuItems() is under execution...");
 			
 			menuItemService.deleteSelectedMenuItemByIds(menuItemIds);
-			isMenuItemDeleted = true;
 			log.info("MenuItemController.deleteSelectedMenuItems() executed successfully");
-			return new ResponseEntity<>(isMenuItemDeleted, HttpStatus.OK);
+			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (EmptyListException | MenuItemInUsageException businessException ) {
 			throw businessException;
 		} catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_DELETE_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_DELETE_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
@@ -132,9 +128,9 @@ public class MenuItemController {
 
 	@GetMapping("/{menuItemId}")
 	public ResponseEntity<MenuItemDTO> getMenuItemById(@PathVariable Long menuItemId) {
-	
+		log.info("MenuItemController.getMenuItemById() entered with args - menuItemId");
 		if (menuItemId <= 0) {
-			log.info("MenuItemController.getMenuItemById() permissionId <0 exception ");
+			log.info("MenuItemController.getMenuItemById() permissionId < 0 EmptyInputException ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
@@ -148,16 +144,15 @@ public class MenuItemController {
 			log.error("getMenuItemById() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 	
 	@GetMapping("/get/{menuItemName}")
 	public ResponseEntity<MenuItemDTO> getMenuItemByName(@PathVariable String menuItemName) {
-	
-		if (menuItemName.isBlank()) {
+		log.info("MenuItemController.getMenuItemById() entered with args menuItemName");
+		if (Strings.isNullOrEmpty(menuItemName) || menuItemName.isEmpty()) {
 			log.info("MenuItemController.getMenuItemById() permissionId <0 exception ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
@@ -172,9 +167,8 @@ public class MenuItemController {
 			log.error("getMenuItemByName() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
+			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);
-			throw umsCE;
 		}
 	}
 }

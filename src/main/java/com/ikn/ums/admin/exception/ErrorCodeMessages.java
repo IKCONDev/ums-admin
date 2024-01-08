@@ -82,6 +82,8 @@ public class ErrorCodeMessages {
 	 public static final String ERR_USER_IMAGE_NOT_VALID_CODE = "IMAGE-IS-NOT-VALID-1028";
 	 public static final String ERR_USER_IMAGE_NOT_VALID_MSG = "THIS IS NOT A VALID IMAGE FILE";
 	 
+	 public static final String ERR_USER_NEW_PASSWORD_IS_EMPTY_CODE = "ERR_USER_NEW_PASSWORD_IS_EMPTY_CODE-1029";
+	 public static final String ERR_USER_NEW_PASSWORD_IS_EMPTY_MSG = "New password from UI is empty."; 		 
 	 
 	 
 //ROLE MODULE ERROR CODES
@@ -127,6 +129,9 @@ public class ErrorCodeMessages {
 	 
 	 public static final String ERR_ROLE_IS_IN_USAGE_CODE = "ERR_ROLE_IS_IN_USAGE_CODE-1013";
 	 public static final String ERR_ROLE_IS_IN_USAGE_MSG = "Role is in Usage !";
+	 
+	 public static final String ERR_ROLE_DBROLE_ENTITY_NOTFOUND_CODE = "ERR_ROLE_DBROLE_ENTITY_NOTFOUND_CODE-1014";
+	 public static final String ERR_ROLE_DBROLE_ENTITY_NOTFOUND_MSG = "Role not found in DB !";
 	 
 	 //ORGANIZATION MODULE ERROR CODES
 	 
@@ -181,6 +186,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ORG_IMAGE_NULL_CODE = "ERR_USER_IMAGE_NULL_CODE-1043";
 	 public static final String ERR_ORG_IMAGE_NULL_MSG = "Image data is null";
 	 
+	 public static final String ERR_ORG_DB_ENTITY_NOTFOUND_CODE = "ERR_ORG_DB_ENTITY_NOTFOUND_CODE-1044";
+	 public static final String ERR_ORG_DB_ENTITY_NOTFOUND_MSG = "Organization Entity retrieved from database is null !."; 
+	 
 	 //ORGANIZATION MODULE ERROR CODES
 	 
 	//PERMISSION MODULE ERROR CODES
@@ -223,51 +231,55 @@ public class ErrorCodeMessages {
 		 public static final String ERR_PERMISSION_IS_IN_USAGE_CODE = "ERR_PERMISSION_IS_IN_USAGE_CODE-1058";
 		 public static final String ERR_PERMISSION_IS_IN_USAGE_MSG = "Permission is in Usage !";
 		 
+		 public static final String ERR_PERMISSION_DB_ENTITY_NOTFOUND_CODE = "ERR_PERMISSION_DB_ENTITY_NOTFOUND_CODE-1059";
+		 public static final String ERR_PERMISSION_DB_ENTITY_NOTFOUND_MSG = "Permission Entity retrieved from database is null !."; 
+		 
 		 //PERMISSION MODULE ERROR CODES 
 		 
 		//MENU ITEM MODULE ERROR CODES
 		 
-		 public static final String ERR_MENU_ITEM_ID_ALREADY_EXISTS_CODE = "MENU_ITEM_ID_ALREADY_EXISTS-1059";
+		 public static final String ERR_MENU_ITEM_ID_ALREADY_EXISTS_CODE = "MENU_ITEM_ID_ALREADY_EXISTS-1001";
 		 public static final String ERR_MENU_ITEM_ID_ALREADY_EXISTS_MSG = "Menu Item Id Already Exists."; 
 
-		 public static final String ERR_MENU_ITEM_NAME_IS_NULL_CODE = "MENU_ITEM_VALUE_IS_NULL-1060";
+		 public static final String ERR_MENU_ITEM_NAME_IS_NULL_CODE = "MENU_ITEM_VALUE_IS_NULL-1002";
 		 public static final String ERR_MENU_ITEM_NAME_IS_NULL_MSG = "Menu Item Value is Null."; 
 		 
-		 public static final String MENU_ITEM_CREATE_SUCCESS_CODE = "MENU_ITEM_CREATE_SUCCESS_CODE-1061";
+		 public static final String MENU_ITEM_CREATE_SUCCESS_CODE = "MENU_ITEM_CREATE_SUCCESS_CODE-1003";
 		 public static final String MENU_ITEM_CREATE_SUCCESS_MSG = "Menu Item created Sucessfully."; 	 
 		 
-		 public static final String ERR_MENU_ITEM_LIST_IS_EMPTY_CODE = "MENU_ITEM_LIST_IS_EMPTY-1062";
+		 public static final String ERR_MENU_ITEM_LIST_IS_EMPTY_CODE = "MENU_ITEM_LIST_IS_EMPTY-1004";
 		 public static final String ERR_MENU_ITEM_LIST_IS_EMPTY_MSG = "Menu Item List Is Empty."; 	 
 
-		 public static final String ERR_MENU_ITEM_NAME_IS_EMPTY_CODE = "MENU_ITEM_NAME_IS_EMPTY-1063";
+		 public static final String ERR_MENU_ITEM_NAME_IS_EMPTY_CODE = "MENU_ITEM_NAME_IS_EMPTY-1005";
 		 public static final String ERR_MENU_ITEM_NAME_IS_EMPTY_MSG = "Menu Item Name Is Empty."; 	 
 
-		 public static final String ERR_MENU_ITEM_ENTITY_IS_NULL_CODE = "MENU_ITEM_ENTITY_IS_NULL-1064";
+		 public static final String ERR_MENU_ITEM_ENTITY_IS_NULL_CODE = "MENU_ITEM_ENTITY_IS_NULL-1006";
 		 public static final String ERR_MENU_ITEM_ENTITY_IS_NULL_MSG = "Menu Item Entity is Null."; 
 		 
-		 public static final String ERR_MENU_ITEM_CREATE_UNSUCCESS_CODE = "MENU_ITEM_CREATE_UNSUCCESS_CODE-1065";
+		 public static final String ERR_MENU_ITEM_CREATE_UNSUCCESS_CODE = "MENU_ITEM_CREATE_UNSUCCESS_CODE-1007";
 		 public static final String ERR_MENU_ITEM_CREATE_UNSUCCESS_MSG = "Exception occured while creating Menu Item";
 		 
-		 public static final String ERR_MENU_ITEM_DELETE_UNSUCCESS_CODE = "MENU_ITEM_DELETE_UNSUCCESS_CODE-1066";
+		 public static final String ERR_MENU_ITEM_DELETE_UNSUCCESS_CODE = "MENU_ITEM_DELETE_UNSUCCESS_CODE-1008";
 		 public static final String ERR_MENU_ITEM_DELETE_UNSUCCESS_MSG = "Exception occured while deleting Menu Item";
 		 
-		 public static final String ERR_MENU_ITEM_UPDATE_UNSUCCESS_CODE = "MENU_ITEM_UPDATE_UNSUCCESS_CODE-1067";
+		 public static final String ERR_MENU_ITEM_UPDATE_UNSUCCESS_CODE = "MENU_ITEM_UPDATE_UNSUCCESS_CODE-1009";
 		 public static final String ERR_MENU_ITEM_UPDATE_UNSUCCESS_MSG = "Exception occured while updating Menu Item";
 
-		 public static final String ERR_MENU_ITEM_NAME_EXISTS_CODE = "MENU_ITEM_Name_EXISTS_CODE-1068";
+		 public static final String ERR_MENU_ITEM_NAME_EXISTS_CODE = "MENU_ITEM_Name_EXISTS_CODE-1010";
 		 public static final String ERR_MENU_ITEM_NAME_EXISTS_MSG = "Menu Item Name Already Exists";
 		 
-		 public static final String ERR_MENU_ITEM_GET_UNSUCCESS_CODE = "ERR_MENU_ITEM_GET_UNSUCCESS_CODE-1069";
+		 public static final String ERR_MENU_ITEM_GET_UNSUCCESS_CODE = "ERR_MENU_ITEM_GET_UNSUCCESS_CODE-1011";
 		 public static final String ERR_MENU_ITEM_GET_UNSUCCESS_MSG = "Error while getting user Menu Items(s)";
 
-		 public static final String ERR_MENU_ITEM_ID_IS_EMPTY_CODE = "ERR_MENU_ITEM_ID_IS_EMPTY_CODE-1070";
+		 public static final String ERR_MENU_ITEM_ID_IS_EMPTY_CODE = "ERR_MENU_ITEM_ID_IS_EMPTY_CODE-1012";
 		 public static final String ERR_MENU_ITEM_ID_IS_EMPTY_MSG = "Menu Item Id is Empty !";
 
-		 public static final String ERR_MENU_ITEM_IS_IN_USAGE_CODE = "ERR_MENU_ITEM_IS_IN_USAGE_CODE-1071";
+		 public static final String ERR_MENU_ITEM_IS_IN_USAGE_CODE = "ERR_MENU_ITEM_IS_IN_USAGE_CODE-1013";
 		 public static final String ERR_MENU_ITEM_IS_IN_USAGE_MSG = "Menu Item is in Usage !";
 		 
-		 public static final String ERR_USER_IS_EMPTY_CODE = "ERR_USER_IS_NOT_PRESENT_CODE-1072";
-		 public static final String ERR_USER_IS_EMPTY_MSG = "User is not found to delete Profile Pic !";
+		 public static final String ERR_MENU_ITEM_DB_ENTITY_NOTFOUND_CODE = "ERR_MENU_ITEM_DB_ENTITY_NOTFOUND_CODE-1014";
+		 public static final String ERR_MENU_ITEM_DB_ENTITY_NOTFOUND_MSG = "Menu Items Entity retrieved from database is null !."; 
+		 
 		 
 		 //Error codes for UserRoleMenuItemPermissionMap
 		 public static final String ERR_USER_ROLE_MENU_PER_IS_NULL_CODE = "ERR_USER_ROLE_MENU_PERMISSION_ENTITY_IS_NULL_CODE-1001";
@@ -287,6 +299,10 @@ public class ErrorCodeMessages {
 		 
 		 public static final String ERR_USER_ROLE_MENU_PER_UPDATE_UNSUCCESS_CODE = "ERR_USER_ROLE_MENU_PER_UPDATE_UNSUCCESS_CODE-1006";
 		 public static final String ERR_USER_ROLE_MENU_PER_UPDATE_UNSUCCESS_MSG = "Error while getting user role menuitems permissions!";
+		 
+		 public static final String ERR_ROLE_DB_USERRMP_ENTITY_NOTFOUND_CODE = "ERR_ROLE_DB_USERRMP_ENTITY_NOTFOUND_CODE-1014";
+		 public static final String ERR_ROLE_DB_USERRMP_ENTITY_NOTFOUND_MSG = "UserRoleMenuItemPermissionMap object not found in DB !";
+		 
 
 		 
 }

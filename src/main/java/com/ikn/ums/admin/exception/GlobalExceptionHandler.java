@@ -29,7 +29,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("EntityNotFoundException Occurred ::::::::::::: " + entityNotFoundException.getErrorCode());
 		log.info("EntityNotFoundException Occurred ::::::::::::: " + entityNotFoundException.getErrorMessage());
 		
-		return new ResponseEntity<String>("Entity Object is NUll.", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("Entity Object is NUll.", HttpStatus.BAD_REQUEST);
 	}
 	
 	/**
@@ -42,7 +42,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<String> handleEmptyInput(EmptyInputException emptyInputException) {
 		log.error("getMenuItemByName() : An error occurred: {}." + emptyInputException.getMessage(), emptyInputException);
 		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED" + emptyInputException.getMessage());
-		return new ResponseEntity<String>("Input field is empty. Please look into it.", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("Input field is empty. Please look into it.", HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(EmptyOTPException.class)
 	public ResponseEntity<String> handleEntityNotFoundException(EmptyOTPException emptyOTPException) {
 		log.info("GlobalExceptionHandler.handleEntityNotFoundException() ENTERED" + emptyOTPException.getMessage());
-		return new ResponseEntity<String>("OTP is not generated for the User.", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("OTP is not generated for the User.", HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(NoSuchElementException.class)
 	public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException noSuchElementException) {
 		log.info("GlobalExceptionHandler.handleNoSuchElementException() ENTERED" + noSuchElementException.getMessage());
-		return new ResponseEntity<String>("No Value is Present in DB.", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("No Value is Present in DB.", HttpStatus.NOT_FOUND);
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<String> handleBusinessException(BusinessException businessException) {
 		log.info("GlobalExceptionHandler.handleBusinessException() ENTERED");
 		log.info("Business Exception Occurred." + businessException.getMessage());
-		return new ResponseEntity<String>("Business Exception.", HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>("Business Exception.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	
@@ -86,7 +86,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<String> handleImageNotFound(ImageNotFoundException imageNotFoundException) {
 		log.info("GlobalExceptionHandler.handleImageNotFoundException() ENTERED");
 		log.info("Not a Valid Image Exception Occurred." + imageNotFoundException.getMessage());
-		return new ResponseEntity<String>("Not a Image Exception", HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>("Not a Image Exception", HttpStatus.NO_CONTENT);
 	}
 
 
@@ -100,28 +100,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("GlobalExceptionHandler.handleControllerException() ENTERED");
 		log.info("Controller Exception Occurred ::::::::::::: " + controllerException.getErrorCode());
 		log.info("Controller Exception Occurred ::::::::::::: " + controllerException.getErrorMessage());
-		return new ResponseEntity<String>("Controller Exception.", HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>("Controller Exception.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		log.info("GlobalExceptionHandler.handleHttpRequestMethodNotSupported() ENTERED " + ex.getMessage());
-		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("Please change your http method type.", HttpStatus.NOT_FOUND);
 	}
-	
-	/*
-	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException unfe) {
-		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED " + unfe.getMessage());
-		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.NOT_ACCEPTABLE);
-	}
-	*/
 	
 	@ExceptionHandler(UserInactiveException.class)
 	public ResponseEntity<Object> handleUserInactiveException(UserInactiveException uiae) {
 		log.info("GlobalExceptionHandler.handleUserInactiveException() ENTERED " + uiae.getMessage());
-		return new ResponseEntity<Object>("Please change your http method type.", HttpStatus.FORBIDDEN);
+		return new ResponseEntity<>("Please change your http method type.", HttpStatus.FORBIDDEN);
 	}
 
 	/**
@@ -132,7 +124,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(RoleNameExistsException.class)
 	public ResponseEntity<String> handleRoleNameExistsException(RoleNameExistsException roleNameExistsException) {
 		log.info("GlobalExceptionHandler.handleRoleNameExistsException() ENTERED" + roleNameExistsException.getMessage());
-		return new ResponseEntity<String>("Role Name Already Exists.", HttpStatus.FOUND);
+		return new ResponseEntity<>("Role Name Already Exists.", HttpStatus.FOUND);
 	}
 	
 	/**
@@ -143,7 +135,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(PermissionNameExistsException.class)
 	public ResponseEntity<String> handlePermissionNameExistsException(PermissionNameExistsException permissionNameExistsException) {
 		log.info("GlobalExceptionHandler.handlePermissionNameExistsException() ENTERED" + permissionNameExistsException.getMessage());
-		return new ResponseEntity<String>("Permission Name Already Exists.", HttpStatus.FOUND);
+		return new ResponseEntity<>("Permission Name Already Exists.", HttpStatus.FOUND);
 	}
 
 	/**
@@ -154,7 +146,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(PermissionInUsageException.class)
 	public ResponseEntity<String> handlePermissionInUsageException(PermissionInUsageException permissionInUsageException) {
 		log.info("GlobalExceptionHandler.handlePermissionInUsageException() ENTERED" + permissionInUsageException.getMessage());
-		return new ResponseEntity<String>("Permissions Are Assigned to Role and are in Usage.", HttpStatus.IM_USED);
+		return new ResponseEntity<>("Permissions Are Assigned to Role and are in Usage.", HttpStatus.IM_USED);
 	}
 	
 	/**
@@ -165,7 +157,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(RoleInUsageException.class)
 	public ResponseEntity<String> handleRoleInUsageException(RoleInUsageException roleInUsageException) {
 		log.info("GlobalExceptionHandler.handleRoleNameExistsException() ENTERED" + roleInUsageException.getMessage());
-		return new ResponseEntity<String>("Permissions Are Assigned to Role and are in Usage.", HttpStatus.IM_USED);
+		return new ResponseEntity<>("Permissions Are Assigned to Role and are in Usage.", HttpStatus.IM_USED);
 	}
 	
 	/**
@@ -176,7 +168,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(MenuItemInUsageException.class)
 	public ResponseEntity<String> handleMenuItemInUsageException(MenuItemInUsageException menuItemInUsageException) {
 		log.info("GlobalExceptionHandler.handleMenuItemInUsageException() ENTERED" + menuItemInUsageException.getMessage());
-		return new ResponseEntity<String>("Menu Items Are Assigned to Role and are in Usage.", HttpStatus.IM_USED);
+		return new ResponseEntity<>("Menu Items Are Assigned to Role and are in Usage.", HttpStatus.IM_USED);
 	}
 	
 	/**
@@ -187,7 +179,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(MenuItemNameExistsException.class)
 	public ResponseEntity<String> handleMenuItemNameExistsException(MenuItemNameExistsException menuItemNameExistsException) {
 		log.info("GlobalExceptionHandler.handleMenuItemNameExistsException() ENTERED" + menuItemNameExistsException.getMessage());
-		return new ResponseEntity<String>("Menu item Name Already Exists.", HttpStatus.FOUND);
+		return new ResponseEntity<>("Menu item Name Already Exists.", HttpStatus.FOUND);
 	}
 	
 }

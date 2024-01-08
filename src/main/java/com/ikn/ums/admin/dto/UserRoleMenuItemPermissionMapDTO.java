@@ -1,5 +1,6 @@
 package com.ikn.ums.admin.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -9,8 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRoleMenuItemPermissionMapDTO {
+public class UserRoleMenuItemPermissionMapDTO implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String email;
 	private Long roleId;
@@ -22,8 +27,6 @@ public class UserRoleMenuItemPermissionMapDTO {
 	private String modifiedBy;
 	private String createdByEmailId;
 	private String modifiedByEmailId;
-	
-	//other properties
 	private MenuItemDTO menuItem;
 
 }
