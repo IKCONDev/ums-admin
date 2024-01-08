@@ -92,14 +92,15 @@ public class AuthenticationController {
 			log.info("UserController.validateUserOtp() executed successfully");
 			return new ResponseEntity<>(count, HttpStatus.OK);
 		} catch (EntityNotFoundException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("validateUserOtp() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
 			log.error("validateUserOtp() : An error/exception occurred: {}." + e.getMessage(), e);
-			ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
+			//ControllerException umsCE = new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
+				//	ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
+			throw  new ControllerException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE, 
 					ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
-			throw umsCE;
 		}
 	}
 
@@ -118,7 +119,7 @@ public class AuthenticationController {
 			log.info("UserController.updatePassword() executed successfully");
 			return new ResponseEntity<>(updateStatus, HttpStatus.OK);
 		} catch (EntityNotFoundException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("updatePassword() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
@@ -143,7 +144,7 @@ public class AuthenticationController {
 			log.info("verifyEmailAddress_ForOtp() executed successfully");
 			return new ResponseEntity<Integer>(value, HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("verifyEmailAddress_ForOtp() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
@@ -229,7 +230,7 @@ public class AuthenticationController {
 			log.info("UserController.updateUserProfilePicture() executed successfully");
 			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("updateUserProfilePicture() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
 			log.error("updateUserProfilePicture() : An error/exception occurred: {}." + e.getMessage(), e);
@@ -267,7 +268,7 @@ public class AuthenticationController {
 			log.info("UserController.deleteProfilePic() executed succesfully");
 			return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
-			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("deleteProfilePic() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
 			log.error("deleteProfilePic() : An error/exception occurred: {}." + e.getMessage(), e);
