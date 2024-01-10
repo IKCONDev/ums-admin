@@ -142,6 +142,7 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 			});
 			//sort in ascending order using comparator
 			dtos.sort((o1, o2) -> (int) (o1.getId() - o2.getId()));
+			log.info("getUserRoleMenuItemPermissionMapsByUserId() executed successfully.");
 		return dtos;
 	}
 

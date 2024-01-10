@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ikn.ums.admin.dto.PermissionDTO;
 import com.ikn.ums.admin.dto.RoleDTO;
 import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
@@ -51,10 +49,9 @@ public class RoleController {
 			log.info("RoleController.createRole() is under execution.");
 			log.info(":Role Object : " + role );
 			//assign the corresponding permission object to role
-			PermissionDTO permission = permissionService.getPermissionById(role.getPermission().getPermissionId());
-			//Permission permission = optPermission.isPresent()?optPermission.get(): null;
+			var permission = permissionService.getPermissionById(role.getPermission().getPermissionId());
 			role.setPermission(permission);
-			RoleDTO createdRole = roleService.createRole(role);
+			var createdRole = roleService.createRole(role);
 			log.info("RoleController.createRole() executed successfully.");
 			return new ResponseEntity<>(createdRole, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | RoleNameExistsException roleBusinessException) {
@@ -77,7 +74,7 @@ public class RoleController {
 		}
 		try {
 			log.info("RoleController.updateRole() is under execution...");
-			RoleDTO updatedRole = roleService.updateRole(role);
+			var updatedRole = roleService.updateRole(role);
 			log.info("RoleController.updateRole() executed successfully.");
 			return new ResponseEntity<>(updatedRole, HttpStatus.CREATED);
 		}catch (EntityNotFoundException roleBusinessException) {
@@ -121,7 +118,7 @@ public class RoleController {
 		log.info("RoleController.getAllRoles() ENTERED.");
 		try {
 			log.info("RoleController.getAllRoles() is under execution...");
-			List<RoleDTO> rolesList = roleService.getAllRoles();
+			var rolesList = roleService.getAllRoles();
 			log.info("RoleController.getAllRoles() executed successfully");
 			return new ResponseEntity<>(rolesList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
@@ -146,7 +143,7 @@ public class RoleController {
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
 		try {
 			log.info("RoleController.getRoleById() is under execution...");
-			RoleDTO role = roleService.getRoleById(roleId);
+			var role = roleService.getRoleById(roleId);
 			log.info("RoleController.getRoleById() executed successfully");
 			return new ResponseEntity<>(role, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ikn.ums.admin.VO.UserVO;
 import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
@@ -46,7 +45,7 @@ public class AuthenticationController {
 	@GetMapping // later we will change it to post
 	public ResponseEntity<String> authenticate() {
 		log.info("UserController.authenticate() ENTERED");
-		String encodedPWD = encoder.encode("test");
+		var encodedPWD = encoder.encode("test");
 		return new ResponseEntity<String>(encodedPWD, HttpStatus.OK);
 	}
 
@@ -58,7 +57,7 @@ public class AuthenticationController {
 				throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 						ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 			log.info("UserController.generateAndSendOtpToUser() is under execution...");
-			Integer otp = userService.generateOtpForUser(email, pageType);
+			var otp = userService.generateOtpForUser(email, pageType);
 			if (otp <= 0) {
 				log.info("UserController.generateAndSendOtpToUser() otp is not generated ....");
 				throw new EmptyOTPException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE,
@@ -88,7 +87,7 @@ public class AuthenticationController {
 		}
 		try {
 			log.info("UserController.validateUserOtp() is under execution...");
-			int count = userService.validateUserOtp(otpRequestModel.getEmail(), otpRequestModel.getOtpCode());
+			var count = userService.validateUserOtp(otpRequestModel.getEmail(), otpRequestModel.getOtpCode());
 			log.info("UserController.validateUserOtp() executed successfully");
 			return new ResponseEntity<>(count, HttpStatus.OK);
 		} catch (EntityNotFoundException businessException) {
@@ -112,7 +111,7 @@ public class AuthenticationController {
 		}
 		try {
 			log.info("UserController.updatePassword() is under execution...");
-			int updateStatus = userService.updatePasswordforUser(updatePasswordModel.getEmail(),
+			var updateStatus = userService.updatePasswordforUser(updatePasswordModel.getEmail(),
 					updatePasswordModel.getConfirmPassword());
 			log.info("UserController.updatePassword() executed successfully");
 			return new ResponseEntity<>(updateStatus, HttpStatus.OK);
@@ -137,7 +136,7 @@ public class AuthenticationController {
 		}
 		try {
 			log.info("verifyEmailAddress_ForOtp() is under execution...");
-			Integer value = userService.validateEmailAddress(email);
+			var value = userService.validateEmailAddress(email);
 			log.info("verifyEmailAddress_ForOtp() executed successfully");
 			return new ResponseEntity<Integer>(value, HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
@@ -162,7 +161,7 @@ public class AuthenticationController {
 		}
 		try {
 			log.info("UserController.fetchUserProfile() is under execution...");
-			UserVO userprofileDetails = userService.getUserProfile(username);
+			var userprofileDetails = userService.getUserProfile(username);
 			log.info("UserController.fetchUserProfile() executed successfully");
 			return new ResponseEntity<>(userprofileDetails, HttpStatus.OK);
 		}
@@ -186,7 +185,7 @@ public class AuthenticationController {
 		}
 		try {
 			log.info("updateUserTwofactorAuthentication() is under execution...");
-			Integer value = userService.updateUserTwoFactorAuthStatus(username, isTwoFactorSwitched);
+			var value = userService.updateUserTwoFactorAuthStatus(username, isTwoFactorSwitched);
 			log.info("updateUserTwofactorAuthentication() executed successfully");
 			return new ResponseEntity<>(value, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {

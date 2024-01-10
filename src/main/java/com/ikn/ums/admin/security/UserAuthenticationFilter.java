@@ -60,7 +60,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		log.info("attemptAuthentication() entered with args - HttpRequest and HttpResponse Objects.");
-		int i = 1;
+		var i = 1;
 		try {
 			UserLoginRequestModel creds = new ObjectMapper().readValue(request.getInputStream(),
 					UserLoginRequestModel.class);
@@ -70,7 +70,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				UserDTO loginAttemptedUser = service.getUserDetailsByUsername(creds.getEmail());
 				// get user datails and update login attempts
 				loginAttemptedUser.setLoginAttempts(loginAttemptedUser.getLoginAttempts() + i);
-				UserDTO updatedUserWithLogginAttempts = service.updateUser(loginAttemptedUser);
+				var updatedUserWithLogginAttempts = service.updateUser(loginAttemptedUser);
 				if (!isActive) {
 					log.error(" attemptAuthentication() Error occured while attempting to Login , UserInactiveException : User is inactive - Cannot login");
 					throw new UserInactiveException(ErrorCodeMessages.ERR_USER_INACTIVE_CODE,
@@ -98,14 +98,13 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 			Authentication authResult) throws IOException, ServletException {
 		log.info("UserAuthenticationFilter.successfulAuthentication() entered with args - HttpRequest , HttpResponse , FilterChain & Authentication objects.");
 		String userName = ((User) authResult.getPrincipal()).getUsername();
-		UserVO loadedUser = service.getUser(userName);
+		var loadedUser = service.getUser(userName);
 		// on sucessful auth set login attempts to 0
 		UserDTO loggedInUser = service.getUserDetailsByUsername(userName);
 		loggedInUser.setLoginAttempts(0);
 		service.updateUser(loggedInUser);
 		log.info("successfulAuthentication() : Login attempts reset to 0 on successful login.");
-		
-		Map <String, String> userRoleMenuItemsPermissionMap = getUserRoleMenuItemPermissions(loggedInUser);
+		var userRoleMenuItemsPermissionMap = getUserRoleMenuItemPermissions(loggedInUser);
 		String webToken = Jwts.builder().setSubject(loadedUser.getEmail())
 				.setExpiration(new Date(
 						System.currentTimeMillis() + Long.parseLong(environment.getProperty(TOKEN_EXPIRATION_PROPERTY))))
@@ -138,7 +137,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		String userRoleMenuItemMapJsonString = new ObjectMapper().writeValueAsString(userRoleMenuItemsPermissionMap);
 		response.addHeader("userRoleMenuItemsPermissionMap", userRoleMenuItemMapJsonString);
 		log.info("successfulAuthentication() : User Role Menu Item Permission Map retrived for the user "+userName+" and returned in response object to client application.");
-		Map<String, String> tokenData = new HashMap<String, String>();
+		var tokenData = new HashMap<String, String>();
 		tokenData.put("token", webToken);
 		tokenData.put("refreshToken", refreshToken);
 		response.setContentType("application/json");
@@ -149,7 +148,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
 	public Map<String, String> getUserRoleMenuItemPermissions(UserDTO loggedInUser) {
 		log.info("getUserRoleMenuItemPermissions() entered with args - user object.");
-		Map<String, String> userRoleMenuItemPermissionMap = new HashMap<String, String>();			
+		var userRoleMenuItemPermissionMap = new HashMap<String, String>();			
 			loggedInUser.getUserRoleMenuItemPermissionMap().forEach(urmitDTO -> {
 				userRoleMenuItemPermissionMap.put(urmitDTO.getMenuItemIdList(), urmitDTO.getPermissionIdList());
 			});

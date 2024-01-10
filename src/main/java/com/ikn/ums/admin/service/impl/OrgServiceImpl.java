@@ -113,6 +113,11 @@ public class OrgServiceImpl implements OrgService {
 	@Override
 	public void deleteOrgPic(Integer orgId) {
 		log.info("OrgServiceImpl.deleteOrgPic() Entered !");
+		if (orgId <= 0) {
+			log.info("OrgServiceImpl.deleteOrgPic() EmptyInputException orgId is 0 or empty.");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
+		}
 		Organization dbUser = orgRepository.findByOrgId(orgId);
 		if (dbUser == null) {
 			log.info("OrgServiceImpl.deleteOrgPic() the orgId is not found in the database !");

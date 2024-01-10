@@ -41,7 +41,7 @@ public class UserController {
 		}
 		try {
 			log.info("UserController.createUser() is under execution...");
-			UserDTO savedUser = userService.saveUser(user);
+			var savedUser = userService.saveUser(user);
 			log.info("UserController.createUser() executed successfully.");
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 		} catch (EntityNotFoundException businesException) {
@@ -66,7 +66,7 @@ public class UserController {
 		}
 		try {
 			log.info("UserController.updateUser() is under execution...");
-			UserDTO updatedUser = userService.updateUser(user);
+			var updatedUser = userService.updateUser(user);
 			log.info("UserController.updateUser() executed successfully.");
 			return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
 		} 
@@ -82,9 +82,8 @@ public class UserController {
 	
 	@DeleteMapping("/delete/{userId}")
 	public ResponseEntity<Boolean> deleteUserByUserId(@PathVariable("userId") String emailId){
-		boolean isDeleted = false;
 		log.info("UserController.deleteUserByUserId() entered with args - emailId");
-		if(emailId.equals("") || emailId == null) {
+		if(emailId == null || emailId.isEmpty()) {
 			log.info("UserController.deleteUserByUserId() EmptyInputException : userid/emailid is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
@@ -92,9 +91,8 @@ public class UserController {
 		try {
 			log.info("UserController.deleteUserByUserId() is under execution...");
 			userService.deleteUserByUserId(emailId);
-			isDeleted = true;
 			log.info("UserController.deleteUserByUserId() executed successfully");
-			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (EmptyInputException businesException) {
 			log.error("UserController.deleteUserByUserId() exited with exception :Business Exception occured while deleting user. "+businesException.getMessage(), businesException);
 			throw businesException;
@@ -112,7 +110,7 @@ public class UserController {
 		log.info("UserController.getAllUserDetails() is entered");
 		try {
 			log.info("UserController.getAllUserDetails() is under execution");
-			List<UserDTO> userList = userService.getAllUsers();
+			var userList = userService.getAllUsers();
 			log.info("UserController.getAllUserDetails() executed successfully");
 			return new ResponseEntity<>(userList,HttpStatus.OK);
 		}catch (Exception e) {
@@ -125,14 +123,14 @@ public class UserController {
 	@GetMapping("/getUser/{emailId}")
 	public ResponseEntity<UserDTO> getSingleUserByEmailId(@PathVariable("emailId") String emailId){
 		log.info("UserController.getSingleUserByEmailId() entered with args - emailid "+emailId);
-		if(emailId.equals("") || emailId == null) {
+		if(emailId == null || emailId.isEmpty()) {
 			log.info("getSingleUserByEmailId() EmptyInputException : userId / emailId is empty or null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 		}
 		try {
 			log.info("UserController.getSingleUserByEmailId() is under execution...");
-			UserDTO userObject = userService.getUserDetailsByUsername(emailId);
+			var userObject = userService.getUserDetailsByUsername(emailId);
 			log.info("UserController.getSingleUserByEmailId() executed successfully");
 			return new ResponseEntity<>(userObject,HttpStatus.OK);
 		}catch (EmptyInputException businesException) {

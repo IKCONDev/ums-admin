@@ -51,81 +51,23 @@ public class UsersWebSecurity {
 		// provide authorization
 		http.authorizeRequests()
 				.antMatchers("/users/**").permitAll()
-				//.hasAnyRole("USER", "MANAGER", "ADMIN", "SUPER_ADMIN")
-			//	.anyRequest().permitAll()
-				// .antMatchers("/users/login").permitAll()
 				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				// register your custom authentication filter with spring security
 				.and().addFilter(getAuthenticationFilter(http));
-//			    // Dynamic menu items and permissions based on the user's roles
-			//	.addFilterBefore(menuItemsAndPermissionsFilter(), UsernamePasswordAuthenticationFilter.class);
-
-		// working with IP, instead of permit all
-		// .hasIpAddress(env.getProperty("spring.cloud.gateway.ip"));
-
-		// if you are using h2 as db, to view console
-		// http.headers().frameOptions().disable();
 		log.info("filterChain() : SecurityFilterChain bean object created.");
 		return http.build();
 			
 	}
-	
-
-	/*
-	 * old code used while extending WebSecurityConfigurerAdapter
-	 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		//disable csrf 
-		http.cors().disable();
-		http.csrf().disable();
-		//provide authorization
-		http.authorizeRequests()
-		.antMatchers("/users/**")
-		.permitAll()
-		//.antMatchers("/users/login").permitAll()
-		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-		//register your custom authentication filter with spring security
-		.and()
-		.addFilter(getAuthenticationFilter());
-		
-		//working with IP, instead of permit all
-		//.hasIpAddress(env.getProperty("spring.cloud.gateway.ip"));
-		
-		//if you are using h2 as db, to view console
-		//http.headers().frameOptions().disable();
-	}
-	*/
-	
 	
 	public UserAuthenticationFilter getAuthenticationFilter(HttpSecurity http) throws Exception{
 		log.info("getAuthenticationFilter() entered with args HttpSecurity object");
 		//set authentication manager on your auth filter
 		UserAuthenticationFilter authenticationFilter = new UserAuthenticationFilter(service,environment,authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)));
 		//set authentication manager on your auth filter
-		//authenticationFilter.setAuthenticationManager(authenticationManager());
 		authenticationFilter.setFilterProcessesUrl(environment.getProperty("login.url.path"));
 		log.info("getAuthenticationFilter() executed successfully.");
 		return authenticationFilter;
 	}
-	
-	/*
-	public UserAuthenticationFilter getAuthenticationFilter() throws Exception{
-		//set authentication manager on your auth filter
-		UserAuthenticationFilter authenticationFilter = new UserAuthenticationFilter(service,environment,authenticationManager());
-		//set authentication manager on your auth filter
-		//authenticationFilter.setAuthenticationManager(authenticationManager());
-		authenticationFilter.setFilterProcessesUrl(environment.getProperty("login.url.path"));
-		return authenticationFilter;
-	}
-	*/
-	
-	/*
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(service).passwordEncoder(encoder);
-	}
-	*/
 	
 	
 	/**
@@ -154,44 +96,5 @@ public class UsersWebSecurity {
 		log.info("autheticationProvider() : DaoAuthenticationProvider bean object created.");
 		return auth;
 	}
-	
-	//TODO: Check to remove Override and this function need to be tested
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//	    http.authorizeRequests()
-//	        .antMatchers("/public/**").permitAll()
-//	  //      .antMatchers("/admin/**").hasAnyRole("MANAGER", "ADMIN", "SUPER_ADMIN")
-//	        .antMatchers("/user/**").hasAnyRole("USER","MANAGER", "ADMIN", "SUPER_ADMIN")
-//	        .anyRequest().authenticated()
-//	        .and()
-//	        .formLogin().loginPage("/login").permitAll()
-//	        .and()
-//	        .logout().permitAll();
-//
-//	    // Dynamic menu items and permissions based on the user's roles
-//	    http.addFilterBefore(menuItemsAndPermissionsFilter(), UsernamePasswordAuthenticationFilter.class);
-//	}
-
-//	@Bean
-//    public Filter menuItemsAndPermissionsFilter() {
-//        return new MenuItemsAndPermissionsFilter();
-//    }
-//	
-//	private String[] getDynamicAntMatchers() {
-//		// Fetch dynamic menu items based on the user's roles
-//		//RoleController roleController = new RoleController();
-//		
-//		RoleService roleService = new RoleServiceImpl();
-//		
-//		List<Role> roleList = roleService.getAllRoles();
-//	
-//		return roleList.stream().map(menuItem -> menuItem.getMenuItems()).toArray(String[]::new);
-//		
-//		//List<Role> dynamicMenuItems = roleController.getAllRoles();
-//
-//		// Convert dynamic menu items to antMatchers strings
-//		//return dynamicMenuItems.stream().map(menuItem -> "/v1/" + menuItem.getPath()) // Adjust the path as needed
-//				//.toArray(String[]::new);
-//	}
 	
 }

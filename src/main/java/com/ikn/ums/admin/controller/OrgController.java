@@ -43,7 +43,7 @@ public class OrgController {
 		}
 		try {
 			log.info("OrgController.createOrg() is under execution...");
-			OrganizationDTO savedOrg = orgService.createOrg(org);
+			var savedOrg = orgService.createOrg(org);
 			log.info("OrgController.createOrg() executed successfully.");
 			return new ResponseEntity<>(savedOrg, HttpStatus.CREATED);
 		} catch (EntityNotFoundException businessException) {
@@ -67,7 +67,7 @@ public class OrgController {
 		}
 		try {
 			log.info("OrgController.updateOrg() is under execution...");
-			OrganizationDTO updateOrg = orgService.createOrg(org);
+			var updateOrg = orgService.createOrg(org);
 			log.info("OrgController.updateOrg() executed successfully.");
 			return new ResponseEntity<>(updateOrg, HttpStatus.CREATED);
 		} catch (EntityNotFoundException businessException) {
@@ -84,7 +84,6 @@ public class OrgController {
 
 	@DeleteMapping("/delete/{orgId}")
 	public ResponseEntity<Boolean> deleteOrg(@PathVariable("orgId") Integer orgId) {
-		boolean isDeleted = false;
 		log.info("OrgController.deleteOrgByOrgId() entered with args - orgId");
 		if (orgId <= 0 || orgId == null) {
 			log.info("OrgController.deleteOrgByOrgId() EmptyInputException : orgId is empty");
@@ -94,9 +93,8 @@ public class OrgController {
 		try {
 			log.info("OrgController.deleteOrgByOrgId() is under execution...");
 			orgService.deleteOrgById(orgId);
-			isDeleted = true;
 			log.info("OrgController.deleteOrgByOrgId() executed successfully");
-			return new ResponseEntity<>(isDeleted, HttpStatus.OK);
+			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
 			log.error(
 					"OrgController.deleteOrgByOrgId() exited with exception : Exception occured while saving Organization."
@@ -120,7 +118,7 @@ public class OrgController {
 		}
 		try {
 			log.info("OrgController.getOrg() is under execution...");
-			List<OrganizationDTO> orgList = orgService.getAllOrgs();
+			var orgList = orgService.getAllOrgs();
 			OrganizationDTO org = new OrganizationDTO();
 			if (orgList.size() == 1) {
 				org = orgList.get(0);

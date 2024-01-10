@@ -47,7 +47,7 @@ public class MenuItemController {
 		try {
 			log.info("MenuItemController.createMenuItem() is under execution.");
 			log.info(":MenuItem Object : " + menuItemDTO );
-			MenuItemDTO createdMenuItem = menuItemService.createMenuItem(menuItemDTO);
+			var createdMenuItem = menuItemService.createMenuItem(menuItemDTO);
 			log.info("MenuItemController.createMenuItem() executed successfully.");
 			return new ResponseEntity<>(createdMenuItem, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | MenuItemNameExistsException menuBusinessException) {
@@ -71,7 +71,7 @@ public class MenuItemController {
 		}
 		try {
 			log.info("MenuItemController.updateMenuItem() is under execution.");
-			MenuItemDTO updatedMenuItemDTO = menuItemService.updateMenuItem(menuItemDTO);
+			var updatedMenuItemDTO = menuItemService.updateMenuItem(menuItemDTO);
 			log.info("MenuItemController.updateMenuItem() is executed sucessfully.");
 			return new ResponseEntity<>(updatedMenuItemDTO, HttpStatus.PARTIAL_CONTENT);
 		}catch (EntityNotFoundException | MenuItemNameExistsException| EmptyInputException  menuItemBusinessException) {
@@ -111,7 +111,7 @@ public class MenuItemController {
 		log.info("MenuItemController.getAllPermissions() ENTERED.");
 		try {
 			log.info("MenuItemController.getAllMenuItems() is under execution...");
-			List<MenuItemDTO> menuItemList = menuItemService.getAllMenuItems();
+			var menuItemList = menuItemService.getAllMenuItems();
 			log.info("MenuItemController.getAllMenuItems() executed successfully");
 			return new ResponseEntity<>(menuItemList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
@@ -137,7 +137,7 @@ public class MenuItemController {
 		try {
 			log.info("MenuItemController.getMenuItemById() is under execution...");
 			log.info("MenuItemController.getMenuItemById() ENTERED : menuItemId : " + menuItemId);
-			MenuItemDTO menuItem = menuItemService.getMenuItemById(menuItemId);
+			var menuItem = menuItemService.getMenuItemById(menuItemId);
 			log.info("MenuItemController.getMenuItemById() executed successfully");
 			return new ResponseEntity<>(menuItem, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
@@ -160,7 +160,7 @@ public class MenuItemController {
 		try {
 			log.info("MenuItemController.getMenuItemById() is under execution...");
 			log.info("MenuItemController.getMenuItemById() ENTERED : menuItemId : " + menuItemName);
-			MenuItemDTO menuItem = menuItemService.getMenuItemByName(menuItemName);
+			var menuItem = menuItemService.getMenuItemByName(menuItemName);
 			log.info("MenuItemController.getMenuItemById() executed successfully");
 			return new ResponseEntity<>(menuItem, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {

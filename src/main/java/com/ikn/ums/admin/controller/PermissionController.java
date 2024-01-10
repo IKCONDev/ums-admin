@@ -46,7 +46,7 @@ public class PermissionController {
 		try {
 			log.info("PermissionController.createPermission() is under execution.");
 			log.info(":Permission Object : " + permissionDTO );
-			PermissionDTO createdPermissionDTO = permissionService.createPermission(permissionDTO);
+			var createdPermissionDTO = permissionService.createPermission(permissionDTO);
 			log.info("PermissionController.createPermission() executed successfully.");
 			return new ResponseEntity<>(createdPermissionDTO, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | PermissionNameExistsException permissionBusinessException) {
@@ -69,7 +69,7 @@ public class PermissionController {
 		}
 		try {
 			log.info("PermissionController.updatePermission() is under execution.");
-			PermissionDTO updatedPermissionDTO = permissionService.updatePermission(permissionDTO);
+			var updatedPermissionDTO = permissionService.updatePermission(permissionDTO);
 			log.info("PermissionController.updatePermission() is executed sucessfully.");
 			return new ResponseEntity<>(updatedPermissionDTO, HttpStatus.PARTIAL_CONTENT);
 		}catch (EntityNotFoundException permissionBusinessException) {
@@ -111,7 +111,7 @@ public class PermissionController {
 		log.info("PermissionController.getAllPermissions() ENTERED.");
 		try {
 			log.info("PermissionController.getAllPermissions() is under execution...");
-			List<PermissionDTO> permissionList = permissionService.getAllPermissions();
+			var permissionList = permissionService.getAllPermissions();
 			log.info("PermissionController.getAllPermissions() executed successfully");
 			return new ResponseEntity<>(permissionList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
@@ -137,7 +137,7 @@ public class PermissionController {
 		try {
 			log.info("PermissionController.getPermissionById() is under execution...");
 			log.info("PermissionController.getPermissionById() ENTERED : permissionId : " + permissionId);
-			PermissionDTO permissionDTO = permissionService.getPermissionById(permissionId);
+			var permissionDTO = permissionService.getPermissionById(permissionId);
 			log.info("PermissionController.getPermissionById() executed successfully");
 			return new ResponseEntity<>(permissionDTO, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {

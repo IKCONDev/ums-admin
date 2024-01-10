@@ -70,7 +70,7 @@ public class UserRoleMenuItemPermissionMapController {
 		}
 		try {
 			log.info("updateUserRoleMenuItemPermissionMap() is under execution...");
-			UserRoleMenuItemPermissionMapDTO updatedDTO = userRoleMenuItemPermissionMapService.updateUserRoleMenuItemPermissionMap(urmipDTO);
+			var updatedDTO = userRoleMenuItemPermissionMapService.updateUserRoleMenuItemPermissionMap(urmipDTO);
 			log.info("updateUserRoleMenuItemPermissionMap() executed successfully.");
 			return new ResponseEntity<>(updatedDTO, HttpStatus.PARTIAL_CONTENT);
 		}
@@ -96,7 +96,7 @@ public class UserRoleMenuItemPermissionMapController {
 		}
 		try {
 			log.info("createUserRoleMenuItemPermissionMap() is under execution...");
-			UserRoleMenuItemPermissionMapDTO updatedDTO = userRoleMenuItemPermissionMapService.createUserRoleMenuItemPermissionMap(urmipDTO);
+			var updatedDTO = userRoleMenuItemPermissionMapService.createUserRoleMenuItemPermissionMap(urmipDTO);
 			log.info("createUserRoleMenuItemPermissionMap() executed successfully.");
 			return new ResponseEntity<>(updatedDTO, HttpStatus.CREATED);
 		}catch (EmptyInputException businessException) {
