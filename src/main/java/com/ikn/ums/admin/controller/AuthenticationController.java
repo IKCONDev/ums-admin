@@ -207,11 +207,11 @@ public class AuthenticationController {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
 		}
-		String contentType = profilePicImage.getContentType();
-		if(contentType==null) {
+		if(profilePicImage==null || profilePicImage.getContentType() == null) {
 			throw new ImageNotFoundException(ErrorCodeMessages.ERR_USER_IMAGE_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_IMAGE_NULL_MSG);
 		}
+		String contentType = profilePicImage.getContentType();
 		if (!contentType.startsWith("image/")) {
 			log.info("updateUserProfilePicture() exited with exception ImageNotFoundException : Invalid image format or image not valid. ");
 			throw new ImageNotFoundException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
