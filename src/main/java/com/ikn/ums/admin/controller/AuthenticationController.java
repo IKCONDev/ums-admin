@@ -207,7 +207,7 @@ public class AuthenticationController {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
 		}
-		if(profilePicImage==null || profilePicImage.getContentType() == null) {
+		if(profilePicImage==null) {
 			throw new ImageNotFoundException(ErrorCodeMessages.ERR_USER_IMAGE_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_IMAGE_NULL_MSG);
 		}
