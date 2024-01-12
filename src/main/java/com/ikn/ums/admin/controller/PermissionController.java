@@ -37,17 +37,17 @@ public class PermissionController {
 	@PostMapping("/create")
 	public ResponseEntity<PermissionDTO> createPermission(@RequestBody PermissionDTO permissionDTO) {
 		
-		log.info("PermissionController.createPermission() entered ");
+		log.info("createPermission() entered ");
 		if (permissionDTO == null) {
 			log.info("Permission Entity Not Found Exception has encountered while creating Role.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("PermissionController.createPermission() is under execution.");
+			log.info("createPermission() is under execution.");
 			log.info(":Permission Object : " + permissionDTO );
 			var createdPermissionDTO = permissionService.createPermission(permissionDTO);
-			log.info("PermissionController.createPermission() executed successfully.");
+			log.info("createPermission() executed successfully.");
 			return new ResponseEntity<>(createdPermissionDTO, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | PermissionNameExistsException permissionBusinessException) {
 			log.info("Permission Business Exception has encountered while creating permission. " + permissionBusinessException.getMessage());
@@ -61,16 +61,16 @@ public class PermissionController {
 
 	@PutMapping("/update")
 	public ResponseEntity<PermissionDTO> updatePermission(@RequestBody PermissionDTO permissionDTO) {
-		log.info("PermissionController.updatePermission() entered with args");
+		log.info("updatePermission() entered with args");
 		if (permissionDTO == null || permissionDTO.equals(null)) {
 			log.info("Permission Entity Not Found Exception has encountered while updating Role.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("PermissionController.updatePermission() is under execution.");
+			log.info("updatePermission() is under execution.");
 			var updatedPermissionDTO = permissionService.updatePermission(permissionDTO);
-			log.info("PermissionController.updatePermission() is executed sucessfully.");
+			log.info("updatePermission() is executed sucessfully.");
 			return new ResponseEntity<>(updatedPermissionDTO, HttpStatus.PARTIAL_CONTENT);
 		}catch (EntityNotFoundException permissionBusinessException) {
 			log.error("Permission Business Exception has encountered while updating Permission. " + permissionBusinessException.getMessage(), permissionBusinessException);
@@ -84,17 +84,17 @@ public class PermissionController {
 
 	@DeleteMapping("/{ids}")
 	public ResponseEntity<Boolean> deleteSelectedPermissions(@PathVariable("ids") List<Long> permissionIds) {
-		log.info("PermissionController.deleteSelectedPermissions() entered ");
+		log.info("deleteSelectedPermissions() entered ");
 		if (permissionIds == null || permissionIds.size() <= 0 ) {
-			log.info("PermissionController.deleteSelectedPermissions() EmptyInputException : permission Id is empty");
+			log.info("deleteSelectedPermissions() EmptyInputException : permission Id is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_MSG);
 		}
 		try {
-			log.info("PermissionController.deleteSelectedPermissions() is under execution...");
+			log.info("deleteSelectedPermissions() is under execution...");
 			
 			permissionService.deleteSelectedPermissionsByIds(permissionIds);
-			log.info("PermissionController.deleteSelectedRoles() executed successfully");
+			log.info("deleteSelectedRoles() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
 			log.error("Permission Business Exception has encountered while deleting Permission(s). " + businessException.getMessage(), businessException);
@@ -108,17 +108,17 @@ public class PermissionController {
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<PermissionDTO>> getAllPermissions() {
-		log.info("PermissionController.getAllPermissions() ENTERED.");
+		log.info("getAllPermissions() ENTERED.");
 		try {
-			log.info("PermissionController.getAllPermissions() is under execution...");
+			log.info("getAllPermissions() is under execution...");
 			var permissionList = permissionService.getAllPermissions();
-			log.info("PermissionController.getAllPermissions() executed successfully");
+			log.info("getAllPermissions() executed successfully");
 			return new ResponseEntity<>(permissionList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
 			log.error("Permission Business Exception has encountered while fetching Permissions. " + businessException.getMessage(), businessException);
 			throw businessException;
 		} catch (Exception e) {
-			log.error("PermissionController.getAllPermissions() exited with exception : Exception occured fetching permissions list."
+			log.error("getAllPermissions() exited with exception : Exception occured fetching permissions list."
 					+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_PERMISSION_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_GET_UNSUCCESS_MSG);
@@ -130,22 +130,22 @@ public class PermissionController {
 	public ResponseEntity<PermissionDTO> getPermissionById(@PathVariable ("permissionId") Long permissionId) {
 	
 		if (permissionId == null || permissionId <= 0) {
-			log.info("PermissionController.getPermissionById() permissionId <0 exception ");
+			log.info("getPermissionById() permissionId <0 exception ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
 		}
 		try {
-			log.info("PermissionController.getPermissionById() is under execution...");
-			log.info("PermissionController.getPermissionById() ENTERED : permissionId : " + permissionId);
+			log.info("getPermissionById() is under execution...");
+			log.info("getPermissionById() ENTERED : permissionId : " + permissionId);
 			var permissionDTO = permissionService.getPermissionById(permissionId);
-			log.info("PermissionController.getPermissionById() executed successfully");
+			log.info("getPermissionById() executed successfully");
 			return new ResponseEntity<>(permissionDTO, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
-			log.error("PermissionController.getPermissionById() exited with exception : Business Exception occured while fetching permission."+ businessException.getMessage(), businessException);
+			log.error("getPermissionById() exited with exception : Business Exception occured while fetching permission."+ businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
-			log.error("PermissionController.getPermissionById() exited with general exception : Exception occured while fetching permission."+ e.getMessage(), e);
+			log.error("getPermissionById() exited with general exception : Exception occured while fetching permission."+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_PERMISSION_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_GET_UNSUCCESS_MSG);
 		}
@@ -153,22 +153,22 @@ public class PermissionController {
 	
 	@DeleteMapping("/delete/{permissionId}")
 	public ResponseEntity<Boolean> deleteUserByUserId(@PathVariable("permissionId") Long permissionId){
-		log.info("PermissionController.deleteUserByUserId() entered with args - emailId");
-		if(permissionId <= 0) {
-			log.info("PermissionController.deleteUserByUserId() EmptyInputException : userid/emailid is empty");
+		log.info("deleteUserByUserId() entered with args - emailId");
+		if(permissionId <= 0|| permissionId == null) {
+			log.info("deleteUserByUserId() EmptyInputException : userid/emailid is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_MSG);
 		}
 		try {
-			log.info("PermissionController.deleteUserByUserId() is under execution...");
+			log.info("deleteUserByUserId() is under execution...");
 			permissionService.deletePermissionById(permissionId);
-			log.info("PermissionController.deleteUserByUserId() executed successfully");
+			log.info("deleteUserByUserId() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (EmptyInputException | PermissionInUsageException businessException) {
-			log.error("PermissionController.getPermissionById() exited with exception : Business Exception occured while fetching permission."+ businessException.getMessage(), businessException);
+			log.error("getPermissionById() exited with exception : Business Exception occured while fetching permission."+ businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
-			log.error("PermissionController.deleteUserByUserId() exited with exception : Exception occured while deleting user."+ e.getMessage(), e);
+			log.error("deleteUserByUserId() exited with exception : Exception occured while deleting user."+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_PERMISSION_DELETE_UNSUCCESS_CODE,
 			ErrorCodeMessages.ERR_PERMISSION_DELETE_UNSUCCESS_MSG);
 		}

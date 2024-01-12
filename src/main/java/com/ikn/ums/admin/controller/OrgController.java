@@ -36,22 +36,22 @@ public class OrgController {
 
 	@PostMapping("/save")
 	public ResponseEntity<OrganizationDTO> createOrg(@RequestBody OrganizationDTO org) {
-		log.info("OrgController.createOrg() entered with args - organization");
+		log.info("createOrg() entered with args - organization");
 		if (org == null) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("OrgController.createOrg() is under execution...");
+			log.info("createOrg() is under execution...");
 			var savedOrg = orgService.createOrg(org);
-			log.info("OrgController.createOrg() executed successfully.");
+			log.info("createOrg() executed successfully.");
 			return new ResponseEntity<>(savedOrg, HttpStatus.CREATED);
 		} catch (EntityNotFoundException businessException) {
-			log.error("OrgController.createOrg() exited with exception : Exception occured while saving Organization."
+			log.error("createOrg() exited with exception : Exception occured while saving Organization."
 					+ businessException.getMessage(), businessException);
 			throw businessException;
 		} catch (Exception e) {
-			log.error("OrgController.createOrg() exited with exception : Exception occured while saving Organization."
+			log.error("createOrg() exited with exception : Exception occured while saving Organization."
 					+ e.getMessage(), e);
 			throw new ControllerException(e.getCause().toString(), e.getMessage());
 		}
@@ -59,23 +59,23 @@ public class OrgController {
 
 	@PutMapping("/update")
 	public ResponseEntity<OrganizationDTO> updateOrg(@RequestBody OrganizationDTO org) {
-		log.info("OrgController.updateOrg() entered with args - org");
+		log.info("updateOrg() entered with args - org");
 		if (org == null || org.equals(null)) {
-			log.info("OrgController.updateOrg() EntityNotFoundException : Organization object is null ");
+			log.info("updateOrg() EntityNotFoundException : Organization object is null ");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("OrgController.updateOrg() is under execution...");
+			log.info("updateOrg() is under execution...");
 			var updateOrg = orgService.createOrg(org);
-			log.info("OrgController.updateOrg() executed successfully.");
+			log.info("updateOrg() executed successfully.");
 			return new ResponseEntity<>(updateOrg, HttpStatus.CREATED);
 		} catch (EntityNotFoundException businessException) {
-			log.error("OrgController.updateOrg() exited with exception : Exception occured while saving Organization."
+			log.error("updateOrg() exited with exception : Exception occured while saving Organization."
 					+ businessException.getMessage(), businessException);
 			throw businessException;
 		} catch (Exception e) {
-			log.error("OrgController.updateOrg() exited with exception : Exception occured while updating Organization."
+			log.error("updateOrg() exited with exception : Exception occured while updating Organization."
 					+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_ORG_UPDATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ORG_UPDATE_UNSUCCESS_MSG);
@@ -84,24 +84,24 @@ public class OrgController {
 
 	@DeleteMapping("/delete/{orgId}")
 	public ResponseEntity<Boolean> deleteOrg(@PathVariable("orgId") Integer orgId) {
-		log.info("OrgController.deleteOrgByOrgId() entered with args - orgId");
+		log.info("deleteOrgByOrgId() entered with args - orgId");
 		if (orgId <= 0 || orgId == null) {
-			log.info("OrgController.deleteOrgByOrgId() EmptyInputException : orgId is empty");
+			log.info("deleteOrgByOrgId() EmptyInputException : orgId is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ORG_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_ORG_ID_NOT_FOUND_MSG);
 		}
 		try {
-			log.info("OrgController.deleteOrgByOrgId() is under execution...");
+			log.info("deleteOrgByOrgId() is under execution...");
 			orgService.deleteOrgById(orgId);
-			log.info("OrgController.deleteOrgByOrgId() executed successfully");
+			log.info("deleteOrgByOrgId() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
 			log.error(
-					"OrgController.deleteOrgByOrgId() exited with exception : Exception occured while saving Organization."
+					"deleteOrgByOrgId() exited with exception : Exception occured while saving Organization."
 							+ businessException.getMessage(),businessException);
 			throw businessException;
 		} catch (Exception e) {
-			log.error("OrgController.deleteOrgByOrgId() exited with exception : Exception occured while deleting organization."
+			log.error("deleteOrgByOrgId() exited with exception : Exception occured while deleting organization."
 							+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_ORG_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ORG_DELETE_UNSUCCESS_MSG);
@@ -110,28 +110,28 @@ public class OrgController {
 
 	@GetMapping("{orgId}")
 	public ResponseEntity<OrganizationDTO> getOrg(@PathVariable("orgId") Integer orgId) {
-		log.info("OrgController.getOrg() entered with args - orgId");
+		log.info("getOrg() entered with args - orgId");
 		if (orgId <= 0 || orgId == null) {
-			log.info("OrgController.getOrg() EmptyInputException : orgId is empty");
+			log.info("getOrg() EmptyInputException : orgId is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ORG_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_ORG_ID_NOT_FOUND_MSG);
 		}
 		try {
-			log.info("OrgController.getOrg() is under execution...");
+			log.info("getOrg() is under execution...");
 			var orgList = orgService.getAllOrgs();
 			OrganizationDTO org = new OrganizationDTO();
 			if (orgList.size() == 1) {
 				org = orgList.get(0);
 				return new ResponseEntity<>(org, HttpStatus.OK);
 			}
-			log.info("OrgController.getOrg() executed successfully");
+			log.info("getOrg() executed successfully");
 			return new ResponseEntity<>(org, HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
 			log.error("OrgController.getOrg() exited with exception : Exception occured while saving Organization."+ businessException.getMessage(), businessException);
 			throw businessException;
 		} catch (Exception e) {
 			log.error(
-					"OrgController.getOrg() exited with exception : Exception occured while getting organization details."
+					"getOrg() exited with exception : Exception occured while getting organization details."
 							+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_ORG_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ORG_GET_UNSUCCESS_MSG);
@@ -140,26 +140,26 @@ public class OrgController {
 
 	@PostMapping("/saveOrgPic")
 	public ResponseEntity<OrganizationDTO> updateOrgPic(@RequestParam MultipartFile orgPic) {
-		log.info("OrgController.updateOrgPic() entered with args - orgpic");
+		log.info("updateOrgPic() entered with args - orgpic");
 		if (orgPic == null) {
-			log.info("OrgController.updateOrgPic() ImageNotFoundException : Multipart object is obtained is null.");
+			log.info("updateOrgPic() ImageNotFoundException : Multipart object is obtained is null.");
 			throw new ImageNotFoundException(ErrorCodeMessages.ERR_ORG_IMAGE_NULL_CODE,
 					ErrorCodeMessages.ERR_ORG_IMAGE_NULL_MSG);
 		}
 		OrganizationDTO org = null;
 		try {
-			log.info("OrgController.getOrg() is under execution...");
+			log.info("getOrg() is under execution...");
 			List<OrganizationDTO> orgList = orgService.getAllOrgs();
 			if (orgList.size() == 1) {
 				org = orgList.get(0);
 			}
 			org.setOrganizationImage(orgPic.getBytes());
 			updateOrg(org);
-			log.info("OrgController.updateOrgPic() executed successfully");
+			log.info("updateOrgPic() executed successfully");
 			return new ResponseEntity<>(org, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error(
-					"OrgController.updateOrgPic() exited with exception : Exception occured while updating Organization profile picture."
+					"updateOrgPic() exited with exception : Exception occured while updating Organization profile picture."
 							+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_ORG_PROFILE_UPLOAD_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ORG_PROFILE_UPLOAD_UNSUCCESS_MSG);
@@ -169,24 +169,24 @@ public class OrgController {
 
 	@DeleteMapping("/deleteOrgPic")
 	public ResponseEntity<Boolean> deleteOrgPic(@RequestParam Integer orgId) {
-		log.info("OrgController.deleteOrgPic() entered with org - email");
+		log.info("deleteOrgPic() entered with org - email");
 		if (orgId <= 0 || orgId == null) {
-			log.info("OrgController.deleteOrgPic() EmptyInputException : orgId is empty");
+			log.info("deleteOrgPic() EmptyInputException : orgId is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ORG_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_ORG_ID_NOT_FOUND_MSG);
 		}
 		try {
-			log.info("OrgController.deleteOrgPic() is under execution...");
+			log.info("deleteOrgPic() is under execution...");
 			orgService.deleteOrgPic(orgId);
-			log.info("OrgController.deleteOrgPic() executed succesfully");
+			log.info("deleteOrgPic() executed succesfully");
 			return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
 			log.error(
-					"OrgController.deleteOrgPic() exited with exception : Exception occured while saving Organization."
+					"deleteOrgPic() exited with exception : Exception occured while saving Organization."
 							+ businessException.getMessage(),businessException);
 			throw businessException;
 		} catch (Exception e) {
-			log.error("OrgController.deleteOrgPic() : Exception Occurred." + e.getMessage(), e);
+			log.error("deleteOrgPic() : Exception Occurred." + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_DELETE_PROFILEPIC_UNSUCCESS_MSG);
 		}

@@ -38,17 +38,17 @@ public class MenuItemController {
 	@PostMapping("/create")
 	public ResponseEntity<MenuItemDTO> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
 		
-		log.info("MenuItemController.createMenuItem() entered ");
+		log.info("createMenuItem() entered ");
 		if (menuItemDTO == null) {
 			log.info("Permission Entity Not Found Exception has encountered while creating MenuItem.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("MenuItemController.createMenuItem() is under execution.");
+			log.info("createMenuItem() is under execution.");
 			log.info(":MenuItem Object : " + menuItemDTO );
 			var createdMenuItem = menuItemService.createMenuItem(menuItemDTO);
-			log.info("MenuItemController.createMenuItem() executed successfully.");
+			log.info("createMenuItem() executed successfully.");
 			return new ResponseEntity<>(createdMenuItem, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | MenuItemNameExistsException menuBusinessException) {
 			log.error("createMenuItem() : An error occurred: {}." + menuBusinessException.getMessage(), menuBusinessException);
@@ -63,16 +63,16 @@ public class MenuItemController {
 
 	@PutMapping("/update")
 	public ResponseEntity<MenuItemDTO> updateMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
-		log.info("MenuItemController.updateMenuItem() entered with args");
+		log.info("updateMenuItem() entered with args");
 		if (menuItemDTO == null) {
 			log.info("MenuItem Entity Not Found Exception has encountered while updating Role.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("MenuItemController.updateMenuItem() is under execution.");
+			log.info("updateMenuItem() is under execution.");
 			var updatedMenuItemDTO = menuItemService.updateMenuItem(menuItemDTO);
-			log.info("MenuItemController.updateMenuItem() is executed sucessfully.");
+			log.info("updateMenuItem() is executed sucessfully.");
 			return new ResponseEntity<>(updatedMenuItemDTO, HttpStatus.PARTIAL_CONTENT);
 		}catch (EntityNotFoundException | MenuItemNameExistsException| EmptyInputException  menuItemBusinessException) {
 			log.error("MenuItem Business Exception has encountered while updating MenuItem. " + menuItemBusinessException.getMessage());
@@ -86,17 +86,17 @@ public class MenuItemController {
 
 	@DeleteMapping("/delete/{ids}")
 	public ResponseEntity<Boolean> deleteSelectedMenuItems(@PathVariable("ids") List<Long> menuItemIds) {
-		log.info("MenuItemController.deleteSelectedMenuItems() entered ");
+		log.info("deleteSelectedMenuItems() entered ");
 		if (menuItemIds == null || menuItemIds.isEmpty() ) {
-			log.info("MenuItemController.deleteSelectedMenuItems() EmptyInputException : menuItem Id/Ids are empty");
+			log.info("deleteSelectedMenuItems() EmptyInputException : menuItem Id/Ids are empty");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
 		try {
-			log.info("MenuItemController.deleteSelectedMenuItems() is under execution...");
+			log.info("deleteSelectedMenuItems() is under execution...");
 			
 			menuItemService.deleteSelectedMenuItemByIds(menuItemIds);
-			log.info("MenuItemController.deleteSelectedMenuItems() executed successfully");
+			log.info("deleteSelectedMenuItems() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (EmptyListException | MenuItemInUsageException businessException ) {
 			throw businessException;
@@ -108,17 +108,17 @@ public class MenuItemController {
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<MenuItemDTO>> getAllMenuItems() {
-		log.info("MenuItemController.getAllPermissions() ENTERED.");
+		log.info("getAllPermissions() ENTERED.");
 		try {
-			log.info("MenuItemController.getAllMenuItems() is under execution...");
+			log.info("getAllMenuItems() is under execution...");
 			var menuItemList = menuItemService.getAllMenuItems();
-			log.info("MenuItemController.getAllMenuItems() executed successfully");
+			log.info("getAllMenuItems() executed successfully");
 			return new ResponseEntity<>(menuItemList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
 			throw businessException;
 		} 
 		catch (Exception e) {
-			log.error("MenuItemController.getAllMenuItems() exited with exception : Exception occured fetching menuitems list."
+			log.error("getAllMenuItems() exited with exception : Exception occured fetching menuitems list."
 					+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);
@@ -128,17 +128,17 @@ public class MenuItemController {
 
 	@GetMapping("/{menuItemId}")
 	public ResponseEntity<MenuItemDTO> getMenuItemById(@PathVariable Long menuItemId) {
-		log.info("MenuItemController.getMenuItemById() entered with args - menuItemId");
-		if (menuItemId <= 0) {
-			log.info("MenuItemController.getMenuItemById() permissionId < 0 EmptyInputException ");
+		log.info("getMenuItemById() entered with args - menuItemId");
+		if (menuItemId <= 0||menuItemId==null) {
+			log.info("getMenuItemById() permissionId < 0 EmptyInputException ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
 		try {
-			log.info("MenuItemController.getMenuItemById() is under execution...");
-			log.info("MenuItemController.getMenuItemById() ENTERED : menuItemId : " + menuItemId);
+			log.info("getMenuItemById() is under execution...");
+			log.info("getMenuItemById() ENTERED : menuItemId : " + menuItemId);
 			var menuItem = menuItemService.getMenuItemById(menuItemId);
-			log.info("MenuItemController.getMenuItemById() executed successfully");
+			log.info("getMenuItemById() executed successfully");
 			return new ResponseEntity<>(menuItem, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
 			log.error("getMenuItemById() : An error occurred: {}." + businessException.getMessage(), businessException);
@@ -151,17 +151,17 @@ public class MenuItemController {
 	
 	@GetMapping("/get/{menuItemName}")
 	public ResponseEntity<MenuItemDTO> getMenuItemByName(@PathVariable String menuItemName) {
-		log.info("MenuItemController.getMenuItemById() entered with args menuItemName");
+		log.info("getMenuItemById() entered with args menuItemName");
 		if (Strings.isNullOrEmpty(menuItemName) || menuItemName.isEmpty()) {
-			log.info("MenuItemController.getMenuItemById() permissionId <0 exception ");
+			log.info("getMenuItemById() permissionId <0 exception ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
 		try {
-			log.info("MenuItemController.getMenuItemById() is under execution...");
-			log.info("MenuItemController.getMenuItemById() ENTERED : menuItemId : " + menuItemName);
+			log.info("getMenuItemById() is under execution...");
+			log.info("getMenuItemById() ENTERED : menuItemId : " + menuItemName);
 			var menuItem = menuItemService.getMenuItemByName(menuItemName);
-			log.info("MenuItemController.getMenuItemById() executed successfully");
+			log.info("getMenuItemById() executed successfully");
 			return new ResponseEntity<>(menuItem, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
 			log.error("getMenuItemByName() : An error occurred: {}." + businessException.getMessage(), businessException);

@@ -33,24 +33,24 @@ public class UserController {
 	
 	@PostMapping("/save")
 	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user) {
-		log.info("UserController.createUser() entered with args - user"+user);
+		log.info("createUser() entered with args - user"+user);
 		if(user == null || user.equals(null)) {
 			log.info("updateUserRole() EntityNotFoundException : user object null");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("UserController.createUser() is under execution...");
+			log.info("createUser() is under execution...");
 			var savedUser = userService.saveUser(user);
-			log.info("UserController.createUser() executed successfully.");
+			log.info("createUser() executed successfully.");
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 		} catch (EntityNotFoundException businesException) {
-			log.error("UserController.createUser() exited with exception :Business Exception occured while saving user. "+businesException.getMessage(), businesException);
+			log.error("createUser() exited with exception :Business Exception occured while saving user. "+businesException.getMessage(), businesException);
 			throw businesException;
 		}
 		catch (Exception e) {
 			e.printStackTrace();			
-			log.error("UserController.createUser() exited with exception : Exception occured while saving user. "+e.getMessage(), e);
+			log.error("createUser() exited with exception : Exception occured while saving user. "+e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_CREATE_UNSUCCESS_MSG);
 		}
@@ -60,21 +60,21 @@ public class UserController {
 	public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO user) {
 		log.info("AdminController.updateUser() entered with args - user");
 		if(user == null || user.equals(null)) {
-			log.info("UserController.updateUser() EntityNotFoundException : User object is null ");
+			log.info("updateUser() EntityNotFoundException : User object is null ");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("UserController.updateUser() is under execution...");
+			log.info("updateUser() is under execution...");
 			var updatedUser = userService.updateUser(user);
-			log.info("UserController.updateUser() executed successfully.");
+			log.info("updateUser() executed successfully.");
 			return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
 		} 
 		catch (EntityNotFoundException businesException) {
-			log.error("UserController.updateUser() exited with exception :Business Exception occured while updating user. "+businesException.getMessage(), businesException);
+			log.error("updateUser() exited with exception :Business Exception occured while updating user. "+businesException.getMessage(), businesException);
 			throw businesException;
 		}catch (Exception e) {
-			log.error("UserController.updateUser() exited with exception : Exception occured while updating user."+ e.getMessage(), e);
+			log.error("updateUser() exited with exception : Exception occured while updating user."+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_MSG);
 		}
@@ -82,22 +82,22 @@ public class UserController {
 	
 	@DeleteMapping("/delete/{userId}")
 	public ResponseEntity<Boolean> deleteUserByUserId(@PathVariable("userId") String emailId){
-		log.info("UserController.deleteUserByUserId() entered with args - emailId");
+		log.info("deleteUserByUserId() entered with args - emailId");
 		if(emailId == null || emailId.isEmpty()) {
-			log.info("UserController.deleteUserByUserId() EmptyInputException : userid/emailid is empty");
+			log.info("deleteUserByUserId() EmptyInputException : userid/emailid is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 		}
 		try {
-			log.info("UserController.deleteUserByUserId() is under execution...");
+			log.info("deleteUserByUserId() is under execution...");
 			userService.deleteUserByUserId(emailId);
-			log.info("UserController.deleteUserByUserId() executed successfully");
+			log.info("deleteUserByUserId() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (EmptyInputException businesException) {
-			log.error("UserController.deleteUserByUserId() exited with exception :Business Exception occured while deleting user. "+businesException.getMessage(), businesException);
+			log.error("deleteUserByUserId() exited with exception :Business Exception occured while deleting user. "+businesException.getMessage(), businesException);
 			throw businesException;
 		}catch (Exception e) {
-			log.error("UserController.deleteUserByUserId() exited with exception : Exception occured while deleting user."+ e.getMessage(), e);
+			log.error("deleteUserByUserId() exited with exception : Exception occured while deleting user."+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_CODE,
 			ErrorCodeMessages.ERR_USER_DELETE_UNSUCCESS_MSG);
 		}
@@ -107,14 +107,14 @@ public class UserController {
 	@GetMapping("/all")
 	public ResponseEntity<List<UserDTO>> getAllUser(){
 		
-		log.info("UserController.getAllUserDetails() is entered");
+		log.info("getAllUserDetails() is entered");
 		try {
-			log.info("UserController.getAllUserDetails() is under execution");
+			log.info("getAllUserDetails() is under execution");
 			var userList = userService.getAllUsers();
-			log.info("UserController.getAllUserDetails() executed successfully");
+			log.info("getAllUserDetails() executed successfully");
 			return new ResponseEntity<>(userList,HttpStatus.OK);
 		}catch (Exception e) {
-			log.error("UserController.getAllUserDetails() exited with exception :Exception occured while updating user. "+e.getMessage(), e);
+			log.error("getAllUserDetails() exited with exception :Exception occured while updating user. "+e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_GET_UNSUCCESS_MSG);
 		}
@@ -122,22 +122,22 @@ public class UserController {
 	
 	@GetMapping("/getUser/{emailId}")
 	public ResponseEntity<UserDTO> getSingleUserByEmailId(@PathVariable("emailId") String emailId){
-		log.info("UserController.getSingleUserByEmailId() entered with args - emailid "+emailId);
+		log.info("getSingleUserByEmailId() entered with args - emailid "+emailId);
 		if(emailId == null || emailId.isEmpty()) {
 			log.info("getSingleUserByEmailId() EmptyInputException : userId / emailId is empty or null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 		}
 		try {
-			log.info("UserController.getSingleUserByEmailId() is under execution...");
+			log.info("getSingleUserByEmailId() is under execution...");
 			var userObject = userService.getUserDetailsByUsername(emailId);
-			log.info("UserController.getSingleUserByEmailId() executed successfully");
+			log.info("getSingleUserByEmailId() executed successfully");
 			return new ResponseEntity<>(userObject,HttpStatus.OK);
 		}catch (EmptyInputException businesException) {
-			log.error("UserController.getSingleUserByEmailId() exited with exception :Business Exception occured while updating user. "+businesException.getMessage(), businesException);
+			log.error("getSingleUserByEmailId() exited with exception :Business Exception occured while updating user. "+businesException.getMessage(), businesException);
 			throw businesException;
 		}catch (Exception e) {
-			log.error("UserController.getSingleUserByEmailId() exited with exception : Exception occured while fetching user."+ e.getMessage(), e);
+			log.error("getSingleUserByEmailId() exited with exception : Exception occured while fetching user."+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_GET_UNSUCCESS_MSG);
 		}

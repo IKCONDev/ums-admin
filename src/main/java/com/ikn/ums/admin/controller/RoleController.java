@@ -39,20 +39,20 @@ public class RoleController {
 
 	@PostMapping("/create")
 	public ResponseEntity<RoleDTO> createRole(@RequestBody RoleDTO role) {
-		log.info("RoleController.createRole() entered with args - role");
+		log.info("createRole() entered with args - role");
 		if (role == null || role.equals(null)) {
 			log.info("Role Entity Not Found Exception has encountered while creating Role.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("RoleController.createRole() is under execution.");
+			log.info("createRole() is under execution.");
 			log.info(":Role Object : " + role );
 			//assign the corresponding permission object to role
 			var permission = permissionService.getPermissionById(role.getPermission().getPermissionId());
 			role.setPermission(permission);
 			var createdRole = roleService.createRole(role);
-			log.info("RoleController.createRole() executed successfully.");
+			log.info("createRole() executed successfully.");
 			return new ResponseEntity<>(createdRole, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | RoleNameExistsException roleBusinessException) {
 			log.error("Role Business Exception has encountered while creating Role. " + roleBusinessException.getMessage(), roleBusinessException);
@@ -66,16 +66,16 @@ public class RoleController {
 
 	@PutMapping("/update")
 	public ResponseEntity<RoleDTO> updateRole(@RequestBody RoleDTO role) {
-		log.info("RoleController.updateRole() entered with args - role");
+		log.info("updateRole() entered with args - role");
 		if (role == null || role.equals(null)) {
 			log.info("Role Entity Not Found Exception has encountered while updating Role.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("RoleController.updateRole() is under execution...");
+			log.info("updateRole() is under execution...");
 			var updatedRole = roleService.updateRole(role);
-			log.info("RoleController.updateRole() executed successfully.");
+			log.info("updateRole() executed successfully.");
 			return new ResponseEntity<>(updatedRole, HttpStatus.CREATED);
 		}catch (EntityNotFoundException roleBusinessException) {
 			log.error("Role Business Exception has encountered while updating Role. " + roleBusinessException.getMessage(), roleBusinessException);
@@ -89,24 +89,24 @@ public class RoleController {
 
 	@DeleteMapping("/{ids}")
 	public ResponseEntity<Boolean> deleteSelectedRoles(@PathVariable("ids") List<Long> roleIds) {
-		log.info("RoleController.deleteSelectedRoles() entered with args - ids : roleIds size (): " + roleIds.size());
+		log.info("deleteSelectedRoles() entered with args - ids : roleIds size (): " + roleIds.size());
 		if (roleIds == null || roleIds.isEmpty() ) {
-			log.info("RoleController.deleteSelectedRoles() EmptyInputException : role Id is empty");
+			log.info("deleteSelectedRoles() EmptyInputException : role Id is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
 		}
 		try {
-			log.info("RoleController.deleteSelectedRoles() is under execution...");
+			log.info("deleteSelectedRoles() is under execution...");
 			roleService.deleteSelectedRolesByIds(roleIds);
-			log.info("RoleController.deleteSelectedRoles() executed successfully");
+			log.info("deleteSelectedRoles() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (EmptyListException | RoleInUsageException businessException) {
-			log.error("RoleController.deleteSelectedRoles() exited with Business exception : Exception occured fetching roles list."
+			log.error("deleteSelectedRoles() exited with Business exception : Exception occured fetching roles list."
 					+ businessException.getMessage(), businessException);
 			throw businessException;
 		} 
 		catch (Exception e) {
-			log.error("RoleController.deleteSelectedRoles() exited with exception : Exception occured fetching roles list."
+			log.error("deleteSelectedRoles() exited with exception : Exception occured fetching roles list."
 					+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_DELETE_UNSUCCESS_MSG);
@@ -115,19 +115,19 @@ public class RoleController {
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<RoleDTO>> getAllRoles() {
-		log.info("RoleController.getAllRoles() ENTERED.");
+		log.info("getAllRoles() ENTERED.");
 		try {
-			log.info("RoleController.getAllRoles() is under execution...");
+			log.info("getAllRoles() is under execution...");
 			var rolesList = roleService.getAllRoles();
-			log.info("RoleController.getAllRoles() executed successfully");
+			log.info("getAllRoles() executed successfully");
 			return new ResponseEntity<>(rolesList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
-			log.error("RoleController.getAllRoles() exited with exception : Exception occured fetching roles list."
+			log.error("getAllRoles() exited with exception : Exception occured fetching roles list."
 					+ businessException.getMessage(), businessException);
 			throw businessException;
 		} 
 		catch (Exception e) {
-			log.error("RoleController.getAllRoles() exited with exception : Exception occured fetching roles list."
+			log.error("getAllRoles() exited with exception : Exception occured fetching roles list."
 					+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_MSG);
@@ -137,22 +137,22 @@ public class RoleController {
 
 	@GetMapping("/{roleId}")
 	public ResponseEntity<RoleDTO> getRoleById(@PathVariable Long roleId) {
-		log.info("RoleController.getRoleById() ENTERED : roleId : " + roleId);
-		if (roleId <= 0)
+		log.info("getRoleById() ENTERED : roleId : " + roleId);
+		if (roleId <= 0|| roleId == null)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
 		try {
-			log.info("RoleController.getRoleById() is under execution...");
+			log.info("getRoleById() is under execution...");
 			var role = roleService.getRoleById(roleId);
-			log.info("RoleController.getRoleById() executed successfully");
+			log.info("getRoleById() executed successfully");
 			return new ResponseEntity<>(role, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
-			log.error("RoleController.getRoleById() exited with exception : Exception occured fetching role."
+			log.error("getRoleById() exited with exception : Exception occured fetching role."
 					+ businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
-			log.error("RoleController.getRoleById() exited with exception : Exception occured fetching roles list."
+			log.error("getRoleById() exited with exception : Exception occured fetching roles list."
 					+ e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_ROLE_GET_UNSUCCESS_MSG);
