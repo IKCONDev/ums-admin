@@ -57,6 +57,10 @@ public class AuthenticationController {
 				throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 						ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 			log.info("UserController.generateAndSendOtpToUser() is under execution...");
+			if(pageType == null) {
+				throw new EmptyInputException(ErrorCodeMessages.ERR_PAGE_TYPE_IS_EMPTY_CODE,
+						ErrorCodeMessages.ERR_PAGE_TYPE_IS_EMPTY_MSG);
+			}
 			var otp = userService.generateOtpForUser(email, pageType);
 			if (otp <= 0) {
 				log.info("UserController.generateAndSendOtpToUser() otp is not generated ....");

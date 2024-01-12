@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
 		}
 		try {
 			log.info("UsersServiceImpl.generateOtpForUser() is under execution");
-			int random = r.nextInt(999999);
+			int random = r.nextInt(899999)+100000;
 			for (int i = 0; i < random; i++) {
 				System.out.println("executed " + i);
 				otp = random;

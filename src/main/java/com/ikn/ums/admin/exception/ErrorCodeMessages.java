@@ -88,6 +88,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_USER_GET_UNSUCCESS_CODE = "USER_GET_UNSUCCESS_CODE-1016";
 	 public static final String ERR_USER_GET_UNSUCCESS_MSG = "Error while fecthing user details.";
 	 
+	 public static final String ERR_PAGE_TYPE_IS_EMPTY_CODE = "ERR_PAGE_TYPE_IS_EMPTY_CODE-1030";
+	 public static final String ERR_PAGE_TYPE_IS_EMPTY_MSG = "Page type is null";
+	 
 	 
 //ROLE MODULE ERROR CODES
 
