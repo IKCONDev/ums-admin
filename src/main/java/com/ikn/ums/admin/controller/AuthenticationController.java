@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ikn.ums.admin.VO.UserVO;
 import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
@@ -131,7 +132,7 @@ public class AuthenticationController {
 	}
 
 	@GetMapping("/validate-email/{email}")
-	public ResponseEntity<?> verifyEmailAddress_ForOtp(@PathVariable String email) {
+	public ResponseEntity<Integer> verifyEmailAddress_ForOtp(@PathVariable String email) {
 		log.info("UserController.verifyEmailAddress_ForOtp() ENTERED with args :" + email);
 		if(Strings.isNullOrEmpty(email) || email.isEmpty()) {
 			log.info("verifyEmailAddress_ForOtp() exited with exception EmptyInputException : userId / emailId is empty. ");
@@ -149,14 +150,14 @@ public class AuthenticationController {
 		}
 		catch (Exception e) {
 			log.error("verifyEmailAddress_ForOtp() : An error/exception occurred: {}." + e.getMessage(), e);
-			return new ResponseEntity<>("Error while validating email, please try again",
-					HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_VALIDATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_USER_VALIDATE_UNSUCCESS_MSG);
 		}
 
 	}
 
 	@GetMapping("/user-profile/{username}")
-	public ResponseEntity<?> fetchUserProfile(@PathVariable String username) {
+	public ResponseEntity<UserVO> fetchUserProfile(@PathVariable String username) {
 		log.info("UserController.fetchUserProfile() ENTERED with args :" + username);
 		if(Strings.isNullOrEmpty(username) || username.isEmpty()) {
 			log.info("fetchUserProfile() exited with exception EmptyInputException : userId / emailId is empty. ");

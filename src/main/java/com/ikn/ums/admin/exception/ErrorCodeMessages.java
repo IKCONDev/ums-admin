@@ -91,6 +91,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_PAGE_TYPE_IS_EMPTY_CODE = "ERR_PAGE_TYPE_IS_EMPTY_CODE-1030";
 	 public static final String ERR_PAGE_TYPE_IS_EMPTY_MSG = "Page type is null";
 	 
+	 public static final String ERR_USER_VALIDATE_UNSUCCESS_CODE = "ERR_USER_VALIDATE_UNSUCCESS_CODE-1031";
+	 public static final String ERR_USER_VALIDATE_UNSUCCESS_MSG = "Error while validating the user";
+	 
 	 
 //ROLE MODULE ERROR CODES
 

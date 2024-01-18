@@ -1,5 +1,6 @@
 package com.ikn.ums.admin.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -64,7 +65,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 		menuItem.setMenuItemPath(menuItemDTO.getMenuItemPath());
 		menuItem.setMenuItemDescription(menuItemDTO.getMenuItemDescription());
 		menuItem.setCreatedBy(menuItemDTO.getCreatedBy());
-		// menuItem.setCreatedDateTime(LocalDateTime.now());
+		menuItem.setCreatedDateTime(LocalDateTime.now());
 		menuItem.setMenuItemStatus(AdminConstants.STATUS_ACTIVE);
 
 		var createdMenuItem = menuItemRepository.save(menuItem);
@@ -105,10 +106,10 @@ public class MenuItemServiceImpl implements MenuItemService {
 		dbMenuItem.setMenuItemDescription(menuItemDTO.getMenuItemDescription());
 		// dbMenuItem.setModifiedDateTime(LocalDateTime.now());
 		dbMenuItem.setModifiedBy(menuItemDTO.getModifiedBy());
+		dbMenuItem.setModifiedDateTime(LocalDateTime.now());
 		var updatedMenuItem = menuItemRepository.save(dbMenuItem);
 		var updatedMenuItemDTO = new MenuItemDTO();
 		mapper.map(updatedMenuItem, updatedMenuItemDTO);
-
 		log.info("MenuItemServiceImpl.updateMenuItem() executed successfully");
 		return updatedMenuItemDTO;
 	}

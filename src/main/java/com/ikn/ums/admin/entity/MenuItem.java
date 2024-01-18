@@ -1,5 +1,7 @@
 package com.ikn.ums.admin.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,5 +44,13 @@ public class MenuItem {
 	
 	@Column(name = "modifiedByEmailId", nullable = true)
 	private String modifiedByEmailId;
+	
+	@Column(name = "createdDateTime")
+	private LocalDateTime createdDateTime;
+	
+	@Column(name = "modifiedDateTime")
+	private LocalDateTime modifiedDateTime;
+	
+	
 
 }
