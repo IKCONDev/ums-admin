@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 		User loadedUser = userRepository.findByEmail(email);
 		if (loadedUser == null) {
 			log.info("UsersServiceImpl.getUserDetailsByUsername() UsernameNotFoundException User with email" + email + " does not exist");
-			throw new UsernameNotFoundException("User with " + email + " does not exist");
+			throw new UsernameNotFoundException("User with " + email + " is not exist");
 		}
 		UserDTO userDTO = new UserDTO();
 		mapper.map(loadedUser, userDTO);
