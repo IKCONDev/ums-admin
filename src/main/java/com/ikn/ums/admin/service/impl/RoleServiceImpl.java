@@ -116,8 +116,8 @@ public class RoleServiceImpl implements RoleService {
 				throw new RoleInUsageException(ErrorCodeMessages.ERR_ROLE_IS_IN_USAGE_CODE, 
 						ErrorCodeMessages.ERR_ROLE_IS_IN_USAGE_MSG);
 			}
-			roleRepository.deleteById(roleId);
 		}
+		roleRepository.deleteById(roleId);
 		log.info("RoleServiceImpl.deleteRole() executed successfully");
 	}
 
@@ -138,6 +138,7 @@ public class RoleServiceImpl implements RoleService {
 		});
 		roleRepository.deleteAllById(roleIds);
 	}
+	
 	@Override
 	public List<RoleDTO> getAllRoles() {
 		log.info("getAllRoles() entered.");
