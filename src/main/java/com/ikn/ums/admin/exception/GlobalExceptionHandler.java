@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+
 import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
@@ -28,7 +29,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("GlobalExceptionHandler.handleEntityNotFoundException() ENTERED" );
 		log.info("EntityNotFoundException Occurred ::::::::::::: " + entityNotFoundException.getErrorCode());
 		log.info("EntityNotFoundException Occurred ::::::::::::: " + entityNotFoundException.getErrorMessage());
-		
 		return new ResponseEntity<>("Entity Object is NUll.", HttpStatus.BAD_REQUEST);
 	}
 	
@@ -112,7 +112,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(UserInactiveException.class)
 	public ResponseEntity<Object> handleUserInactiveException(UserInactiveException uiae) {
-		log.info("GlobalExceptionHandler.handleUserInactiveException() ENTERED " + uiae.getMessage());
+		log.info("GlobalExceptionHandler.handleUserInactiveException() ENTERED : " + uiae.getMessage());
 		return new ResponseEntity<>("Please change your http method type.", HttpStatus.FORBIDDEN);
 	}
 
@@ -181,5 +181,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		log.info("GlobalExceptionHandler.handleMenuItemNameExistsException() ENTERED" + menuItemNameExistsException.getMessage());
 		return new ResponseEntity<>("Menu item Name Already Exists.", HttpStatus.FOUND);
 	}
+	
+	@ExceptionHandler(LoginAttemptsExceededException.class)
+	public ResponseEntity<String> handleLoginAttemptsExceededException(LoginAttemptsExceededException LoginAttemptsExceededException) {
+		log.info("GlobalExceptionHandler.handleLoginAttemptsExceededException() ENTERED" + LoginAttemptsExceededException.getMessage());
+		return new ResponseEntity<>("Login attempts of the user exceeded more than 3.", HttpStatus.LOCKED);
+	}
+
 	
 }
