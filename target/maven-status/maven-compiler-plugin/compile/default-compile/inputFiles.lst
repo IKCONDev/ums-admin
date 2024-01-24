@@ -49,12 +49,12 @@ C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\UMSAdminAp
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\RoleNameExistsException.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\utils\EmailService.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\EmptyListException.java
-C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\security\MenuItemsAndPermissionsFilter.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\dto\UserRoleMenuItemPermissionMapDTO.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\controller\MenuItemController.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\repository\MenuItemRepository.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\service\impl\UserServiceImpl.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\EmptyOTPException.java
+C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\RoleInUsageException.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\service\impl\UserRoleMenuItemPermissionMapServiceImpl.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\service\OrgService.java
 C:\STS-4\IKCON\Products\UMS\ums-admin\src\main\java\com\ikn\ums\admin\exception\ImageNotFoundException.java

@@ -28,7 +28,7 @@ public class UserDTO implements Serializable {
 	private boolean twoFactorAuthentication;	
 	private byte[] profilePic;
 	private boolean isActive;
-	private int loginAttempts;
+	private Integer loginAttempts;
 	private LocalDateTime createdDateTime;
 	private LocalDateTime modifiedDateTime;
 	private String createdBy;

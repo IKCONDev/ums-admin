@@ -37,8 +37,6 @@ com\ikn\ums\admin\service\impl\UserRoleMenuItemPermissionMapServiceImpl.class
 com\ikn\ums\admin\entity\MenuItem.class
 com\ikn\ums\admin\exception\MenuItemInUsageException.class
 com\ikn\ums\admin\security\UserAuthenticationFilter.class
-com\ikn\ums\admin\security\MenuItemsAndPermissionsFilter.class
-com\ikn\ums\admin\service\impl\UserRoleMenuItemPermissionMapServiceImpl$1.class
 com\ikn\ums\admin\entity\UserRoleMenuItemPermissionMap.class
 com\ikn\ums\admin\exception\ControllerException.class
 com\ikn\ums\admin\service\UserService.class
@@ -67,4 +65,5 @@ com\ikn\ums\admin\service\UserRoleMenuItemPermissionMapService.class
 com\ikn\ums\admin\utils\AdminConstants.class
 com\ikn\ums\admin\model\UserProfilePicDetailsRequestModel.class
 com\ikn\ums\admin\exception\UserNotFoundException.class
+com\ikn\ums\admin\exception\RoleInUsageException.class
 com\ikn\ums\admin\model\ValidateOtpRequestModel.class

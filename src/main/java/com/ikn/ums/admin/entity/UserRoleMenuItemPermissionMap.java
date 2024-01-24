@@ -25,7 +25,7 @@ public class UserRoleMenuItemPermissionMap {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "user_id", nullable = false, unique = true)
+	@Column(name = "user_id", nullable = false)
 	private String email;
 	
 	@Column(name = "role_id")

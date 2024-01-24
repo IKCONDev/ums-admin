@@ -71,24 +71,26 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				// get user datails and update login attempts
 				loginAttemptedUser.setLoginAttempts(loginAttemptedUser.getLoginAttempts() + i);
 				var updatedUserWithLogginAttempts = service.updateUser(loginAttemptedUser);
+				String active = String.valueOf(isActive);
 				if (!isActive) {
 					log.error(" attemptAuthentication() Error occured while attempting to Login , UserInactiveException : User is inactive - Cannot login");
-					throw new UserInactiveException(ErrorCodeMessages.ERR_USER_INACTIVE_CODE,
-							ErrorCodeMessages.ERR_USER_INACTIVE_MSG);
+					response.addHeader("loginAttempts", updatedUserWithLogginAttempts.getLoginAttempts().toString());
+					response.addHeader("userActive", active);
 				} else if (isActive && updatedUserWithLogginAttempts.getLoginAttempts() > 3) {
 					updatedUserWithLogginAttempts.setActive(false);
 					service.updateUser(updatedUserWithLogginAttempts);
+					response.addHeader("loginAttempts", updatedUserWithLogginAttempts.getLoginAttempts().toString());
+					response.addHeader("userActive", active);
 					log.error(" attemptAuthentication() Error occured while attempting to Login , LoginAttemptsExceededException : User login attempts exceeded more then 3.");
-					throw new LoginAttemptsExceededException(ErrorCodeMessages.ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_CODE,
-							ErrorCodeMessages.ERR_USER_LOGIN_ATTEMPTS_EXCEEDED_MSG);
 				}
-			}
+			};
 			log.info("attemptAuthentication() excuted succesfully.");
 			return getAuthenticationManager().authenticate(
 					new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));
 		} 
 		catch (IOException ioe) {
 			log.error("attemptAuthentication() Exception occured while Login ."+ioe.getMessage(), ioe);
+			System.out.println("----"+ioe+"----");
 			throw new RuntimeException(ioe);
 		}
 	}
