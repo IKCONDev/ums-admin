@@ -1,5 +1,6 @@
 package com.ikn.ums.admin.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,8 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrganizationDTO {
+public class OrganizationDTO implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer orgId;
 	private String orgName;
 	private String orgContactNumber;
@@ -32,5 +37,6 @@ public class OrganizationDTO {
 	private String createdByEmailId;
 	private String modifiedByEmailId;
 	private byte[] organizationImage;
+	private String orgCountryCode;
 
 }
