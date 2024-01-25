@@ -26,9 +26,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ikn.ums.admin.VO.UserVO;
 import com.ikn.ums.admin.dto.UserDTO;
 import com.ikn.ums.admin.entity.Role;
-import com.ikn.ums.admin.exception.ErrorCodeMessages;
-import com.ikn.ums.admin.exception.LoginAttemptsExceededException;
-import com.ikn.ums.admin.exception.UserInactiveException;
 import com.ikn.ums.admin.model.UserLoginRequestModel;
 import com.ikn.ums.admin.service.UserService;
 
@@ -71,6 +68,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				// get user datails and update login attempts
 				loginAttemptedUser.setLoginAttempts(loginAttemptedUser.getLoginAttempts() + i);
 				var updatedUserWithLogginAttempts = service.updateUser(loginAttemptedUser);
+				response.addHeader("loginAttempts", updatedUserWithLogginAttempts.getLoginAttempts().toString());
 				String active = String.valueOf(isActive);
 				if (!isActive) {
 					log.error(" attemptAuthentication() Error occured while attempting to Login , UserInactiveException : User is inactive - Cannot login");
