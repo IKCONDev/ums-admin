@@ -52,24 +52,24 @@ public class AuthenticationController {
 
 	@PostMapping("/generate-otp/{email}/{pageType}")
 	public ResponseEntity<Integer> generateAndSendOtpToUser(@PathVariable String email, @PathVariable String pageType) {
-		log.info("UserController.generateAndSendOtpToUser() ENTERED : email : " + email + " : and pageType :" + pageType);
+		log.info("generateAndSendOtpToUser() ENTERED : email : " + email + " : and pageType :" + pageType);
 		try {
 			if (Strings.isNullOrEmpty(email)|| email.isEmpty() )
 				throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 						ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
-			log.info("UserController.generateAndSendOtpToUser() is under execution...");
+			log.info("generateAndSendOtpToUser() is under execution...");
 			if(pageType == null) {
 				throw new EmptyInputException(ErrorCodeMessages.ERR_PAGE_TYPE_IS_EMPTY_CODE,
 						ErrorCodeMessages.ERR_PAGE_TYPE_IS_EMPTY_MSG);
 			}
 			var otp = userService.generateOtpForUser(email, pageType);
 			if (otp <= 0) {
-				log.info("UserController.generateAndSendOtpToUser() otp is not generated ....");
+				log.info("generateAndSendOtpToUser() otp is not generated ....");
 				throw new EmptyOTPException(ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_CODE,
 						ErrorCodeMessages.ERR_USER_OTP_NOT_GENERATED_MSG);
 			}
-			log.info("UserController.generateAndSendOtpToUser() otp :" + otp);
-			log.info("UserController.generateAndSendOtpToUser() executed successfully");
+			log.info("generateAndSendOtpToUser() otp :" + otp);
+			log.info("generateAndSendOtpToUser() executed successfully");
 			return new ResponseEntity<>(otp, HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
 			log.error("generateAndSendOtpToUser() : An error occurred: {}." + businessException.getMessage(), businessException);
@@ -84,16 +84,16 @@ public class AuthenticationController {
 
 	@PostMapping("/validate-otp")
 	public ResponseEntity<Integer> validateUserOtp(@RequestBody ValidateOtpRequestModel otpRequestModel) {
-		log.info("UserController.validateUserOtp() ENTERED with args : otpRequestModel ");
+		log.info("validateUserOtp() ENTERED with args : otpRequestModel ");
 		if (otpRequestModel == null) {
 			log.info("UserController.validateUserOtp() ValidateOtpRequestModel Object in NULL");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("UserController.validateUserOtp() is under execution...");
+			log.info("validateUserOtp() is under execution...");
 			var count = userService.validateUserOtp(otpRequestModel.getEmail(), otpRequestModel.getOtpCode());
-			log.info("UserController.validateUserOtp() executed successfully");
+			log.info("validateUserOtp() executed successfully");
 			return new ResponseEntity<>(count, HttpStatus.OK);
 		} catch (EntityNotFoundException businessException) {
 			log.error("validateUserOtp() : An error occurred: {}." + businessException.getMessage(), businessException);
@@ -108,17 +108,17 @@ public class AuthenticationController {
 
 	@PostMapping("/reset-password")
 	public ResponseEntity<Integer> updatePassword(@RequestBody UpdatePasswordRequestModel updatePasswordModel) {
-		log.info("UserController.updatePassword() ENTERED with args : updatePasswordModel");
+		log.info("updatePassword() ENTERED with args : updatePasswordModel");
 		if (updatePasswordModel == null) {
-			log.info("UserController.updatePassword() ValidateOtpRequestModel Object in NULL");
+			log.info("updatePassword() ValidateOtpRequestModel Object in NULL");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
 		try {
-			log.info("UserController.updatePassword() is under execution...");
+			log.info("updatePassword() is under execution...");
 			var updateStatus = userService.updatePasswordforUser(updatePasswordModel.getEmail(),
 					updatePasswordModel.getConfirmPassword());
-			log.info("UserController.updatePassword() executed successfully");
+			log.info("updatePassword() executed successfully");
 			return new ResponseEntity<>(updateStatus, HttpStatus.OK);
 		} catch (EntityNotFoundException businessException) {
 			log.error("updatePassword() : An error occurred: {}." + businessException.getMessage(), businessException);
@@ -158,16 +158,16 @@ public class AuthenticationController {
 
 	@GetMapping("/user-profile/{username}")
 	public ResponseEntity<UserVO> fetchUserProfile(@PathVariable String username) {
-		log.info("UserController.fetchUserProfile() ENTERED with args :" + username);
+		log.info("fetchUserProfile() ENTERED with args :" + username);
 		if(Strings.isNullOrEmpty(username) || username.isEmpty()) {
 			log.info("fetchUserProfile() exited with exception EmptyInputException : userId / emailId is empty. ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
 		}
 		try {
-			log.info("UserController.fetchUserProfile() is under execution...");
+			log.info("fetchUserProfile() is under execution...");
 			var userprofileDetails = userService.getUserProfile(username);
-			log.info("UserController.fetchUserProfile() executed successfully");
+			log.info("fetchUserProfile() executed successfully");
 			return new ResponseEntity<>(userprofileDetails, HttpStatus.OK);
 		}
 		catch (EmptyInputException businessException) {
@@ -223,12 +223,12 @@ public class AuthenticationController {
 					ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
 		}
 		try {
-			log.info("UserController.updateUserProfilePicture() is under execution...");
+			log.info("updateUserProfilePicture() is under execution...");
 			User updatedUser = null;
 			if (contentType != null && contentType.startsWith("image/")) {
 				updatedUser = userService.updateUserProfilePic(emailId, profilePicImage);
 			}
-			log.info("UserController.updateUserProfilePicture() executed successfully");
+			log.info("updateUserProfilePicture() executed successfully");
 			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
 			log.error("updateUserProfilePicture() : An error occurred: {}." + businessException.getMessage(), businessException);
@@ -242,11 +242,11 @@ public class AuthenticationController {
 
 	@GetMapping("/getEmail-list")
 	public ResponseEntity<List<String>> getActiveUsersEmailIdList() {
-		log.info("UserController.getActiveUsersEmailIdList() ENTERED with args :");
+		log.info("getActiveUsersEmailIdList() ENTERED with args :");
 		try {
-			log.info("UserController.getActiveUsersEmailIdList() is under execution...");
+			log.info("getActiveUsersEmailIdList() is under execution...");
 			List<String> activeUserEmailIdList = userService.getActiveUsersEmailIdList(Boolean.TRUE);
-			log.info("UserController.getActiveUsersEmailIdList() executed successfully");
+			log.info("getActiveUsersEmailIdList() executed successfully");
 			return new ResponseEntity<>(activeUserEmailIdList, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("getActiveUsersEmailIdList() : An error/exception occurred: {}." + e.getMessage(), e);
@@ -258,15 +258,15 @@ public class AuthenticationController {
 
 	@DeleteMapping("/deleteProfilePic")
 	public ResponseEntity<Boolean> deleteProfilePic(@RequestParam String email) {
-		log.info("UserController.deleteProfilePic() is under execution...");
+		log.info("deleteProfilePic() is under execution...");
 		if (Strings.isNullOrEmpty(email) || email.isEmpty()) {
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 		}
 		try {
-			log.info("UserController.deleteProfilePic() is under execution...");
+			log.info("deleteProfilePic() is under execution...");
 			userService.deleteProfilePicOfUser(email);
-			log.info("UserController.deleteProfilePic() executed succesfully");
+			log.info("deleteProfilePic() executed succesfully");
 			return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
 			log.error("deleteProfilePic() : An error occurred: {}." + businessException.getMessage(), businessException);

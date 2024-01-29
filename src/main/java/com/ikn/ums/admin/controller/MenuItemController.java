@@ -55,7 +55,7 @@ public class MenuItemController {
 
 			throw menuBusinessException;
 		} catch (Exception e) {
-			log.error("General Exception has encountered while creating MenuItem. " + e.getMessage());
+			log.error("createMenuItem(): General Exception has encountered while creating MenuItem. " + e.getMessage());
 			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_CREATE_UNSUCCESS_MSG);
 		}
@@ -75,10 +75,10 @@ public class MenuItemController {
 			log.info("updateMenuItem() is executed sucessfully.");
 			return new ResponseEntity<>(updatedMenuItemDTO, HttpStatus.PARTIAL_CONTENT);
 		}catch (EntityNotFoundException | MenuItemNameExistsException| EmptyInputException  menuItemBusinessException) {
-			log.error("MenuItem Business Exception has encountered while updating MenuItem. " + menuItemBusinessException.getMessage());
+			log.error("updateMenuItem() : MenuItem Business Exception has encountered while updating MenuItem. " + menuItemBusinessException.getMessage(), menuItemBusinessException);
 			throw menuItemBusinessException;
 		}catch (Exception e) {
-			log.error("General Exception has encountered while updating MenuItem. " + e.getMessage(), e);
+			log.error("updateMenuItem() : General Exception has encountered while updating MenuItem. " + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_CODE, 
 					ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_MSG);
 		}
@@ -99,8 +99,10 @@ public class MenuItemController {
 			log.info("deleteSelectedMenuItems() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (EmptyListException | MenuItemInUsageException businessException ) {
+			log.error("deleteSelectedMenuItems() : MenuItem Business Exception has encountered while deleting MenuItem. " + businessException.getMessage(), businessException);
 			throw businessException;
 		} catch (Exception e) {
+			log.error("deleteSelectedMenuItemByIds() : General Exception has encountered while deleting MenuItems. " + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_DELETE_UNSUCCESS_MSG);
 		}
@@ -115,6 +117,7 @@ public class MenuItemController {
 			log.info("getAllMenuItems() executed successfully");
 			return new ResponseEntity<>(menuItemList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
+			log.error("getAllMenuItem() : MenuItem Business Exception has encountered while updating MenuItem. " + businessException.getMessage(), businessException);
 			throw businessException;
 		} 
 		catch (Exception e) {
@@ -144,6 +147,8 @@ public class MenuItemController {
 			log.error("getMenuItemById() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
+			log.error("getMenuItemById() exited with exception : Exception occured fetching menuitem"
+					+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);
 		}
@@ -167,6 +172,8 @@ public class MenuItemController {
 			log.error("getMenuItemByName() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
+			log.error("getMenuItemByName() exited with exception : Exception occured fetching menuitem"
+					+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);
 		}

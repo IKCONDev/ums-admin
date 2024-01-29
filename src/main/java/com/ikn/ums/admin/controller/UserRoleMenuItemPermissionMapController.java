@@ -48,12 +48,12 @@ public class UserRoleMenuItemPermissionMapController {
 			log.info("getAllUserRoleMenuItemPermissionMaps() executed succesfully");
 			return new ResponseEntity<>(dtoList, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
-			log.error("Business Exception has encountered while getting All User Role MenuItem Permissions Map. "
+			log.error("getAllUserRoleMenuItemPermissionMaps() : Business Exception has encountered while getting All User Role MenuItem Permissions Map. "
 					+ businessException.getMessage(), businessException);
 			throw businessException;
 		}
 		catch (Exception e) {
-			log.error("General Exception has encountered while getting All User Role MenuItem Permissions Map. "
+			log.error("getAllUserRoleMenuItemPermissionMaps() : General Exception has encountered while getting All User Role MenuItem Permissions Map. "
 					+ e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_GET_UNSUCCESS_MSG);

@@ -127,7 +127,7 @@ public class OrgController {
 			log.info("getOrg() executed successfully");
 			return new ResponseEntity<>(org, HttpStatus.OK);
 		} catch (EmptyInputException businessException) {
-			log.error("OrgController.getOrg() exited with exception : Exception occured while saving Organization."+ businessException.getMessage(), businessException);
+			log.error("getOrg() exited with exception : Exception occured while saving Organization."+ businessException.getMessage(), businessException);
 			throw businessException;
 		} catch (Exception e) {
 			log.error(

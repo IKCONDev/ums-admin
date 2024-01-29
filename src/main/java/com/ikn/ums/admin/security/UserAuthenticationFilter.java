@@ -88,7 +88,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		} 
 		catch (IOException ioe) {
 			log.error("attemptAuthentication() Exception occured while Login ."+ioe.getMessage(), ioe);
-			System.out.println("----"+ioe+"----");
+			//System.out.println("----"+ioe+"----");
 			throw new RuntimeException(ioe);
 		}
 	}

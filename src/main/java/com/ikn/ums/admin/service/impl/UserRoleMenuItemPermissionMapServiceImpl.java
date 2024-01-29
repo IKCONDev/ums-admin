@@ -51,7 +51,7 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_MSG);
 		}
-
+		log.info(" createUserRoleMenuItemPermissionMap() is under execution...");
 		mapper.map(userRoleMenuItemPermissionMapDTO, userRoleMenuItemPermissionMap);
 		userRoleMenuItemPermissionMap.setCreatedDateTime(LocalDateTime.now());
 
@@ -62,6 +62,7 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 		log.info(": createUserRoleMenuItemPermissionMap() : creating user role menuitem permission map executed sucessfully !");
 		UserRoleMenuItemPermissionMapDTO createdUserRoleMenuItemPermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
 		mapper.map(createdUserRoleMenuItemPermissionMap, createdUserRoleMenuItemPermissionMapDTO);
+		log.info(" createUserRoleMenuItemPermissionMap() executed successfully");
 		return createdUserRoleMenuItemPermissionMapDTO;
 		
 	}
@@ -78,7 +79,7 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_MSG);
 		}
-		
+		log.info(" updateUserRoleMenuItemPermissionMap() is under execution...");
 		Optional<UserRoleMenuItemPermissionMap> optDbUserRoleMenuItemPermissionMap = userRoleMenuItemPermissionMapRepository.findById(userRoleMenuItemPermissionMapDTO.getId());
 		if(optDbUserRoleMenuItemPermissionMap.isEmpty()) {
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_DB_USERRMP_ENTITY_NOTFOUND_CODE, 
@@ -104,6 +105,7 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 		dbUserRoleMenuItemPermissionMap.setModifiedDateTime(LocalDateTime.now());
 		UserRoleMenuItemPermissionMapDTO updatedUserRolePermissionMapDTO = new UserRoleMenuItemPermissionMapDTO();
 		mapper.map(dbUserRoleMenuItemPermissionMap, updatedUserRolePermissionMapDTO);
+		log.info(" updateUserRoleMenuItemPermissionMap() executed successfully");
 		return updatedUserRolePermissionMapDTO;
 	}
 
@@ -130,6 +132,7 @@ public class UserRoleMenuItemPermissionMapServiceImpl implements UserRoleMenuIte
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_EMAIL_ID_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_EMAIL_ID_IS_NULL_MSG);
 		}
+		log.info("getUserRoleMenuItemPermissionMapsByUserId() is under execution...");
 		List<UserRoleMenuItemPermissionMap> userRoleMenuItemPermissionMapList = userRoleMenuItemPermissionMapRepository.findByEmail(email);
 		log.info(" getUserRoleMenuItemPermissionMapsByUserId() : userRoleMenuItemPermissionMapList Size : " + userRoleMenuItemPermissionMapList.size());
 		List<UserRoleMenuItemPermissionMapDTO> dtos = new ArrayList<>();

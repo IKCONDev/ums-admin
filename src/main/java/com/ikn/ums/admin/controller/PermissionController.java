@@ -50,10 +50,10 @@ public class PermissionController {
 			log.info("createPermission() executed successfully.");
 			return new ResponseEntity<>(createdPermissionDTO, HttpStatus.CREATED);
 		} catch (EntityNotFoundException | PermissionNameExistsException permissionBusinessException) {
-			log.info("Permission Business Exception has encountered while creating permission. " + permissionBusinessException.getMessage());
+			log.error("createPermission() : Permission Business Exception has encountered while creating permission. " + permissionBusinessException.getMessage(),permissionBusinessException);
 			throw permissionBusinessException;
 		} catch (Exception e) {
-			log.error("General Exception has encountered while creating Permission. " + e.getMessage(), e);
+			log.error("createPermission() : General Exception has encountered while creating Permission. " + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_PERMISSION_CREATE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_CREATE_UNSUCCESS_MSG);
 		}
@@ -73,10 +73,10 @@ public class PermissionController {
 			log.info("updatePermission() is executed sucessfully.");
 			return new ResponseEntity<>(updatedPermissionDTO, HttpStatus.PARTIAL_CONTENT);
 		}catch (EntityNotFoundException permissionBusinessException) {
-			log.error("Permission Business Exception has encountered while updating Permission. " + permissionBusinessException.getMessage(), permissionBusinessException);
+			log.error("updatePermission() : Permission Business Exception has encountered while updating Permission. " + permissionBusinessException.getMessage(), permissionBusinessException);
 			throw permissionBusinessException;
 		}catch (Exception e) {
-			log.error("General Exception has encountered while updating Permission. " + e.getMessage(), e);
+			log.error("updatePermission() : General Exception has encountered while updating Permission. " + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_PERMISSION_UPDATE_UNSUCCESS_CODE, 
 					ErrorCodeMessages.ERR_MENU_ITEM_UPDATE_UNSUCCESS_MSG);
 		}
@@ -97,10 +97,10 @@ public class PermissionController {
 			log.info("deleteSelectedRoles() executed successfully");
 			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
-			log.error("Permission Business Exception has encountered while deleting Permission(s). " + businessException.getMessage(), businessException);
+			log.error("deleteSelectedPermissions() : Permission Business Exception has encountered while deleting Permission(s). " + businessException.getMessage(), businessException);
 			throw businessException;
 		} catch (Exception e) {
-			log.error("General Exception has encountered while deleting permission. " + e.getMessage(), e);
+			log.error("deleteSelectedPermissions() : General Exception has encountered while deleting permission. " + e.getMessage(), e);
 			throw new ControllerException(ErrorCodeMessages.ERR_PERMISSION_DELETE_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_DELETE_UNSUCCESS_MSG);
 		}
@@ -115,7 +115,7 @@ public class PermissionController {
 			log.info("getAllPermissions() executed successfully");
 			return new ResponseEntity<>(permissionList, HttpStatus.OK);
 		}catch (EmptyListException businessException) {
-			log.error("Permission Business Exception has encountered while fetching Permissions. " + businessException.getMessage(), businessException);
+			log.error("getAllPermissions() : Permission Business Exception has encountered while fetching Permissions. " + businessException.getMessage(), businessException);
 			throw businessException;
 		} catch (Exception e) {
 			log.error("getAllPermissions() exited with exception : Exception occured fetching permissions list."

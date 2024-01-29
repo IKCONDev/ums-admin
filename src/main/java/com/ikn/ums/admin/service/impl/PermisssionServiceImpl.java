@@ -37,7 +37,7 @@ public class PermisssionServiceImpl implements PermissionService {
 	@Transactional
 	@Override
 	public PermissionDTO createPermission(PermissionDTO permissionDTO) {
-		log.info("PermisssionServiceImpl.createPermission() ENTERED");
+		log.info("createPermission() ENTERED");
 
 		if (permissionDTO == null) {
 			log.info("Permission Object is null .... ");
@@ -55,7 +55,7 @@ public class PermisssionServiceImpl implements PermissionService {
 					ErrorCodeMessages.ERR_PERMISSION_VALUE_EXISTS_MSG);
 		}
 
-		log.info("PermisssionServiceImpl.createPermission() is under execution...");
+		log.info("createPermission() is under execution...");
 
 		Permission permission = new Permission();
 		permission.setPermissionId(permissionDTO.getPermissionId());
@@ -67,7 +67,7 @@ public class PermisssionServiceImpl implements PermissionService {
 		Permission createdPermission = permissionRepository.save(permission);
 		PermissionDTO createdPermissionDTO = new PermissionDTO();
 		mapper.map(createdPermission, createdPermissionDTO);
-		log.info("PermisssionServiceImpl.createPermission() executed successfully");
+		log.info("createPermission() executed successfully");
 		return createdPermissionDTO;
 	}
 
@@ -89,7 +89,7 @@ public class PermisssionServiceImpl implements PermissionService {
 			throw new EntityNotFoundException(permissionId.toString(),
 					"The permission with the id = %s has not been found");
 		}
-		log.info("PermisssionServiceImpl.updatePermission() is under execution...");
+		log.info("updatePermission() is under execution...");
     
 		Permission permission = null;
 		if(optPermission.isEmpty()) {
@@ -102,7 +102,7 @@ public class PermisssionServiceImpl implements PermissionService {
 		//permission.setModifiedDateTime(LocalDateTime.now());
         permission.setPermissionStatus(AdminConstants.STATUS_ACTIVE);
 		Permission updatedPermission = permissionRepository.save(permission);
-		log.info("PermisssionServiceImpl.updatePermission() executed successfully");
+		log.info("updatePermission() executed successfully");
 		PermissionDTO updatedPermissionDTO = new PermissionDTO();
 		mapper.map(updatedPermission, updatedPermissionDTO);
 		return updatedPermissionDTO;
@@ -112,14 +112,14 @@ public class PermisssionServiceImpl implements PermissionService {
 	@Transactional
 	@Override
 	public void deletePermissionById(Long permissionId) {
-		log.info("PermisssionServiceImpl.deletePermissionById() ENTERED ");
+		log.info("deletePermissionById() ENTERED ");
 		if (permissionId <= 0) {
 			log.info("Permission Id cannot be empty permissionId : " + permissionId);
 			throw new EmptyInputException(ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_MSG);
 		}
 
-		log.info("PermisssionServiceImpl.deletePermissionById() is under execution...");
+		log.info("deletePermissionById() is under execution...");
 		Optional<Permission> optPermission = permissionRepository.findById(permissionId);
 
 		if (optPermission.isEmpty()) {
@@ -138,7 +138,7 @@ public class PermisssionServiceImpl implements PermissionService {
 		}
 		permission.setPermissionStatus(AdminConstants.STATUS_IN_ACTIVE);
 		permissionRepository.save(permission);
-		log.info("PermisssionServiceImpl.deletePermissionById() executed successfully !");
+		log.info("deletePermissionById() executed successfully !");
 		
 	}
 
@@ -194,7 +194,7 @@ public class PermisssionServiceImpl implements PermissionService {
 	@Override
 	public List<PermissionDTO> getAllPermissions() {
 		List<PermissionDTO> permissionDTOList = new ArrayList<>();
-		log.info(" PermisssionServiceImpl.getAllPermissions() ENTERED " );
+		log.info("getAllPermissions() ENTERED " );
 		List<Permission> permissionList = null;
 		log.info("getAllPermissions() is under execution...");
 		permissionList = permissionRepository.findAllPermissions(AdminConstants.STATUS_ACTIVE);
@@ -215,17 +215,17 @@ public class PermisssionServiceImpl implements PermissionService {
 		boolean isPermissionNameExists = false;
 
 		if (permissionValue == null) {
-			log.info("PermisssionServiceImpl.isPermissionValueExists() Permission Name is empty");
+			log.info("isPermissionValueExists() Permission Name is empty");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_VALUE_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_VALUE_IS_NULL_MSG);
 		} else {
-			log.info("PermisssionServiceImpl.isPermissionValueExists()  : permissionValue : " + permissionValue);
+			log.info("isPermissionValueExists()  : permissionValue : " + permissionValue);
 			Optional<Permission> optPermission = permissionRepository.findByPermissionValue(permissionValue);
 
 			isPermissionNameExists = optPermission.isPresent();
 			log.info("PermisssionServiceImpl  : isPermissionValueExists : " + isPermissionNameExists);
 		}
-		log.info("PermisssionServiceImpl.isPermissionValueExists() executed successfully");
+		log.info("isPermissionValueExists() executed successfully");
 		return isPermissionNameExists;
 	}
 	

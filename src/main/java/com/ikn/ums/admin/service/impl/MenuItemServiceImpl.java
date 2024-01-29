@@ -39,7 +39,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 	@Override
 	public MenuItemDTO createMenuItem(MenuItemDTO menuItemDTO) {
 
-		log.info("MenuItemServiceImpl.createMenuItem() ENTERED");
+		log.info("createMenuItem() is ENTERED");
 
 		if (menuItemDTO == null) {
 			log.info("Menu Item Object is null .... ");
@@ -93,7 +93,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 			throw new EntityNotFoundException(menuItemId.toString(),
 					"The menu item with the id = %s has not been found");
 		}
-		log.info("MenuItemServiceImpl.updateMenuItem() is under execution...");
+		log.info("updateMenuItem() is under execution...");
 
 		MenuItem dbMenuItem = null;
 		if (optMenuItem.isEmpty()) {
@@ -110,7 +110,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 		var updatedMenuItem = menuItemRepository.save(dbMenuItem);
 		var updatedMenuItemDTO = new MenuItemDTO();
 		mapper.map(updatedMenuItem, updatedMenuItemDTO);
-		log.info("MenuItemServiceImpl.updateMenuItem() executed successfully");
+		log.info("updateMenuItem() executed successfully");
 		return updatedMenuItemDTO;
 	}
 
@@ -118,14 +118,14 @@ public class MenuItemServiceImpl implements MenuItemService {
 	@Override
 	public void deleteMenuItemById(Long menuItemId) {
 
-		log.info("MenuItemServiceImpl.deleteMenuItemById() ENTERED ");
+		log.info("deleteMenuItemById() ENTERED ");
 		if (menuItemId <= 0) {
 			log.info("Menu Item Id cannot be empty menuItemId : " + menuItemId);
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
 
-		log.info("MenuItemServiceImpl.deleteMenuItemById() is under execution...");
+		log.info("deleteMenuItemById() is under execution...");
 		Optional<MenuItem> optMenuItem = menuItemRepository.findById(menuItemId);
 
 		if (!optMenuItem.isPresent()) {
@@ -145,14 +145,14 @@ public class MenuItemServiceImpl implements MenuItemService {
 		var menuItemDTO = new MenuItemDTO();
 		menuItemDTO.setMenuItemStatus(AdminConstants.STATUS_IN_ACTIVE);
 		updateMenuItem(menuItemDTO);
-		log.info("MenuItemServiceImpl.deleteMenuItemById() executed successfully !");
+		log.info("deleteMenuItemById() executed successfully !");
 
 	}
 
 	@Transactional
 	@Override
 	public void deleteSelectedMenuItemByIds(List<Long> menuItemIds) {
-		log.info("MenuItemServiceImpl.deleteSelectedMenuItemByIds() ENTERED ");
+		log.info("deleteSelectedMenuItemByIds() ENTERED ");
 		if (menuItemIds.isEmpty()) {
 			log.info("deleteSelectedMenuItemByIds() EmptyListException : menuItemids list is empty.");
 			throw new EmptyListException(ErrorCodeMessages.ERR_MENU_ITEM_LIST_IS_EMPTY_CODE,
@@ -180,13 +180,15 @@ public class MenuItemServiceImpl implements MenuItemService {
 	@Override
 	public MenuItemDTO getMenuItemById(Long menuItemId) {
 
-		log.info("MenuItemServiceImpl.getMenuItemById() ENTERED ");
+		log.info("getMenuItemById() ENTERED with args : ");
 
 		if (menuItemId <= 0) {
 			log.info("getMenuItemById() EmptyInputException : Menu Item Id is null !");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
+		log.info("getMenuItemById() is under execution...");
+
 		Optional<MenuItem> optMenuItem = menuItemRepository.findById(menuItemId);
 		if (!optMenuItem.isPresent()) {
 			log.info("getMenuItemById() EntityNotFoundException : Menu Item is not found for Menu ItemId id : " + menuItemId);
@@ -195,13 +197,14 @@ public class MenuItemServiceImpl implements MenuItemService {
 		}
 		var menuItemDTO = new MenuItemDTO();
 		mapper.map(optMenuItem.get(), menuItemDTO);
+		log.info("getMenuItemById() executed successfully");
 		return menuItemDTO;
 	}
 
 	@Transactional
 	@Override
 	public List<MenuItemDTO> getAllMenuItems() {
-		log.info(" MenuItemServiceImpl.getAllMenuItems() ENTERED ");
+		log.info(" getAllMenuItems() ENTERED ");
 		List<MenuItem> menuItemList = null;
 		log.info("getAllMenuItems() is under execution...");
 		menuItemList = menuItemRepository.findAllMenuItems(AdminConstants.STATUS_ACTIVE);
@@ -217,31 +220,32 @@ public class MenuItemServiceImpl implements MenuItemService {
 	}
 
 	public boolean isMenuItemNameExists(String menuItemName) {
-		log.info("MenuItemServiceImpl.isMenuItemNameExists() entered with args - menuItemName");
+		log.info("isMenuItemNameExists() entered with args - menuItemName");
 		boolean isMenuItemNameExists = false;
 		if (Strings.isNullOrEmpty(menuItemName) || menuItemName.isEmpty()) {
-			log.info("MenuItemServiceImpl.isMenuItemNameExists() Menu Item Name is empty");
+			log.info("isMenuItemNameExists() Menu Item Name is empty");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_NAME_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_NAME_IS_NULL_MSG);
 		} else {
-			log.info("MenuItemServiceImpl.isMenuItemNameExists()  : menuItemName : " + menuItemName);
+			log.info("isMenuItemNameExists()  : menuItemName : " + menuItemName);
 			var optMenuItem = menuItemRepository.findByMenuItemName(menuItemName);
 
 			isMenuItemNameExists = optMenuItem.isPresent();
-			log.info("MenuItemServiceImpl  : isMenuItemNameExists : " + isMenuItemNameExists);
+			log.info("isMenuItemNameExists() : " + isMenuItemNameExists);
 		}
-		log.info("MenuItemServiceImpl.isMenuItemNameExists() executed successfully");
+		log.info("isMenuItemNameExists() executed successfully");
 		return isMenuItemNameExists;
 	}
 
 	@Override
 	public MenuItemDTO getMenuItemByName(String menuItemName) {
-		log.info("MenuItemServiceImpl.getMenuItemById() ENTERED ");
+		log.info("getMenuItemByName() ENTERED ");
 		if ( Strings.isNullOrEmpty(menuItemName) || menuItemName.isBlank()) {
 			log.info("Menu Item Id is null !");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
+		log.info("getMenuItemByName() is under execution...");
 		Optional<MenuItem> optMenuItem = menuItemRepository.findByMenuItemName(menuItemName);
 		if (!optMenuItem.isPresent()) {
 			log.info("Menu Item is not found for Menu ItemName : " + menuItemName);
@@ -250,7 +254,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 		}
 		var menuItemDTO = new MenuItemDTO();
 		mapper.map(optMenuItem.get(), menuItemDTO);
-		log.info("MenuItemServiceImpl.getMenuItemById() executed successfully.");
+		log.info("getMenuItemByName() executed successfully.");
 		return menuItemDTO;
 	}
 

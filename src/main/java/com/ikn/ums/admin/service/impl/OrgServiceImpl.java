@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +33,8 @@ public class OrgServiceImpl implements OrgService {
 	@Override
 	public List<OrganizationDTO> getAllOrgs() {
 		List<OrganizationDTO> orgDTOList = new ArrayList<>();
-		log.info("OrgServiceImpl.getAllOrgs() ENTERED.");
-		log.info("OrgServiceImpl.getAllOrgs() is under execution...");
+		log.info("getAllOrgs() ENTERED.");
+		log.info("getAllOrgs() is under execution...");
 		List<Organization> orgsList = null;
 		orgsList = orgRepository.findAll();
 		orgsList.forEach(entity -> {
@@ -40,17 +42,17 @@ public class OrgServiceImpl implements OrgService {
 			mapper.map(entity, dto);
 			orgDTOList.add(dto);
 		});
-		log.info("OrgServiceImpl.getAllOrgs() executed successfully");
+		log.info("getAllOrgs() executed successfully");
 		return orgDTOList;
 	}
 
 	@Override
 	public OrganizationDTO getOrgById(Integer orgId) {
-		log.info("OrgServiceImpl.getOrgById() ENTERED : orgId : " + orgId);
+		log.info("getOrgById() ENTERED : orgId : " + orgId);
 		if (orgId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ORG_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ORG_ID_IS_EMPTY_MSG);
-		log.info("OrgServiceImpl.getOrgById() is under execution..");
+		log.info("getOrgById() is under execution..");
 		Optional<Organization> optOrg = orgRepository.findById(orgId);
 		Organization org = null;
 		if(optOrg.isEmpty()) {
@@ -60,30 +62,31 @@ public class OrgServiceImpl implements OrgService {
 		org = optOrg.get();
 		OrganizationDTO orgDTO = new OrganizationDTO();
 		mapper.map(org, orgDTO);
-		log.info("OrgServiceImpl.getOrgById() executed successfully");
+		log.info("getOrgById() executed successfully");
 		return orgDTO;
 	}
-
+    @Transactional
 	@Override
 	public OrganizationDTO createOrg(OrganizationDTO org) {
-		log.info("OrgServiceImpl.createOrg() ENTERED");
+		log.info("createOrg() ENTERED");
 		if (org == null) 
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_MSG);
-		log.info("OrgServiceImpl.createOrg() is under execution...");
+		log.info("createOrg() is under execution...");
 		Organization entity = new Organization();
 		mapper.map(org, entity);
 		Organization savedOrg = orgRepository.save(entity);
 		OrganizationDTO savedOrgDTO = new OrganizationDTO();
 		mapper.map(savedOrg, savedOrgDTO);
-		log.info("OrgServiceImpl.createOrg() exected successfully");
+		log.info("createOrg() exected successfully");
 		return savedOrgDTO;
 	}
 
+	@Transactional
 	@Override
 	public OrganizationDTO updateOrg(OrganizationDTO org) {
-		log.info("OrgServiceImpl.updateOrg() ENTERED with args - org");
-		log.info("OrgServiceImpl.updateOrg() is under execution...");
+		log.info("updateOrg() ENTERED with args - org");
+		log.info("updateOrg() is under execution...");
 		Optional<Organization> optOrg = orgRepository.findById(org.getOrgId());
 		Organization dbOrg = null;
 		if(optOrg.isEmpty()) {
@@ -95,41 +98,41 @@ public class OrgServiceImpl implements OrgService {
 		Organization updatedOrg = orgRepository.save(dbOrg);
 		OrganizationDTO orgDTO = new OrganizationDTO();
 		mapper.map(updatedOrg, orgDTO);
-		log.info("OrgServiceImpl.updateOrg() exected successfully");
+		log.info("updateOrg() exected successfully");
 		return orgDTO;
 	}
-
+	@Transactional
 	@Override
 	public void deleteOrgById(Integer orgId) {
-		log.info("OrgServiceImpl.deleteOrg() ENTERED : orgId : " + orgId);
-		log.info("OrgServiceImpl.deleteOrg() is under execution...");
+		log.info("deleteOrg() ENTERED : orgId : " + orgId);
+		log.info("deleteOrg() is under execution...");
 		if (orgId <= 0)
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
 		orgRepository.deleteById(orgId);
-		log.info("OrgServiceImpl.deleteOrg() executed successfully");
+		log.info("deleteOrg() executed successfully");
 	}
 
+	@Transactional
 	@Override
 	public void deleteOrgPic(Integer orgId) {
-		log.info("OrgServiceImpl.deleteOrgPic() Entered !");
+		log.info("deleteOrgPic() Entered !");
 		if (orgId <= 0) {
-			log.info("OrgServiceImpl.deleteOrgPic() EmptyInputException orgId is 0 or empty.");
+			log.info("deleteOrgPic() EmptyInputException orgId is 0 or empty.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
 		}
 		Organization dbUser = orgRepository.findByOrgId(orgId);
 		if (dbUser == null) {
-			log.info("OrgServiceImpl.deleteOrgPic() the orgId is not found in the database !");
+			log.info("deleteOrgPic() the orgId is not found in the database !");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_DB_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_DB_ENTITY_IS_NULL_MSG);
 		}
 		dbUser.setOrganizationImage(null);
 		OrganizationDTO dto = new OrganizationDTO();
 		mapper.map(dbUser, dto);
-		log.info("OrgServiceImpl.deleteOrgPic() before execution !");
 		updateOrg(dto);
-		log.info("OrgServiceImpl.deleteOrgPic() execution sucessfull !");
+		log.info("deleteOrgPic() execution sucessfull !");
 	}
 }
 		

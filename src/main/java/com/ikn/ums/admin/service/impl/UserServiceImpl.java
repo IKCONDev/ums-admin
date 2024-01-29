@@ -75,32 +75,32 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public UserDTO getUserDetailsByUsername(String email) {
-		log.info("UsersServiceImpl.getUserDetailsByUsername() entered");
-		log.info("UsersServiceImpl.getUserDetailsByUsername() is under execution");
+		log.info("getUserDetailsByUsername() entered");
+		log.info("getUserDetailsByUsername() is under execution");
 		email=email.toLowerCase();
 		User loadedUser = userRepository.findByEmail(email);
 		if (loadedUser == null) {
-			log.info("UsersServiceImpl.getUserDetailsByUsername() UsernameNotFoundException User with email" + email + " does not exist");
+			log.info("getUserDetailsByUsername() UsernameNotFoundException User with email" + email + " does not exist");
 			throw new UsernameNotFoundException("User with " + email + " is not exist");
 		}
 		UserDTO userDTO = new UserDTO();
 		mapper.map(loadedUser, userDTO);
 		List<UserRoleMenuItemPermissionMapDTO> userRPMDTO = userRoleMenuItemPermissionMapService.getUserRoleMenuItemPermissionMapsByUserId(email);
 		userDTO.setUserRoleMenuItemPermissionMap(userRPMDTO);
-		log.info("UsersServiceImpl.getUserDetailsByUsername() executed successfully");
+		log.info("getUserDetailsByUsername() executed successfully");
 		return userDTO;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		log.info("UsersServiceImpl.loadUserByUsername() entered");
-		log.info("UsersServiceImpl.loadUserByUsername() is under execution");
+		log.info("loadUserByUsername() entered");
+		log.info("loadUserByUsername() is under execution");
 		username=username.toLowerCase();
 		User userDetails = userRepository.findByEmail(username);
 		if (userDetails == null)
 			throw new UsernameNotFoundException("User does not exists");
 		//userDetails.isActive();
-		log.info("UsersServiceImpl.loadUserByUsername() executed successfully");
+		log.info("loadUserByUsername() executed successfully");
 		return new org.springframework.security.core.userdetails.User(userDetails.getEmail(),
 				userDetails.getEncryptedPassword(), true, true, true, true, new ArrayList<>());
 	}
@@ -109,13 +109,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Integer generateOtpForUser(String userName, String pageType) {
 		if(Strings.isNullOrEmpty(userName)) {
-			log.info("UsersServiceImpl.generateOtpForUser() EmptyInputException : userId / emailId is empaty.");
+			log.info("generateOtpForUser() EmptyInputException : userId / emailId is empaty.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
 		}
-		log.info("UsersServiceImpl.generateOtpForUser() is entered with args:");
+		log.info("generateOtpForUser() is entered with args:");
 		otpExecutionCount = 1;
-		log.info("UsersServiceImpl.generateOtpForUser() : userName :" + userName);
+		log.info("generateOtpForUser() : userName :" + userName);
 		Random r = new Random();
 		String mailHeading = null;
 		if (pageType.equals("TwoFactorAuth")) {
@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
 		}
 		try {
 			
-			log.info("UsersServiceImpl.generateOtpForUser() is under execution");
+			log.info("generateOtpForUser() is under execution");
 			int random = r.nextInt(899999)+100000;
 			for (int i = 0; i < random; i++) {
 				System.out.println("executed " + i);
@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService {
 				}
 			};
 	        timer.schedule(timerTask,AdminConstants.OTP_ACTIVE_SECONDS);
-	        log.info("UsersServiceImpl.generateOtpForUser() executed successfully");
+	        log.info("generateOtpForUser() executed successfully");
 			return otp;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -165,29 +165,29 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Integer validateUserOtp(String email, String otp) {
 		if(Strings.isNullOrEmpty(email)) {
-			log.info("UsersServiceImpl.validateUserOtp() EmptyInputException : userId / emailId is empaty.");
+			log.info("validateUserOtp() EmptyInputException : userId / emailId is empaty.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
 		}
-		log.info("UsersServiceImpl.validateUserOtp() entered");
+		log.info("validateUserOtp() entered");
 		int otpCode = Integer.parseInt(otp);
-		log.info("UsersServiceImpl.validateUserOtp() is under execution...");
+		log.info("validateUserOtp() is under execution...");
 		int count = userRepository.validateUserOtp(email.toLowerCase(), otpCode);
-		log.info("UsersServiceImpl.validateUserOtp() executed successfully");
+		log.info("validateUserOtp() executed successfully");
 		return count;
 	}
 
 	@Override
 	@Transactional
 	public Integer updatePasswordforUser(String email, CharSequence newRawPassword) {
-		log.info("UsersServiceImpl.updatePasswordforUser() entered with args :");
+		log.info("updatePasswordforUser() entered with args :");
 		if(Strings.isNullOrEmpty(email)) {
 			log.info("UsersServiceImpl.updatePasswordforUser() EmptyInputException : userId / emailId is empaty.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
 		}
 		if(Strings.isNullOrEmpty(newRawPassword.toString())) {
-			log.info("UsersServiceImpl.updatePasswordforUser() EmptyInputException : userId / emailId is empaty.");
+			log.info("updatePasswordforUser() EmptyInputException : userId / emailId is empaty.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_NEW_PASSWORD_IS_EMPTY_CODE, 
 					ErrorCodeMessages.ERR_USER_NEW_PASSWORD_IS_EMPTY_MSG);
 		}
@@ -207,7 +207,7 @@ public class UserServiceImpl implements UserService {
 				&& passwordEncoder.matches(newRawPassword, user.getPreviousPassword2())) {
 			return 0; // New password matching the second previous password
 		}
-		log.info("UsersServiceImpl.updatePasswordforUser() is under execution");
+		log.info("updatePasswordforUser() is under execution");
 		// Updating the previous password fields
 		user.setPreviousPassword2(user.getPreviousPassword1());
 		user.setPreviousPassword1(user.getEncryptedPassword());
@@ -216,46 +216,47 @@ public class UserServiceImpl implements UserService {
 		user.setEncryptedPassword(newEncodedPassword);
 
 		int updateStatus = userRepository.updatePassword(email.toLowerCase(), newEncodedPassword);
-		log.info("UsersServiceImpl.updatePasswordforUser() executed successfully");
+		log.info("updatePasswordforUser() executed successfully");
 		return updateStatus;
 	}
 
 	@Override
 	public Integer validateEmailAddress(String email) {
 		if(Strings.isNullOrEmpty(email)) {
-			log.info("UsersServiceImpl.validateEmailAddress() EmptyInputException : userId / emailId is empaty.");
+			log.info("validateEmailAddress() EmptyInputException : userId / emailId is empaty.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
 		}
-		log.info("UsersServiceImpl.validateEmailAddress() entered");
-		log.info("UsersServiceImpl.validateEmailAddress() is under execution");
+		log.info("validateEmailAddress() entered");
+		log.info("validateEmailAddress() is under execution");
 		int value = userRepository.validateEmail(email);
-		log.info("UsersServiceImpl.validateEmailAddress() executed successfully");
+		log.info("validateEmailAddress() executed successfully");
 		return value;
 	}
 
 	@Transactional
 	@Override
 	public Integer updateUserTwoFactorAuthStatus(String email, boolean isOn) {
+		log.info("updateUserTwoFactorAuthStatus() entered");
 		if(Strings.isNullOrEmpty(email)) {
-			log.info("UsersServiceImpl.updateUserTwoFactorAuthStatus() EmptyInputException : userId / emailId is empty.");
+			log.info("updateUserTwoFactorAuthStatus() EmptyInputException : userId / emailId is empty.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG, 
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
 		}
-		log.info("UsersServiceImpl.updateUserTwoFactorAuthStatus() entered");
-		log.info("UsersServiceImpl.updateUserTwoFactorAuthStatus() executed successfully");
+		log.info("updateUserTwoFactorAuthStatus() is under execution...");
+		log.info("updateUserTwoFactorAuthStatus() executed successfully");
 		return userRepository.updateTwofactorAuthenticationStatus(email, isOn);
 	}
 
 	@Override
 	public UserVO getUser(String emailId) {
-		log.info("UsersServiceImpl.getUserProfile() entered with args - emailId : " + emailId);
+		log.info("getUserProfile() entered with args - emailId : " + emailId);
 		if (emailId.equals("") || emailId == null || emailId.equals(null)) {
-			log.info("UsersServiceImpl.getUserProfile() EmptyInputException : empty/null userid/emailid");
+			log.info("getUserProfile() EmptyInputException : empty/null userid/emailid");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 		}
-		log.info("UsersServiceImpl.getUserProfile() is under execution...");
+		log.info("getUserProfile() is under execution...");
 		emailId=emailId.toLowerCase();
 		User dbLoggedInUser = userRepository.findByEmail(emailId);
 		UserVO user = new UserVO();
@@ -266,12 +267,13 @@ public class UserServiceImpl implements UserService {
 		user.setUserRoles(dbLoggedInUser.getUserRoles());
 		user.setProfilePic(dbLoggedInUser.getProfilePic());
 		user.setActive(dbLoggedInUser.isActive());
-		log.info("UsersServiceImpl.getUserProfile() executed successfully");
+		log.info("getUserProfile() executed successfully");
 		return user;
 	}
 
 	@Override
 	public User updateUserProfilePic(String emailId, MultipartFile profilePicImage) throws IOException {
+		log.info("UsersServiceImpl.updateUserProfilePic() entered");
 		if (emailId.equals("") || emailId == null || emailId.equals(null)) {
 			log.info("UsersServiceImpl.updateUserProfilePic() EmptyInputException : empty/null userid/emailid");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
@@ -287,34 +289,33 @@ public class UserServiceImpl implements UserService {
 			throw new ImageNotFoundException(ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_CODE,
 					ErrorCodeMessages.ERR_USER_IMAGE_NOT_VALID_MSG);
 		}
-		log.info("UsersServiceImpl.updateUserProfilePic() entered");
-		log.info("UsersServiceImpl.updateUserProfilePic() is under execution");
+		log.info("updateUserProfilePic() is under execution");
 		User dbUser = userRepository.findByEmail(emailId);
 		dbUser.setProfilePic(profilePicImage.getBytes());
 		User updatedUser = userRepository.save(dbUser);
-		log.info("UsersServiceImpl.updateUserProfilePic() executed successfully");
+		log.info("updateUserProfilePic() executed successfully");
 		return updatedUser;
 	}
 
 	@Override
 	public List<String> getActiveUsersEmailIdList(boolean isActive) {
-		log.info("UsersServiceImpl.getActiveUsersEmailIdList() entered");
-		log.info("UsersServiceImpl.getActiveUsersEmailIdList() is under execution");
+		log.info("getActiveUsersEmailIdList() entered");
+		log.info("getActiveUsersEmailIdList() is under execution");
 		List<String> userEmailIdList = userRepository.findAllActiveUsersEmailIdList(isActive);
-		log.info("UsersServiceImpl.getActiveUsersEmailIdList() executed successfully");
+		log.info("getActiveUsersEmailIdList() executed successfully");
 		return userEmailIdList;
 	}
 
 	@Transactional
 	@Override
 	public UserDTO saveUser(UserDTO user) {
-		log.info("UsersServiceImpl.createUser() entered with args - user");
+		log.info("createUser() entered with args - user");
 		if (user == null || user.equals(null)) {
-			log.info("UsersServiceImpl.createUser() EntityNotFoundException : user object is null");
+			log.info("createUser() EntityNotFoundException : user object is null");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_MSG);
 		}
-		log.info("UsersServiceImpl.createUser() is under execution...");
+		log.info("createUser() is under execution...");
 		String defaultEncryptedpassword = passwordEncoder.encode("Test@123");
 		user.setEncryptedPassword(defaultEncryptedpassword);
 		user.setActive(true);
@@ -375,7 +376,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public UserDTO updateUser(UserDTO user) {
-		log.info("UsersServiceImpl.updateUser() entered with args - user");
+		log.info("updateUser() entered with args - user");
 		if (user == null || user.equals(null)) {
 			log.info("UsersServiceImpl.updateUser() EntityNotFoundException : user object is null");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ENTITY_IS_NULL_CODE,
@@ -396,7 +397,7 @@ public class UserServiceImpl implements UserService {
 			dbUser.setUserRoles(roleSet);
 			dbUser.setLoginAttempts(user.getLoginAttempts());
 		}
-		log.info("UsersServiceImpl.updateUser() is under execution...");
+		log.info("updateUser() is under execution...");
 		User updatedUser = userRepository.save(dbUser);
 		UserDTO userDTO = null;
 		if(updatedUser != null) {
@@ -408,31 +409,30 @@ public class UserServiceImpl implements UserService {
 				userRoleMenuItemPermissionMapService.saveAllUserRoleMenuItemPermissionMaps(userRoleMenuItemPermissionMapDTOList);
 			}
 		}
-		log.info("UsersServiceImpl.updateUser() executed successfully.");
+		log.info("updateUser() executed successfully.");
 		return userDTO;
 	}
 
 	@Transactional(value = TxType.REQUIRED)
 	@Override
 	public void deleteUserByUserId(String emailId) {
-		log.info("UsersServiceImpl.deleteUser() entered with args - id");
+		log.info("deleteUser() entered with args - id");
 		if (Strings.isNullOrEmpty(emailId) || emailId.isEmpty()) {
-			log.info("UsersServiceImpl.deleteUser() EmptyInputException : emailid/userid is null");
+			log.info("deleteUser() EmptyInputException : emailid/userid is null");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 		}
-		log.info("UsersServiceImpl.deleteUser() is under execution...");
+		log.info("deleteUser() is under execution...");
 		userRepository.deleteUserByUserId(emailId);
 		userRoleMenuItemPermissionMapService.deleteAllUserRoleMenuItemPermissionMapByUserId(emailId);
-		log.info("UsersServiceImpl.deleteUser() executed successfully");
 		restTemplate.exchange("http://UMS-EMPLOYEE-SERVICE/employees/status-update/"+emailId,HttpMethod.PUT, null, boolean.class);
-		log.info("UsersServiceImpl.createUser() executed successfully.");
+		log.info("createUser() executed successfully.");
 	}
 
 	@Override
 	public List<UserDTO> getAllUsers() {
-		log.info("UserServiceImpl.getAllUsers() is entered");
-		log.info("UserServiceImpl.getAllUsers() is under execution");
+		log.info("getAllUsers() is entered");
+		log.info("getAllUsers() is under execution");
 		List<UserDTO> userDTOList = new ArrayList<>();
 		List<User> userList = userRepository.findAll();
 		userList.forEach(entity -> {
@@ -440,25 +440,25 @@ public class UserServiceImpl implements UserService {
 			mapper.map(entity, dto);
 			userDTOList.add(dto);
 		});
-		log.info("UserServiceImpl.getAllUsers() executed successfully");
+		log.info("getAllUsers() executed successfully");
 		return userDTOList;
 	}
 
 	@Override
 	public UserVO getUserProfile(String emailId) {
-		log.info("UsersServiceImpl.getUserProfile() entered with args - emailId : " + emailId);
+		log.info("getUserProfile() entered with args - emailId : " + emailId);
 		if (Strings.isNullOrEmpty(emailId)) {
-			log.info("UsersServiceImpl.getUserProfile() EmptyInputException : empty/null userid/emailid");
+			log.info("getUserProfile() EmptyInputException : empty/null userid/emailid");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
 		}
-		log.info("UsersServiceImpl.getUserProfile() is under execution...");
+		log.info("getUserProfile() is under execution...");
 		emailId=emailId.toLowerCase();
 		User dbLoggedInUser = userRepository.findByEmail(emailId);
 		// communicate with Employee microservice and get the employee object
 		ResponseEntity<EmployeeVO> response = restTemplate
 				.getForEntity("http://UMS-EMPLOYEE-SERVICE/employees/" + emailId, EmployeeVO.class);
-		log.info("UsersServiceImpl.getUserProfile() : call to employee microservice successful");
+		log.info("getUserProfile() : call to employee microservice successful");
 		EmployeeVO employeeDetails = response.getBody();
 		if (employeeDetails == null) {
 			log.info("getUserProfile() UsernameNotFoundException: user with provided emailId / userId doesn't exists.");
@@ -473,31 +473,31 @@ public class UserServiceImpl implements UserService {
 		user.setEmployee(employeeDetails);
 		user.setProfilePic(dbLoggedInUser.getProfilePic());
 		user.setActive(dbLoggedInUser.isActive());
-		log.info("UsersServiceImpl.getUserProfile() executed successfully");
+		log.info("getUserProfile() executed successfully");
 		return user;
 	}
 
 	@Transactional
 	@Override
 	public void deleteProfilePicOfUser(String emailId) {
-		log.info("UsersServiceImpl.deleteProfilePicOfUser() Entered !");
+		log.info("deleteProfilePicOfUser() Entered !");
 		if (Strings.isNullOrEmpty(emailId)) {
-			log.info("UsersServiceImpl.deleteProfilePicOfUser() email id is null !");
+			log.info("deleteProfilePicOfUser() email id is null !");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_USER_EMAIL_ID_IS_EMPTY_MSG);
 		}
 		User dbUser = userRepository.findByEmail(emailId);	
 		if (dbUser == null) {
-			log.info("UsersServiceImpl.deleteProfilePicOfUser() the user is not found in the database !");
+			log.info("deleteProfilePicOfUser() the user is not found in the database !");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_DB_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_USER_DB_ENTITY_IS_NULL_MSG);
 		}
 		dbUser.setProfilePic(null);
 		UserDTO userdto = new UserDTO();
 		mapper.map(dbUser, userdto);
-		log.info("UsersServiceImpl.deleteProfilePicOfUser() before execution !");
+		log.info("deleteProfilePicOfUser() before execution !");
 		updateUser(userdto);
-		log.info("UsersServiceImpl.deleteProfilePicOfUser() execution sucessfull !");
+		log.info("deleteProfilePicOfUser() execution sucessfull !");
 	}
 
 }
