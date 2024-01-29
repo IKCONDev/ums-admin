@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ikn.ums.admin.dto.MenuItemDTO;
+import com.ikn.ums.admin.dto.PermissionDTO;
 import com.ikn.ums.admin.dto.RoleDTO;
 import com.ikn.ums.admin.entity.MenuItem;
+import com.ikn.ums.admin.entity.Permission;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EmptyListException;
@@ -20,7 +22,7 @@ import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.RoleInUsageException;
 import com.ikn.ums.admin.exception.RoleNameExistsException;
-
+import com.ikn.ums.admin.repository.PermissionRepository;
 import com.ikn.ums.admin.repository.RoleRepository;
 import com.ikn.ums.admin.service.RoleService;
 import com.ikn.ums.admin.utils.AdminConstants;
@@ -37,6 +39,9 @@ public class RoleServiceImpl implements RoleService {
     
     @Autowired
     private ModelMapper mapper;
+    
+    @Autowired
+    private PermissionRepository permissionRepository;
   
 	@Override
 	public RoleDTO createRole(RoleDTO role) {
@@ -70,17 +75,18 @@ public class RoleServiceImpl implements RoleService {
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		}
 		log.info("updateRole() is under execution...");
-		Optional<Role> optRole = roleRepository.findById(role.getRoleId());
-		Role dbRole = null;
-		if(optRole.isEmpty()) {
-			log.info("updateRole() EntityNotFoundException : DB user object is null");
-			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_CODE, 
-					ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_MSG);
-		}
-		dbRole = optRole.get();
+		//Optional<Role> optRole = roleRepository.findById(role.getRoleId());
+		//Role dbRole = null;
+//		if(optRole.isEmpty()) {
+//			log.info("updateRole() EntityNotFoundException : DB user object is null");
+//			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_CODE, 
+//					ErrorCodeMessages.ERR_ROLE_DBROLE_ENTITY_NOTFOUND_MSG);
+//		}
+		//dbRole = optRole.get();
 		//set modified date time
+		Role roleToBeUpdated = new Role();
 		role.setModifiedDateTime(LocalDateTime.now());
-		mapper.map(role, dbRole);
+		mapper.map(role, roleToBeUpdated);
 		List<MenuItemDTO> menuItemsDTOList = role.getMenuItems();
 		List<MenuItem> menuItemList = new ArrayList<>();
 		menuItemsDTOList.forEach(mdto -> {
@@ -88,8 +94,12 @@ public class RoleServiceImpl implements RoleService {
 			mapper.map(mdto, mentity);
 			menuItemList.add(mentity);
 		});
-		dbRole.setMenuItems(menuItemList);
-		Role updatedRole =  roleRepository.save(dbRole);
+		roleToBeUpdated.setMenuItems(menuItemList);
+		Optional<Permission> optPermission = permissionRepository.findById(role.getPermission().getPermissionId());
+		Permission permission = optPermission.get();
+		roleToBeUpdated.setPermission(permission);
+		//update
+		Role updatedRole =  roleRepository.save(roleToBeUpdated);
 		RoleDTO updatedRoleDTO = new RoleDTO();
 		mapper.map(updatedRole, updatedRoleDTO);
 		log.info("updateRole() executed successfully.");
