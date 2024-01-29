@@ -35,7 +35,7 @@ public class Role {
 	private String roleName;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
+	@ManyToMany(cascade = {CascadeType.REFRESH})
 	@JoinTable(
 				name = "role_menuItems_tab",
 				joinColumns = @JoinColumn(name = "roleId", unique = false),
@@ -43,7 +43,7 @@ public class Role {
 			)
 	private List<MenuItem> menuItems;
 	
-	@OneToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+	@OneToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
 	@JoinTable(
 				name = "role_permission_tab",
 				joinColumns = @JoinColumn(name = "roleId", unique = true),
