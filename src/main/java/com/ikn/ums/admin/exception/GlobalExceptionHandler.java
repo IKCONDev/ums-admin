@@ -182,4 +182,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>("Menu item Name Already Exists.", HttpStatus.FOUND);
 	}
 	
+	/**
+	 * The EmptyInputException is a Custom Exception (created by us) written for
+	 * handling the Business Scenarios. defined
+	 * @param emptyInputException
+	 * @return
+	 */
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException userNotFoundException) {
+		log.error("getMenuItemByName() : An error occurred: {}." + userNotFoundException.getMessage(), userNotFoundException);
+		log.info("GlobalExceptionHandler.handleEmptyInput() ENTERED" + userNotFoundException.getMessage());
+		return new ResponseEntity<>("User is not present in db. Login Failed.", HttpStatus.NOT_FOUND);
+	}
+	
 }
