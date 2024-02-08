@@ -74,7 +74,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 					log.error(" attemptAuthentication() Error occured while attempting to Login , UserInactiveException : User is inactive - Cannot login");
 					response.addHeader("loginAttempts", updatedUserWithLogginAttempts.getLoginAttempts().toString());
 					response.addHeader("userActive", active);
-				} else if (isActive && updatedUserWithLogginAttempts.getLoginAttempts() > 3) {
+				} else if (isActive && updatedUserWithLogginAttempts.getLoginAttempts() > 2) {
 					updatedUserWithLogginAttempts.setActive(false);
 					service.updateUser(updatedUserWithLogginAttempts);
 					response.addHeader("loginAttempts", updatedUserWithLogginAttempts.getLoginAttempts().toString());
