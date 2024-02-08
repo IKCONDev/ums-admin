@@ -81,7 +81,9 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 					response.addHeader("userActive", active);
 					log.error(" attemptAuthentication() Error occured while attempting to Login , LoginAttemptsExceededException : User login attempts exceeded more then 3.");
 				}
-			};
+			}else {
+				response.addHeader("userNotFound",String.valueOf(true));
+			}
 			log.info("attemptAuthentication() excuted succesfully.");
 			return getAuthenticationManager().authenticate(
 					new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));

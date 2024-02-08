@@ -36,6 +36,7 @@ import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.ImageNotFoundException;
+import com.ikn.ums.admin.exception.UserNotFoundException;
 import com.ikn.ums.admin.repository.UserRepository;
 import com.ikn.ums.admin.service.UserRoleMenuItemPermissionMapService;
 import com.ikn.ums.admin.service.UserService;
@@ -259,6 +260,9 @@ public class UserServiceImpl implements UserService {
 		log.info("getUserProfile() is under execution...");
 		emailId=emailId.toLowerCase();
 		User dbLoggedInUser = userRepository.findByEmail(emailId);
+		if(dbLoggedInUser == null) {
+			return null;
+		}
 		UserVO user = new UserVO();
 		user.setEmail(dbLoggedInUser.getEmail());
 		user.setUserRoles(dbLoggedInUser.getUserRoles());
