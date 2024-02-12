@@ -39,7 +39,7 @@ public class PermissionController {
 		
 		log.info("createPermission() entered ");
 		if (permissionDTO == null) {
-			log.info("Permission Entity Not Found Exception has encountered while creating Role.");
+			log.info("createPermission() EntityNotFoundException : Permission object is null or empty.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_MSG);
 		}
@@ -63,7 +63,7 @@ public class PermissionController {
 	public ResponseEntity<PermissionDTO> updatePermission(@RequestBody PermissionDTO permissionDTO) {
 		log.info("updatePermission() entered with args");
 		if (permissionDTO == null || permissionDTO.equals(null)) {
-			log.info("Permission Entity Not Found Exception has encountered while updating Role.");
+			log.info("updatePermission() EntityNotFoundException : Permission object is null or empty.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_MSG);
 		}
@@ -130,7 +130,7 @@ public class PermissionController {
 	public ResponseEntity<PermissionDTO> getPermissionById(@PathVariable ("permissionId") Long permissionId) {
 	
 		if (permissionId == null || permissionId <= 0) {
-			log.info("getPermissionById() permissionId <0 exception ");
+			log.info("getPermissionById() EmptyInputException : Permission Id is null or empty or < 0.");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
 		}
@@ -155,7 +155,7 @@ public class PermissionController {
 	public ResponseEntity<Boolean> deleteUserByUserId(@PathVariable("permissionId") Long permissionId){
 		log.info("deleteUserByUserId() entered with args - emailId");
 		if(permissionId <= 0|| permissionId == null) {
-			log.info("deleteUserByUserId() EmptyInputException : userid/emailid is empty");
+			log.info("deleteUserByUserId() EmptyInputException : permissionId is empty or null or < 0");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ID_IS_EMPTY_MSG);
 		}

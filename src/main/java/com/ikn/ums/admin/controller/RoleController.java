@@ -41,7 +41,7 @@ public class RoleController {
 	public ResponseEntity<RoleDTO> createRole(@RequestBody RoleDTO role) {
 		log.info("createRole() entered with args - role");
 		if (role == null || role.equals(null)) {
-			log.info("Role Entity Not Found Exception has encountered while creating Role.");
+			log.info("createRole() EntityNotFoundException : Role object is null or empty.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		}
@@ -68,7 +68,7 @@ public class RoleController {
 	public ResponseEntity<RoleDTO> updateRole(@RequestBody RoleDTO role) {
 		log.info("updateRole() entered with args - role");
 		if (role == null || role.equals(null)) {
-			log.info("Role Entity Not Found Exception has encountered while updating Role.");
+			log.info("updateRole() EntityNotFoundException Role object is null or empty.");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ROLE_ENTITY_IS_NULL_MSG);
 		}
@@ -138,9 +138,11 @@ public class RoleController {
 	@GetMapping("/{roleId}")
 	public ResponseEntity<RoleDTO> getRoleById(@PathVariable Long roleId) {
 		log.info("getRoleById() ENTERED : roleId : " + roleId);
-		if (roleId <= 0|| roleId == null)
+		if (roleId <= 0|| roleId == null) {
+			log.info("getRoleById() EmptyInputException : role Id is empty");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_ROLE_ID_IS_EMPTY_MSG);
+		}
 		try {
 			log.info("getRoleById() is under execution...");
 			var role = roleService.getRoleById(roleId);

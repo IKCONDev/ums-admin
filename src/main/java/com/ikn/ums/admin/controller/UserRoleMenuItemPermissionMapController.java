@@ -40,7 +40,7 @@ public class UserRoleMenuItemPermissionMapController {
 		try {
 
 			if (Strings.isNullOrEmpty(emailId) || emailId.length() <= 0) {
-				log.info("getAllUserRoleMenuItemPermissionMaps() : The emailId is null or empty !");
+				log.info("getAllUserRoleMenuItemPermissionMaps() EmptyInputException : The emailId is null or empty !");
 				throw new EmptyInputException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_CODE,
 						ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_MSG);
 			}
@@ -65,6 +65,7 @@ public class UserRoleMenuItemPermissionMapController {
 		log.info("updateUserRoleMenuItemPermissionMap() entered with args : userRoleMenuItemPermissionMapDTO");
 		
 		if(urmipDTO == null) {
+			log.info("updateUserRoleMenuItemPermissionMap() EntityNotFoundException : UserRoleMenuItemPermissionMapDTO object is null or empty !");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_MSG);
 		}
@@ -91,6 +92,7 @@ public class UserRoleMenuItemPermissionMapController {
 	public ResponseEntity<UserRoleMenuItemPermissionMapDTO> createUserRoleMenuItemPermissionMap(@RequestBody UserRoleMenuItemPermissionMapDTO urmipDTO){
 		log.info("createUserRoleMenuItemPermissionMap() entered with args : userRoleMenuItemPermissionMapDTO");
 		if(urmipDTO == null) {
+			log.info("createUserRoleMenuItemPermissionMap() EntityNotFoundException : UserRoleMenuItemPermissionMapDTO object is null or empty !");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_CODE, 
 					ErrorCodeMessages.ERR_USER_ROLE_MENU_PER_IS_NULL_MSG);
 		}
