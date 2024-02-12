@@ -40,7 +40,7 @@ public class MenuItemController {
 		
 		log.info("createMenuItem() entered ");
 		if (menuItemDTO == null) {
-			log.info("Permission Entity Not Found Exception has encountered while creating MenuItem.");
+			log.info("createMenuItem() EntityNotFoundException : MenuItem Object is null or empty");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ENTITY_IS_NULL_MSG);
 		}
@@ -65,7 +65,7 @@ public class MenuItemController {
 	public ResponseEntity<MenuItemDTO> updateMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
 		log.info("updateMenuItem() entered with args");
 		if (menuItemDTO == null) {
-			log.info("MenuItem Entity Not Found Exception has encountered while updating Role.");
+			log.info("updateMenuItem() EntityNotFoundException : MenuItem Object is null or empty");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_PERMISSION_ENTITY_IS_NULL_MSG);
 		}
@@ -121,7 +121,7 @@ public class MenuItemController {
 			throw businessException;
 		} 
 		catch (Exception e) {
-			log.error("getAllMenuItems() exited with exception : Exception occured fetching menuitems list."
+			log.error("getAllMenuItems() exited with exception : Exception occured while fetching menuitems list."
 					+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);
@@ -133,7 +133,7 @@ public class MenuItemController {
 	public ResponseEntity<MenuItemDTO> getMenuItemById(@PathVariable Long menuItemId) {
 		log.info("getMenuItemById() entered with args - menuItemId");
 		if (menuItemId <= 0||menuItemId==null) {
-			log.info("getMenuItemById() permissionId < 0 EmptyInputException ");
+			log.info("getMenuItemById() EmptyInputException : permissionId < 0  or null ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
@@ -147,7 +147,7 @@ public class MenuItemController {
 			log.error("getMenuItemById() : An error occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
-			log.error("getMenuItemById() exited with exception : Exception occured fetching menuitem"
+			log.error("getMenuItemById() exited with exception : Exception occured while fetching menuitem"
 					+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);
@@ -158,7 +158,7 @@ public class MenuItemController {
 	public ResponseEntity<MenuItemDTO> getMenuItemByName(@PathVariable String menuItemName) {
 		log.info("getMenuItemById() entered with args menuItemName");
 		if (Strings.isNullOrEmpty(menuItemName) || menuItemName.isEmpty()) {
-			log.info("getMenuItemById() permissionId <0 exception ");
+			log.info("getMenuItemById() EmptyInputException : permissionId <0 or null ");
 			throw new EmptyInputException(ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_ID_IS_EMPTY_MSG);
 		}
@@ -169,10 +169,10 @@ public class MenuItemController {
 			log.info("getMenuItemById() executed successfully");
 			return new ResponseEntity<>(menuItem, HttpStatus.OK);
 		}catch (EmptyInputException businessException) {
-			log.error("getMenuItemByName() : An error occurred: {}." + businessException.getMessage(), businessException);
+			log.error("getMenuItemByName() : A Business exception occurred: {}." + businessException.getMessage(), businessException);
 			throw businessException;
 		}catch (Exception e) {
-			log.error("getMenuItemByName() exited with exception : Exception occured fetching menuitem"
+			log.error("getMenuItemByName() exited with exception : Exception occured while fetching menuitem"
 					+ e.getMessage(),e);
 			throw new ControllerException(ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_CODE,
 					ErrorCodeMessages.ERR_MENU_ITEM_GET_UNSUCCESS_MSG);

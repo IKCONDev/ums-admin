@@ -38,6 +38,7 @@ public class OrgController {
 	public ResponseEntity<OrganizationDTO> createOrg(@RequestBody OrganizationDTO org) {
 		log.info("createOrg() entered with args - organization");
 		if (org == null) {
+			log.info("updateOrg() EntityNotFoundException : Organization object is null or empty");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_MSG);
 		}
@@ -61,7 +62,7 @@ public class OrgController {
 	public ResponseEntity<OrganizationDTO> updateOrg(@RequestBody OrganizationDTO org) {
 		log.info("updateOrg() entered with args - org");
 		if (org == null || org.equals(null)) {
-			log.info("updateOrg() EntityNotFoundException : Organization object is null ");
+			log.info("updateOrg() EntityNotFoundException : Organization object is null or empty");
 			throw new EntityNotFoundException(ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_CODE,
 					ErrorCodeMessages.ERR_ORG_ENTITY_IS_NULL_MSG);
 		}
