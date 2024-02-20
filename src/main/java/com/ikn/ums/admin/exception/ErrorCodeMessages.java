@@ -198,6 +198,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_ORG_DB_ENTITY_NOTFOUND_CODE = "ERR_ORG_DB_ENTITY_NOTFOUND_CODE-1044";
 	 public static final String ERR_ORG_DB_ENTITY_NOTFOUND_MSG = "Organization Entity retrieved from database is null !."; 
 	 
+	 public static final String ERR_ORG_IMAGE_NOT_VALID_CODE = "IMAGE-IS-NOT-VALID-1045";
+	 public static final String ERR_ORG_IMAGE_NOT_VALID_MSG = "THIS IS NOT A VALID IMAGE FILE";
+	 
 	 //ORGANIZATION MODULE ERROR CODES
 	 
 	//PERMISSION MODULE ERROR CODES

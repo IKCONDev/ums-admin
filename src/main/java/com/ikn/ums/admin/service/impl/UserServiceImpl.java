@@ -1,5 +1,10 @@
 package com.ikn.ums.admin.service.impl;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,6 +15,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
@@ -295,12 +301,38 @@ public class UserServiceImpl implements UserService {
 		}
 		log.info("updateUserProfilePic() is under execution");
 		User dbUser = userRepository.findByEmail(emailId);
-		dbUser.setProfilePic(profilePicImage.getBytes());
+		  byte[] resizedImage = resizeImage(profilePicImage.getBytes());
+		  if(resizedImage != null) {
+			  dbUser.setProfilePic(resizedImage);
+		  }
 		User updatedUser = userRepository.save(dbUser);
 		log.info("updateUserProfilePic() executed successfully");
 		return updatedUser;
 	}
+	private byte[] resizeImage(byte[] imageBytes) throws IOException {
+	    try (ByteArrayInputStream in = new ByteArrayInputStream(imageBytes);
+	         ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+	        BufferedImage originalImage = ImageIO.read(in);
 
+	        // Specify your desired dimensions for resizing
+	        int width = 500; // Adjust as needed
+	        int height = 500; // Adjust as needed
+
+	        BufferedImage resizedImage = scaleImage(originalImage, width, height);
+	        ImageIO.write(resizedImage, "jpg", out); // Or any preferred format (e.g., "png")
+	        return out.toByteArray();
+	    }
+	}
+
+	private BufferedImage scaleImage(BufferedImage originalImage, int width, int height) {
+	    int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+	    BufferedImage resizedImage = new BufferedImage(width, height, type);
+	    Graphics2D g = resizedImage.createGraphics();
+	    g.setComposite(AlphaComposite.Src);
+	    g.drawImage(originalImage, 0, 0, width, height, null);
+	    g.dispose();
+	    return resizedImage;
+	}
 	@Override
 	public List<String> getActiveUsersEmailIdList(boolean isActive) {
 		log.info("getActiveUsersEmailIdList() entered");

@@ -1,6 +1,14 @@
 package com.ikn.ums.admin.controller;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -154,8 +162,8 @@ public class OrgController {
 			if (orgList.size() == 1) {
 				org = orgList.get(0);
 			}
-			org.setOrganizationImage(orgPic.getBytes());
-			updateOrg(org);
+			
+			orgService.updateOrgPic(org,orgPic);
 			log.info("updateOrgPic() executed successfully");
 			return new ResponseEntity<>(org, HttpStatus.OK);
 		} catch (Exception e) {
