@@ -126,9 +126,9 @@ public class UserServiceImpl implements UserService {
 		Random r = new Random();
 		String mailHeading = null;
 		if (pageType.equals("TwoFactorAuth")) {
-			mailHeading = "One Time Password for Secure Login ";
+			mailHeading = "Login OTP: Your Secure Access Code ";
 		} else if (pageType.equals("ForgotPassword")) {
-			mailHeading = "One Time Password for Secure Login";
+			mailHeading = "Password Reset OTP: Your Secure Access Code";
 		}
 		try {
 			
