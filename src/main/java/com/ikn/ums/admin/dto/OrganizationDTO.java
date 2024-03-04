@@ -2,6 +2,9 @@ package com.ikn.ums.admin.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,5 +41,7 @@ public class OrganizationDTO implements Serializable {
 	private String modifiedByEmailId;
 	private byte[] organizationImage;
 	private String orgCountryCode;
+	private String contactCountryCode;
+	private String contactCountryName;
 
 }
