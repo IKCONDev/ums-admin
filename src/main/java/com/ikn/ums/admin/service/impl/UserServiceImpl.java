@@ -367,6 +367,7 @@ public class UserServiceImpl implements UserService {
 				List<UserRoleMenuItemPermissionMapDTO> userRoleMenuItemPermissionMapDTO = assignRoleMenuItemPermissionsToUser(userDTO);
 				userRoleMenuItemPermissionMapService.saveAllUserRoleMenuItemPermissionMaps(userRoleMenuItemPermissionMapDTO);
 		}
+		sendUserCreatedEmail(user.getEmail());
 		restTemplate.exchange("http://UMS-EMPLOYEE-SERVICE/employees/employeestatus-update/"+user.getEmail(),HttpMethod.PUT, null, boolean.class);
 		log.info("createUser() call to employee microservice successfull.");
 		log.info("createUser() executed successfully.");
@@ -535,5 +536,16 @@ public class UserServiceImpl implements UserService {
 		updateUser(userdto);
 		log.info("deleteProfilePicOfUser() execution sucessfull !");
 	}
-
+    
+	public void sendUserCreatedEmail(String email) {
+		String subect = "Welcome to UMS: Your Account Details Inside!";
+		String body ="Dear "+" "+"User"+","+"\r \n"+ "Welcome to UMS! We're excited to have you on board as a user of our software application."+"\r \n"+"Your account has been successfully created, and here are your login details:"+"\r \n" +
+		             "Username : "+email+"\r\n"+"Password : "+"Test@123"+"\r \n"+"For security reasons, we recommend changing your password upon your initial login. To get started, please follow these steps:"+"\r \n"+
+		             "1. Visit www.umsuite.com."+"\r\n"+"2. Enter your username/email and the temporary password provided above."+"\r\n"+"3. Follow the prompts to set up your new password and complete your profile."+"\r \n"+
+                     "If you encounter any issues or have any questions, please don't hesitate to reach out to our support team at ums-support@ikcontech.com."+"\r \n"+
+		             "We look forward to providing you with a seamless experience using UMS."+"\r \n"
+		             +"Best regards,"+"\r\n"+"UMS Team";
+		emailService.sendMail(email, subect,body);
+		
+	}
 }
