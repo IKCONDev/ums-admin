@@ -97,11 +97,11 @@ public class Organization {
 	@Column(name= "orgCountryCode")
 	private String orgCountryCode;
 
-	@Column(name = "contactCountryCode")
+	@Column(name = "contactPersonCountryCode")
 	private String  contactCountryCode;
 	
-	@Column(name ="contactCountryName")
-	private String contactCountryName;
+	@Column(name ="contactPersonCountryName")
+	private String contactPersonCountryName;
 	
 
 }
