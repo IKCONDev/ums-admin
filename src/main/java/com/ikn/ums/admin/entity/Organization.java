@@ -96,6 +96,9 @@ public class Organization {
 	
 	@Column(name= "orgCountryCode")
 	private String orgCountryCode;
+	
+	@Column(name= "contactCountryCode")
+	private String contactCountryCode;
 
 	
 
