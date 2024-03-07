@@ -142,4 +142,29 @@ public class UserController {
 					ErrorCodeMessages.ERR_USER_GET_UNSUCCESS_MSG);
 		}
 	}
+	
+	@PutMapping("/set-status/{emailId}")
+	public ResponseEntity<Boolean> setUserStatus(@PathVariable("emailId") String emailId){
+		log.info("setUserStatus() entered with args - emailid "+emailId);
+		if(emailId == null || emailId.isEmpty()) {
+			log.info("setUserStatus() EmptyInputException : userId / emailId is empty or null");
+			throw new EmptyInputException(ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_CODE,
+					ErrorCodeMessages.ERR_USER_EMAIL_ID_NOT_FOUND_MSG);
+		}
+		try {
+			log.info("setUserStatus() is under execution...");
+			var result = userService.setUserStatustoInactive(emailId);
+			log.info("setUserStatus() executed successfully");
+			return new ResponseEntity<>(result,HttpStatus.OK);
+		}catch (EmptyInputException businesException) {
+			log.error("setUserStatus() exited with exception :Business Exception occured while updating user. "+businesException.getMessage(), businesException);
+			throw businesException;
+		}catch (Exception e) {
+			log.error("setUserStatus() exited with exception : Exception occured while updating user."+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_CODE,
+					ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_CODE);
+		}
+	}
+	
+	
 }

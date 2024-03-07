@@ -27,4 +27,5 @@ public interface UserService extends UserDetailsService {
 	void deleteUserByUserId(String emailId);
 	List<UserDTO> getAllUsers();
 	void deleteProfilePicOfUser(String emailId);
+	public boolean setUserStatustoInactive(String email);
 }

@@ -548,4 +548,17 @@ public class UserServiceImpl implements UserService {
 		emailService.sendMail(email, subect,body);
 		
 	}
+	
+	@Transactional
+	public boolean setUserStatustoInactive(String email) {
+		
+		 User user = userRepository.findByEmail(email);
+			if (user != null) {
+				user.setActive(false);
+				userRepository.save(user);
+			}
+		 return true;
+		
+	}
+	
 }
