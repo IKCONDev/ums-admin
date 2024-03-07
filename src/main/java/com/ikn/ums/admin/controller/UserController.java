@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ikn.ums.admin.VO.EmployeeVO;
+import com.ikn.ums.admin.VO.EmployeeVO;
 import com.ikn.ums.admin.dto.UserDTO;
 import com.ikn.ums.admin.exception.ControllerException;
 import com.ikn.ums.admin.exception.EmptyInputException;
@@ -165,6 +167,26 @@ public class UserController {
 					ErrorCodeMessages.ERR_USER_UPDATE_UNSUCCESS_CODE);
 		}
 	}
+	
+	@PutMapping("/all-status")
+	public ResponseEntity<Boolean> updateSelectedusersStatus(@RequestBody List<EmployeeVO> employeevo){
+		log.info("updateSelectedusersStatus() entered with args ");
+	
+		try {
+			log.info("updateSelectedusersStatus() is under execution...");
+			var result = userService.setAllUserStatusToInactive(employeevo);
+			log.info("updateSelectedusersStatus() executed successfully");
+			return new ResponseEntity<>(result,HttpStatus.OK);
+		}catch (EmptyInputException businesException) {
+			log.error("updateSelectedusersStatus() exited with exception :Business Exception occured while updating user. "+businesException.getMessage(), businesException);
+			throw businesException;
+		}catch (Exception e) {
+			log.error("updateSelectedusersStatus() exited with exception : Exception occured while updating user."+ e.getMessage(), e);
+			throw new ControllerException(ErrorCodeMessages.ERR_USER_LIST_IS_USERTY_CODE,
+					ErrorCodeMessages.ERR_USER_LIST_IS_USERTY_MSG);
+		}
+	}
+	
 	
 	
 }

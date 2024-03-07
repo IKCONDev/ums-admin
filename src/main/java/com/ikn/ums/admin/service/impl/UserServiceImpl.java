@@ -561,4 +561,21 @@ public class UserServiceImpl implements UserService {
 		
 	}
 	
+	public boolean setAllUserStatusToInactive(List<EmployeeVO> employeeVO) {
+		
+		List<String> emailList = new ArrayList<>();
+		employeeVO.forEach(employee ->{
+			 emailList.add(employee.getEmail());
+		});
+		System.out.println("email List:"+ emailList);
+		List<User> usersObject = userRepository.findAllUsersByEmail(emailList);
+		usersObject.forEach(user ->{
+			user.setActive(false);
+		});
+		userRepository.saveAll(usersObject);
+		
+        return true;
+		
+	}
+	
 }

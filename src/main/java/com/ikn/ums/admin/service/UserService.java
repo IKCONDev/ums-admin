@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ikn.ums.admin.VO.EmployeeVO;
 import com.ikn.ums.admin.VO.UserVO;
 import com.ikn.ums.admin.dto.UserDTO;
 import com.ikn.ums.admin.entity.User;
@@ -28,4 +29,5 @@ public interface UserService extends UserDetailsService {
 	List<UserDTO> getAllUsers();
 	void deleteProfilePicOfUser(String emailId);
 	public boolean setUserStatustoInactive(String email);
+	public boolean setAllUserStatusToInactive(List<EmployeeVO> employeeVO);
 }

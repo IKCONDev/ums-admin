@@ -49,4 +49,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 //    @Modifying
 //    @Query("UPDATE User u SET u.role")
 //    Integer updateRoleByUserId(String emailId);
+      @Query("FROM User e WHERE e.email IN :emailIds")
+      List<User> findAllUsersByEmail(List<String> emailIds);
 }
