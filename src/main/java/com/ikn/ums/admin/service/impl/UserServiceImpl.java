@@ -538,6 +538,8 @@ public class UserServiceImpl implements UserService {
 	}
     
 	public void sendUserCreatedEmail(String email) {
+		log.info("sendUserCreatedEmail() is Entered !");
+		log.info("sendUserCreatedEmail() is under execution");
 		String subect = "Welcome to UMS: Your Account Details Inside!";
 		String body ="Dear "+" "+"User"+","+"\r \n"+ "Welcome to UMS! We're excited to have you on board as a user of our software application."+"\r \n"+"Your account has been successfully created, and here are your login details:"+"\r \n" +
 		             "Username : "+email+"\r\n"+"Password : "+"Test@123"+"\r \n"+"For security reasons, we recommend changing your password upon your initial login. To get started, please follow these steps:"+"\r \n"+
@@ -546,23 +548,29 @@ public class UserServiceImpl implements UserService {
 		             "We look forward to providing you with a seamless experience using UMS."+"\r \n"
 		             +"Best regards,"+"\r\n"+"UMS Team";
 		emailService.sendMail(email, subect,body);
-		
+		log.info("sendUserCreatedEmail() executed successfully");
 	}
 	
 	@Transactional
+	@Override
 	public boolean setUserStatustoInactive(String email) {
-		
+		log.info("setUserStatustoInactive() Entered !");
+		log.info("setUserStatustoInactive() is under execution...");
 		 User user = userRepository.findByEmail(email);
 			if (user != null) {
 				user.setActive(false);
 				userRepository.save(user);
 			}
+		log.info("setUserStatustoInactive() executed successfully");
 		 return true;
 		
 	}
 	
+	@Transactional
+	@Override
 	public boolean setAllUserStatusToInactive(List<EmployeeVO> employeeVO) {
-		
+		log.info("setAllUserStatusToInactive() Entered !");
+		log.info("setAllUserStatusToInactive() is under execution...");
 		List<String> emailList = new ArrayList<>();
 		employeeVO.forEach(employee ->{
 			 emailList.add(employee.getEmail());
@@ -573,7 +581,7 @@ public class UserServiceImpl implements UserService {
 			user.setActive(false);
 		});
 		userRepository.saveAll(usersObject);
-		
+		log.info("setAllUserStatusToInactive() executed successfully");
         return true;
 		
 	}
