@@ -38,5 +38,5 @@ public class OrganizationDTO implements Serializable {
 	private String modifiedByEmailId;
 	private byte[] organizationImage;
 	private String orgCountryCode;
-
+	private String contactCountryCode;
 }
