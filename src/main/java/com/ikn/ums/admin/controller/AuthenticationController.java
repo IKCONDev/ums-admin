@@ -26,6 +26,7 @@ import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
 import com.ikn.ums.admin.exception.ImageNotFoundException;
 import com.ikn.ums.admin.model.UpdatePasswordRequestModel;
+import com.ikn.ums.admin.model.ValidateOldPasswordModel;
 import com.ikn.ums.admin.model.ValidateOtpRequestModel;
 import com.ikn.ums.admin.service.UserService;
 import com.netflix.servo.util.Strings;
@@ -278,4 +279,25 @@ public class AuthenticationController {
 		}
 
 	}
+	
+	@PostMapping("/check-oldpassword")
+	public ResponseEntity<Boolean> validateOldPassword(@RequestBody ValidateOldPasswordModel validatepassword) {
+		log.info("validateOldPassword() ENTERED with args : validatepassword");
+		if (validatepassword == null) {
+			log.info("validateOldPassword() Validatepassword Object in NULL");
+			throw new EntityNotFoundException(ErrorCodeMessages.ERR_USER_VALIDATE_OLD_PASSWORD_IS_EMPTY_CODE,
+					ErrorCodeMessages.ERR_USER_VALIDATE_OLD_PASSWORD_IS_EMPTY_MSG);
+		}
+		try {
+			log.info("validateOldPassword() is under execution...");
+			var result = userService.validateOldPassword(validatepassword.getEmail(),validatepassword.getOldPassword());
+			log.info("validateOldPassword() executed successfully");
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (EntityNotFoundException businessException) {
+			log.error("validateOldPassword() : An error occurred: {}." + businessException.getMessage(), businessException);
+			throw businessException;
+		}
+		
+	}
+
 }

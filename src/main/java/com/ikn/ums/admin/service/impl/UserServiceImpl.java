@@ -586,4 +586,19 @@ public class UserServiceImpl implements UserService {
 		
 	}
 	
+	@Override
+	public boolean validateOldPassword(String email, String oldPassword) {
+		log.info("validateOldPassword() Entered !");
+		log.info("validateOldPassword() is under execution...");
+		User user =  userRepository.findByEmail(email);
+		user.getEncryptedPassword();
+		boolean result = false;
+		if(passwordEncoder.matches(oldPassword, user.getEncryptedPassword())) {
+		    result = true;	
+		}
+		log.info("validateOldPassword() executed successfully");
+		return result;
+		
+	}
+	
 }

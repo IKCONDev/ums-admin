@@ -94,6 +94,9 @@ public class ErrorCodeMessages {
 	 public static final String ERR_USER_VALIDATE_UNSUCCESS_CODE = "ERR_USER_VALIDATE_UNSUCCESS_CODE-1031";
 	 public static final String ERR_USER_VALIDATE_UNSUCCESS_MSG = "Error while validating the user";
 	 
+	 public static final String ERR_USER_VALIDATE_OLD_PASSWORD_IS_EMPTY_CODE = "ERR_USER_VALIDATE_OLD_PASSWORD_IS_EMPTY_CODE-1032";
+	 public static final String ERR_USER_VALIDATE_OLD_PASSWORD_IS_EMPTY_MSG = "Old password from UI is empty."; 	
+	 
 	 
 //ROLE MODULE ERROR CODES
 

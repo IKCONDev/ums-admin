@@ -30,4 +30,6 @@ public interface UserService extends UserDetailsService {
 	void deleteProfilePicOfUser(String emailId);
 	public boolean setUserStatustoInactive(String email);
 	public boolean setAllUserStatusToInactive(List<EmployeeVO> employeeVO);
+	
+	public boolean validateOldPassword(String email, String oldPassword);
 }
