@@ -29,6 +29,9 @@ public class UserDTO implements Serializable {
 	private byte[] profilePic;
 	private boolean isActive;
 	private Integer loginAttempts;
+	private String loginAttemptedClientIP;
+	private String loginAttemptedClientDeviceType;
+	private LocalDateTime loginAttemptedDateTime;
 	private LocalDateTime createdDateTime;
 	private LocalDateTime modifiedDateTime;
 	private String createdBy;

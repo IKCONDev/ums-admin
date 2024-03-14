@@ -13,6 +13,10 @@ public class EmailService {
 
 	@Autowired
 	private JavaMailSender sender;
+	
+	public EmailService(JavaMailSender sender) {
+		this.sender = sender;
+	}
 
 	public boolean sendMail(String to, String subject, String textBody, String[] cc, String[] bcc, MultipartFile file) {
 

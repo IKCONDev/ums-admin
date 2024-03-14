@@ -433,6 +433,9 @@ public class UserServiceImpl implements UserService {
 			dbUser.setTwoFactorAuthentication(user.isTwoFactorAuthentication());
 			dbUser.setUserRoles(roleSet);
 			dbUser.setLoginAttempts(user.getLoginAttempts());
+			dbUser.setLoginAttemptedClientDeviceType(user.getLoginAttemptedClientDeviceType());
+			dbUser.setLoginAttemptedClientIP(user.getLoginAttemptedClientIP());
+			dbUser.setLoginAttemptedDateTime(user.getLoginAttemptedDateTime());
 		}
 		log.info("updateUser() is under execution...");
 		User updatedUser = userRepository.save(dbUser);

@@ -1,11 +1,14 @@
 package com.ikn.ums.admin.security;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,6 +23,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +32,7 @@ import com.ikn.ums.admin.dto.UserDTO;
 import com.ikn.ums.admin.entity.Role;
 import com.ikn.ums.admin.model.UserLoginRequestModel;
 import com.ikn.ums.admin.service.UserService;
-
+import com.ikn.ums.admin.utils.EmailService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -43,12 +47,19 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
 	private ModelMapper mapper = new ModelMapper();
 	
+	private EmailService emailService;
+	
+	private BCryptPasswordEncoder encoder;
+	
 	private static final String TOKEN_EXPIRATION_PROPERTY = "token.expiration_time";
 
-	public UserAuthenticationFilter(UserService service, Environment environment, AuthenticationManager authManager) {
+	public UserAuthenticationFilter(UserService service, Environment environment, AuthenticationManager authManager,
+			EmailService emailService, BCryptPasswordEncoder encoder) {
 		log.info("UserAuthenticationFilter() constructor entered with args - UserService,Environment and AuthenticationManager Objects.");
 		this.service = service;
 		this.environment = environment;
+		this.emailService = emailService;
+		this.encoder = encoder;
 		super.setAuthenticationManager(authManager);
 		mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 	}
@@ -57,6 +68,18 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		log.info("attemptAuthentication() entered with args - HttpRequest and HttpResponse Objects.");
+		String clientIP = request.getRemoteAddr();
+		//String clientName = request.getRemoteHost();
+		String deviceType = request.getHeader("User-Agent");
+        // Define the regular expression pattern
+        Pattern pattern = Pattern.compile("\\((.*?)\\)");
+        // Match the pattern against the input string
+        Matcher matcher = pattern.matcher(deviceType);
+        // Find the substring within brackets
+        String orginalDeviceType = "";
+        if (matcher.find()) {
+        	orginalDeviceType = matcher.group(1);
+        }
 		var i = 1;
 		try {
 			UserLoginRequestModel creds = new ObjectMapper().readValue(request.getInputStream(),
@@ -66,8 +89,32 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				boolean isActive = loadedUser.isActive();
 				UserDTO loginAttemptedUser = service.getUserDetailsByUsername(creds.getEmail());
 				// get user datails and update login attempts
+				loginAttemptedUser.setLoginAttemptedClientIP(clientIP);
+				loginAttemptedUser.setLoginAttemptedClientDeviceType(orginalDeviceType);
+				loginAttemptedUser.setLoginAttemptedDateTime(LocalDateTime.now());
 				loginAttemptedUser.setLoginAttempts(loginAttemptedUser.getLoginAttempts() + i);
 				var updatedUserWithLogginAttempts = service.updateUser(loginAttemptedUser);
+				var dbEncPassword = updatedUserWithLogginAttempts.getEncryptedPassword();
+				var isPasswordMatched = encoder.matches(creds.getPassword(), dbEncPassword);
+				if(!isPasswordMatched) {
+					var remainingLoginAttempts = 3;
+					//send email to user on an unsuccessful login attempt
+					if(updatedUserWithLogginAttempts.getLoginAttempts() == 1) {
+						remainingLoginAttempts = remainingLoginAttempts-1;
+					}else if(updatedUserWithLogginAttempts.getLoginAttempts() == 2) {
+						remainingLoginAttempts = remainingLoginAttempts-2;
+					}else {
+						remainingLoginAttempts = 0;
+					}
+					String emailbody = "Dear User, A login was attempted to your UMS account : "+ updatedUserWithLogginAttempts.getEmail()+
+					"\r\n Login Attempted from Device : "
+								+ ""+updatedUserWithLogginAttempts.getLoginAttemptedClientDeviceType()+" \r\n Device IP : "
+										+ ""+updatedUserWithLogginAttempts.getLoginAttemptedClientIP()+" \r\n Login Attempts : "+
+										updatedUserWithLogginAttempts.getLoginAttempts()+"\r\n Login Attempted Time : "+
+										updatedUserWithLogginAttempts.getLoginAttemptedDateTime()+"\r\n \r\n"+
+										"Remaining Login Attempts : "+remainingLoginAttempts+"\r\n \r\n";
+					emailService.sendMail(updatedUserWithLogginAttempts.getEmail(), "UMS Login Attempt Detected", emailbody);
+				}
 				response.addHeader("loginAttempts", updatedUserWithLogginAttempts.getLoginAttempts().toString());
 				String active = String.valueOf(isActive);
 				if (!isActive) {
@@ -103,6 +150,12 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		var loadedUser = service.getUser(userName);
 		// on sucessful auth set login attempts to 0
 		UserDTO loggedInUser = service.getUserDetailsByUsername(userName);
+		String emailbody = "Dear User, A login detected to your UMS account : "+ loggedInUser.getEmail()+
+				"\r\n Login detected from Device : "
+							+ ""+loggedInUser.getLoginAttemptedClientDeviceType()+" \r\n Device IP : "
+									+ ""+loggedInUser.getLoginAttemptedClientIP()+"\r\n Login Attempted Time : "
+									+loggedInUser.getLoginAttemptedDateTime();
+				emailService.sendMail(loggedInUser.getEmail(), "UMS Login Success", emailbody);
 		loggedInUser.setLoginAttempts(0);
 		service.updateUser(loggedInUser);
 		log.info("successfulAuthentication() : Login attempts reset to 0 on successful login.");

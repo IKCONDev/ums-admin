@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.ikn.ums.admin.service.UserService;
+import com.ikn.ums.admin.utils.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,11 +29,15 @@ public class UsersWebSecurity {
 	
 	private BCryptPasswordEncoder encoder;
 	
+	private EmailService emailService;
+	
 	@Autowired
-	public UsersWebSecurity(Environment environment, UserService service,BCryptPasswordEncoder encoder){	
+	public UsersWebSecurity(Environment environment, UserService service,BCryptPasswordEncoder encoder,
+			EmailService emailService){	
 		this.environment = environment;
 		this.service= service;
 		this.encoder = encoder;
+		this.emailService = emailService;
 	}
 	
 	/**
@@ -62,7 +67,7 @@ public class UsersWebSecurity {
 	public UserAuthenticationFilter getAuthenticationFilter(HttpSecurity http) throws Exception{
 		log.info("getAuthenticationFilter() entered with args HttpSecurity object");
 		//set authentication manager on your auth filter
-		UserAuthenticationFilter authenticationFilter = new UserAuthenticationFilter(service,environment,authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)));
+		UserAuthenticationFilter authenticationFilter = new UserAuthenticationFilter(service,environment,authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)),emailService,encoder);
 		//set authentication manager on your auth filter
 		authenticationFilter.setFilterProcessesUrl(environment.getProperty("login.url.path"));
 		log.info("getAuthenticationFilter() executed successfully.");

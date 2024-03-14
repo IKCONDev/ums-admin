@@ -61,6 +61,15 @@ public class User{
 	@Column(name = "loginAttempts")
 	private int loginAttempts;
 	
+	@Column(name = "loginAttemptedClientIP")
+	private String loginAttemptedClientIP;
+	
+	@Column(name = "loginAttemptedClientDeviceType")
+	private String loginAttemptedClientDeviceType;
+	
+	@Column(name = "loginAttemptedDateTime")
+	private LocalDateTime loginAttemptedDateTime;
+	
 	@Column(name = "createdDateTime")
 	private LocalDateTime createdDateTime;
 	
