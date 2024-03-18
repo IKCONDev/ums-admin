@@ -13,45 +13,81 @@ public class EmailService {
 
 	@Autowired
 	private JavaMailSender sender;
-	
-	public EmailService(JavaMailSender sender) {
-		this.sender = sender;
-	}
 
-	public boolean sendMail(String to, String subject, String textBody, String[] cc, String[] bcc, MultipartFile file) {
+	public boolean sendMail(String to, String subject, String textBody, String[] cc, String[] bcc, MultipartFile file,
+			boolean isHtml) {
 
 		boolean flag = false;
-		//create Mime Message
 		MimeMessage message = sender.createMimeMessage();
-		//set data to message using helper
+
 		try {
-			MimeMessageHelper helper = new MimeMessageHelper(message, file!=null);
+			MimeMessageHelper helper = new MimeMessageHelper(message, file != null ? true : false);
 			helper.setTo(to);
 			helper.setSubject(subject);
-			helper.setText(textBody);
-			if(cc != null) {
+			// helper.setText(textBody);
+			helper.setText(textBody, isHtml);
+			if (cc != null) {
 				helper.setCc(cc);
-			}//if
-			if(bcc != null) {
+			}
+			if (bcc != null) {
 				helper.setBcc(bcc);
 			}
-			if(file != null) {
+			if (file != null) {
 				helper.addAttachment(file.getOriginalFilename(), file);
 			}
 			sender.send(message);
 			flag = true;
-		}//try
-		catch (Exception e) {
+		} catch (Exception e) {
+			// TODO: handle exception
 			flag = false;
 			e.printStackTrace();
 		}
 		return flag;
+
 	}
 
-	public boolean sendMail(String to, String subject, String textBody) {
-		return sendMail(to, subject, textBody, null, null, null);
+	public boolean sendMail(String to, String subject, String textBody, boolean isHtml) {
+
+		return sendMail(to, subject, textBody, null, null, null, isHtml);
+
 	}
 
- 
+	public boolean sendMail(String[] to, String subject, String textBody, String[] cc, String[] bcc, MultipartFile file,
+			boolean isHtml) {
+
+		boolean flag = false;
+		MimeMessage message = sender.createMimeMessage();
+
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(message, file != null ? true : false);
+			helper.setTo(to);
+			helper.setSubject(subject);
+			// helper.setText(textBody);
+			helper.setText(textBody, isHtml);
+			if (cc != null) {
+				helper.setCc(cc);
+			}
+			if (bcc != null) {
+				helper.setBcc(bcc);
+			}
+			if (file != null) {
+				helper.addAttachment(file.getOriginalFilename(), file);
+			}
+			sender.send(message);
+			flag = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			flag = false;
+			e.printStackTrace();
+		}
+		return flag;
+
+	}
+
+	public boolean sendMail(String[] to, String subject, String textBody, boolean isHtml) {
+
+		return sendMail(to, subject, textBody, null, null, null, isHtml);
+
+	}
 
 }

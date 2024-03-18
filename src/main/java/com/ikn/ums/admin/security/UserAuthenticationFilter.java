@@ -106,14 +106,17 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 					}else {
 						remainingLoginAttempts = 0;
 					}
-					String emailbody = "Dear User, A login was attempted to your UMS account : "+ updatedUserWithLogginAttempts.getEmail()+
-					"\r\n Login Attempted from Device : "
-								+ ""+updatedUserWithLogginAttempts.getLoginAttemptedClientDeviceType()+" \r\n Device IP : "
-										+ ""+updatedUserWithLogginAttempts.getLoginAttemptedClientIP()+" \r\n Login Attempts : "+
-										updatedUserWithLogginAttempts.getLoginAttempts()+"\r\n Login Attempted Time : "+
-										updatedUserWithLogginAttempts.getLoginAttemptedDateTime()+"\r\n \r\n"+
-										"Remaining Login Attempts : "+remainingLoginAttempts+"\r\n \r\n";
-					emailService.sendMail(updatedUserWithLogginAttempts.getEmail(), "UMS Login Attempt Detected", emailbody);
+					//get employee details
+					String emailbody = "Dear User, \r\n"+"We've detected an unauthorized login attempt on your UMS account: \r\n \r\n"
+					+ "   •Device: "+updatedUserWithLogginAttempts.getLoginAttemptedClientDeviceType()+"\r\n"+
+					  "   •IP Address: "+updatedUserWithLogginAttempts.getLoginAttemptedClientIP()+"\r\n"+
+					  "   •Time: "+updatedUserWithLogginAttempts.getLoginAttemptedDateTime()+"\r\n"+
+					  "   •Number of Login Attempts: "+updatedUserWithLogginAttempts.getLoginAttempts()+"\r\n \r\n \r\n"
+					+"Your account has "+remainingLoginAttempts+" attempts remaining before automatic lockout.\r\n"
+					+ "Please secure your account immediately by resetting your password or by enabling Two Factor Authentication. \r\n"+
+					"Thank you for your attention. \r\n \r\n";
+					String subject = "Security Alert: Unauthorized Login Attempt";
+					emailService.sendMail(updatedUserWithLogginAttempts.getEmail(), subject, emailbody, false);
 				}
 				response.addHeader("loginAttempts", updatedUserWithLogginAttempts.getLoginAttempts().toString());
 				String active = String.valueOf(isActive);
@@ -150,12 +153,12 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 		var loadedUser = service.getUser(userName);
 		// on sucessful auth set login attempts to 0
 		UserDTO loggedInUser = service.getUserDetailsByUsername(userName);
-		String emailbody = "Dear User, A login detected to your UMS account : "+ loggedInUser.getEmail()+
-				"\r\n Login detected from Device : "
-							+ ""+loggedInUser.getLoginAttemptedClientDeviceType()+" \r\n Device IP : "
-									+ ""+loggedInUser.getLoginAttemptedClientIP()+"\r\n Login Attempted Time : "
-									+loggedInUser.getLoginAttemptedDateTime();
-				emailService.sendMail(loggedInUser.getEmail(), "UMS Login Success", emailbody);
+//		String emailbody = "Dear User, A login detected to your UMS account : "+ loggedInUser.getEmail()+
+//				"\r\n Login detected from Device : "
+//							+ ""+loggedInUser.getLoginAttemptedClientDeviceType()+" \r\n Device IP : "
+//									+ ""+loggedInUser.getLoginAttemptedClientIP()+"\r\n Login Attempted Time : "
+//									+loggedInUser.getLoginAttemptedDateTime();
+//				emailService.sendMail(loggedInUser.getEmail(), "UMS Login Success", emailbody, false);
 		loggedInUser.setLoginAttempts(0);
 		service.updateUser(loggedInUser);
 		log.info("successfulAuthentication() : Login attempts reset to 0 on successful login.");
