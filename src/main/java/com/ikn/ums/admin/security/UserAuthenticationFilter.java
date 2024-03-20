@@ -68,10 +68,10 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		log.info("attemptAuthentication() entered with args - HttpRequest and HttpResponse Objects.");
-		String clientIP = request.getRemoteAddr();
+		//String clientIP = request.getRemoteAddr();
 		String forwardedIP = request.getHeader("X-Forwarded-For");
-		String forwardedIP2 = request.getHeader("X-Real-IP");
-		log.info(forwardedIP+"========================"+forwardedIP2);
+		//String forwardedIP2 = request.getHeader("X-Real-IP");
+		log.info("Login request received from "+forwardedIP);
 		//String clientName = request.getRemoteHost();
 		String deviceType = request.getHeader("User-Agent");
         // Define the regular expression pattern
