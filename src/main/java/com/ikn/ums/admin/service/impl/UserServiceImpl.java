@@ -442,6 +442,9 @@ public class UserServiceImpl implements UserService {
 			dbUser.setLoginAttemptedDateTime(user.getLoginAttemptedDateTime());
 		}
 		log.info("updateUser() is under execution...");
+		if(dbUser.isActive()== false) {
+			restTemplate.exchange("http://UMS-EMPLOYEE-SERVICE/employees/status-update/"+dbUser.getEmail(),HttpMethod.PUT, null, boolean.class);
+		}
 		User updatedUser = userRepository.save(dbUser);
 		UserDTO userDTO = null;
 		if(updatedUser != null) {
