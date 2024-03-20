@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -338,6 +339,9 @@ public class UserServiceImpl implements UserService {
 		log.info("getActiveUsersEmailIdList() entered");
 		log.info("getActiveUsersEmailIdList() is under execution");
 		List<String> userEmailIdList = userRepository.findAllActiveUsersEmailIdList(isActive);
+		userEmailIdList.sort((email1, email2) -> {
+			return email1.compareTo(email2);
+		});
 		log.info("getActiveUsersEmailIdList() executed successfully");
 		return userEmailIdList;
 	}
