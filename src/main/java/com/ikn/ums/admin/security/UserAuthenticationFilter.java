@@ -92,7 +92,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 				boolean isActive = loadedUser.isActive();
 				UserDTO loginAttemptedUser = service.getUserDetailsByUsername(creds.getEmail());
 				// get user datails and update login attempts
-				loginAttemptedUser.setLoginAttemptedClientIP(clientIP);
+				loginAttemptedUser.setLoginAttemptedClientIP(forwardedIP);
 				loginAttemptedUser.setLoginAttemptedClientDeviceType(orginalDeviceType);
 				loginAttemptedUser.setLoginAttemptedDateTime(LocalDateTime.now());
 				loginAttemptedUser.setLoginAttempts(loginAttemptedUser.getLoginAttempts() + i);
