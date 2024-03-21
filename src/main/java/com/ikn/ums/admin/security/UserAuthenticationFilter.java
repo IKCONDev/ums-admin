@@ -2,6 +2,7 @@ package com.ikn.ums.admin.security;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -109,11 +110,14 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 					}else {
 						remainingLoginAttempts = 0;
 					}
+					LocalDateTime timestamp = updatedUserWithLogginAttempts.getLoginAttemptedDateTime();
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE MMMM dd hh:mm a");
+			        String formattedDateTime = timestamp.format(formatter);
 					//get employee details
 					String emailbody = "Dear User, \r\n"+"We've detected an unauthorized login attempt on your UMS account: \r\n \r\n"
 					+ "   •Device: "+updatedUserWithLogginAttempts.getLoginAttemptedClientDeviceType()+"\r\n"+
 					  "   •IP Address: "+updatedUserWithLogginAttempts.getLoginAttemptedClientIP()+"\r\n"+
-					  "   •Time: "+updatedUserWithLogginAttempts.getLoginAttemptedDateTime()+"\r\n"+
+					  "   •Time: "+formattedDateTime+"\r\n"+
 					  "   •Number of Login Attempts: "+updatedUserWithLogginAttempts.getLoginAttempts()+"\r\n \r\n \r\n"
 					+"Your account has "+remainingLoginAttempts+" attempts remaining before automatic lockout.\r\n"
 					+ "Please secure your account immediately by resetting your password or by enabling Two Factor Authentication. \r\n"+
@@ -127,7 +131,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 					log.error(" attemptAuthentication() Error occured while attempting to Login , UserInactiveException : User is inactive - Cannot login");
 					response.addHeader("loginAttempts", updatedUserWithLogginAttempts.getLoginAttempts().toString());
 					response.addHeader("userActive", active);
-				} else if (isActive && updatedUserWithLogginAttempts.getLoginAttempts() > 2) {
+				} else if (isActive && updatedUserWithLogginAttempts.getLoginAttempts() > 3) {
 					updatedUserWithLogginAttempts.setActive(false);
 					service.updateUser(updatedUserWithLogginAttempts);
 					response.addHeader("loginAttempts", updatedUserWithLogginAttempts.getLoginAttempts().toString());
