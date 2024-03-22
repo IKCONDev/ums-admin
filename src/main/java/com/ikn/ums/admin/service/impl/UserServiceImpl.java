@@ -445,6 +445,9 @@ public class UserServiceImpl implements UserService {
 		if(dbUser.isActive()== false) {
 			restTemplate.exchange("http://UMS-EMPLOYEE-SERVICE/employees/status-update/"+dbUser.getEmail(),HttpMethod.PUT, null, boolean.class);
 		}
+		if(dbUser.isActive()== true) {
+			restTemplate.exchange("http://UMS-EMPLOYEE-SERVICE/employees/employeestatus-update/"+dbUser.getEmail(),HttpMethod.PUT, null, boolean.class);
+		}
 		User updatedUser = userRepository.save(dbUser);
 		UserDTO userDTO = null;
 		if(updatedUser != null) {
