@@ -68,6 +68,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
+		log.info("Location"+request.getHeader("loginCity"));
 		log.info("attemptAuthentication() entered with args - HttpRequest and HttpResponse Objects.");
 		//String clientIP = request.getRemoteAddr();
 		String forwardedIP = request.getHeader("X-Forwarded-For");
@@ -118,6 +119,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 					+ "   •Device: "+updatedUserWithLogginAttempts.getLoginAttemptedClientDeviceType()+"\r\n"+
 					  "   •IP Address: "+updatedUserWithLogginAttempts.getLoginAttemptedClientIP()+"\r\n"+
 					  "   •Time: "+formattedDateTime+"\r\n"+
+					  "   •Location: "+creds.getLoginCity()+", "+creds.getLoginState()+", "+creds.getLoginCountry()+"\r\n"+
 					  "   •Number of Login Attempts: "+updatedUserWithLogginAttempts.getLoginAttempts()+"\r\n \r\n \r\n"
 					+"Your account has "+remainingLoginAttempts+" attempts remaining before automatic lockout.\r\n"
 					+ "Please secure your account immediately by resetting your password or by enabling Two Factor Authentication. \r\n"+
