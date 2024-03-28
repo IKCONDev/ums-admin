@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ikn.ums.admin.dto.MenuItemDTO;
-import com.ikn.ums.admin.dto.PermissionDTO;
 import com.ikn.ums.admin.dto.RoleDTO;
 import com.ikn.ums.admin.entity.MenuItem;
 import com.ikn.ums.admin.entity.Permission;

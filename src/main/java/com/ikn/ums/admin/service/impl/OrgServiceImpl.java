@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ikn.ums.admin.dto.OrganizationDTO;
 import com.ikn.ums.admin.entity.Organization;
-import com.ikn.ums.admin.entity.User;
 import com.ikn.ums.admin.exception.EmptyInputException;
 import com.ikn.ums.admin.exception.EntityNotFoundException;
 import com.ikn.ums.admin.exception.ErrorCodeMessages;
